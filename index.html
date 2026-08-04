@@ -3,15 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maryam &amp; Omar — Wedding Invitation</title>
-<meta name="description" content="You're invited to the wedding of Maryam &amp; Omar — Friday, September 11, 2026 at Hassan El Sharbatly Mosque.">
+<title>Omar &amp; Maryam — Wedding Invitation</title>
+<meta name="description" content="You're invited to the wedding of Omar &amp; Maryam — Friday, September 11, 2026 at Hassan El Sharbatly Mosque.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💍</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Cormorant+Garamond:wght@400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Cormorant+Garamond:wght@400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+<button id="soundToggle" type="button" aria-label="Toggle sound" aria-pressed="false">
+  <svg class="icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/>
+  </svg>
+  <svg class="icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M16 9l5 6M21 9l-5 6"/>
+  </svg>
+</button>
 
 <!-- ===== INTRO / OPENING SCENE ===== -->
 <section id="intro" aria-label="Invitation opening animation">
@@ -38,7 +47,7 @@
   <div id="flightWrap" class="hidden" aria-hidden="true">
     <div id="flightGroup">
       <div id="planeSpin"><span id="plane">✈️</span></div>
-      <div id="banner">Maryam <span class="heart">❤</span> Omar</div>
+      <div id="banner">Omar <span class="heart">❤</span> Maryam</div>
     </div>
   </div>
 
@@ -55,15 +64,21 @@
   </div>
 
   <header class="hero">
+    <svg class="crown" viewBox="0 0 48 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+      <path d="M4 34h40l-3-19-9 9-8-15-8 15-9-9z"/>
+      <circle cx="4" cy="12" r="2.4" fill="currentColor" stroke="none"/>
+      <circle cx="24" cy="6" r="2.4" fill="currentColor" stroke="none"/>
+      <circle cx="44" cy="12" r="2.4" fill="currentColor" stroke="none"/>
+    </svg>
     <p class="kicker">Together with their families</p>
-    <h1 class="names"><span>Maryam</span><span class="amp">&amp;</span><span>Omar</span></h1>
+    <h1 class="names"><span>Omar</span><span class="amp">&amp;</span><span>Maryam</span></h1>
     <p class="tagline">joyfully invite you to celebrate their wedding</p>
     <div class="divider">
       <span></span><span class="divider-icon">✦</span><span></span>
     </div>
   </header>
 
-  <section class="details">
+  <section class="details reveal-on-scroll">
     <div class="detail-card">
       <span class="detail-icon">📅</span>
       <h2>The Date</h2>
@@ -86,7 +101,7 @@
     </div>
   </section>
 
-  <section class="countdown-wrap">
+  <section class="countdown-wrap reveal-on-scroll">
     <h2 class="section-title">Counting down to our big day</h2>
     <div id="countdown" class="countdown">
       <div class="count-block"><span id="cd-days">00</span><small>Days</small></div>
@@ -96,22 +111,17 @@
     </div>
   </section>
 
-  <section class="map-embed-wrap">
+  <section class="map-embed-wrap reveal-on-scroll">
     <h2 class="section-title">Find Us Here</h2>
     <div class="map-embed">
-      <iframe
-        title="Hassan El Sharbatly Mosque location"
-        src="https://www.google.com/maps?q=Hassan+El+Sharbatly+Mosque&output=embed"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade">
-      </iframe>
+      <img src="assets/map-location.jpg" alt="Map showing Hassan El Sharbatly Mosque location in New Cairo" loading="lazy">
     </div>
     <a class="map-link outline" href="https://maps.app.goo.gl/okLPoJKDUHhMJVNm7?g_st=ic" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
   </section>
 
-  <footer class="rsvp">
+  <footer class="rsvp reveal-on-scroll">
     <p class="rsvp-text">We can't wait to celebrate this joyful occasion with you</p>
-    <p class="signature">With love,<br>Maryam &amp; Omar</p>
+    <p class="signature">With love,<br>Omar &amp; Maryam</p>
   </footer>
 
 </main>

@@ -77,7 +77,11 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
   border-radius: 50%;
   background: #fdf1cf;
   box-shadow: -16px 6px 0 2px var(--night-1);
-  transform: rotate(-15deg);
+  animation: crescentBob 6s ease-in-out infinite;
+}
+@keyframes crescentBob {
+  0%, 100% { transform: rotate(-15deg) translateY(0); }
+  50%      { transform: rotate(-15deg) translateY(-10px); }
 }
 
 .crescent.small {
@@ -86,6 +90,8 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
   height: 34px;
   box-shadow: -10px 3px 0 1px var(--cream);
   margin: 0 auto;
+  animation: none;
+  transform: rotate(-15deg);
 }
 
 .clouds { position: absolute; inset: 0; }
@@ -115,6 +121,35 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
   from { transform: translateX(0); }
   to   { transform: translateX(160vw); }
 }
+
+#soundToggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 60;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(253,246,236,0.55);
+  background: rgba(43,58,103,0.35);
+  color: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(2px);
+  transition: background .25s ease, transform .2s ease, border-color .25s ease, color .25s ease;
+}
+#soundToggle.on-parchment {
+  color: var(--ink);
+  border-color: rgba(200,160,78,0.4);
+  background: rgba(253,246,236,0.75);
+}
+#soundToggle:hover { transform: scale(1.08); }
+#soundToggle svg { width: 19px; height: 19px; }
+#soundToggle .icon-off { display: none; }
+#soundToggle.muted .icon-on { display: none; }
+#soundToggle.muted .icon-off { display: block; }
 
 #openBtn {
   position: relative;
@@ -237,8 +272,19 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
   100% { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); opacity: 0; }
 }
 
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity .8s ease, transform .8s ease;
+}
+.reveal-on-scroll.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  #flightGroup, #planeSpin, .star, .particle { animation: none !important; }
+  #flightGroup, #planeSpin, .star, .particle, .crescent, .crown { animation: none !important; opacity: 1; }
+  .reveal-on-scroll { opacity: 1; transform: none; transition: none; }
 }
 
 #skip {
@@ -277,20 +323,33 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
   margin: 0 0 10px;
 }
 
+.crown {
+  width: 34px;
+  height: 34px;
+  margin: 0 auto 14px;
+  color: var(--gold-dark);
+  opacity: 0;
+  animation: settleIn .8s ease .15s forwards;
+}
+@keyframes settleIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 .names {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 18px;
   flex-wrap: wrap;
-  font-size: clamp(2.4rem, 8vw, 4rem);
+  font-family: 'Cinzel Decorative', 'Playfair Display', serif;
+  font-size: clamp(2rem, 7vw, 3.4rem);
   color: var(--ink);
-  font-weight: 700;
+  font-weight: 900;
 }
 .names .amp {
-  font-family: 'Great Vibes', cursive;
   color: var(--gold);
-  font-size: 0.9em;
+  font-size: 0.75em;
 }
 
 .tagline {
@@ -329,6 +388,11 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
   border-radius: 14px;
   padding: 28px 18px;
   text-align: center;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.detail-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(156,122,47,0.16);
 }
 .detail-icon { font-size: 1.8rem; display: block; margin-bottom: 8px; }
 .detail-card h2 {
@@ -378,7 +442,9 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
   border-radius: 12px;
   padding: 16px 18px;
   min-width: 78px;
+  transition: transform .25s ease;
 }
+.count-block:hover { transform: translateY(-3px); }
 .count-block span {
   display: block;
   font-family: 'Playfair Display', serif;
@@ -399,11 +465,13 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
   border: 1px solid rgba(200,160,78,0.35);
   box-shadow: 0 6px 20px rgba(0,0,0,0.08);
 }
-.map-embed iframe {
+.map-embed img {
   width: 100%;
   height: 320px;
-  border: 0;
   display: block;
+  object-fit: cover;
+  object-position: 50% 46%;
+  filter: sepia(10%) saturate(90%);
 }
 
 .rsvp {

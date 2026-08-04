@@ -5,12 +5,148 @@
   var burst = document.getElementById('burst');
   var skipHint = document.getElementById('skip');
   var invitation = document.getElementById('invitation');
+  var soundToggle = document.getElementById('soundToggle');
   var revealed = false;
   var flightStarted = false;
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var CONFETTI_COLORS = ['#c8a04e', '#9c7a2f', '#f4a261', '#fdf6ec'];
   var PETAL_COLORS = ['#e08fa3', '#f0b8c6'];
+
+  /* ---------------- sound engine (synthesized, no audio files) ---------------- */
+  var audioCtx = null;
+  var masterGain = null;
+  var ambientNodes = null;
+  var muted = false;
+
+  function ensureAudio() {
+    if (audioCtx) return audioCtx;
+    var Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return null;
+    audioCtx = new Ctx();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = muted ? 0 : 0.8;
+    masterGain.connect(audioCtx.destination);
+    return audioCtx;
+  }
+
+  function noiseBuffer(ctx, duration) {
+    var buffer = ctx.createBuffer(1, ctx.sampleRate * duration, ctx.sampleRate);
+    var data = buffer.getChannelData(0);
+    for (var i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+    return buffer;
+  }
+
+  function playWhoosh(duration) {
+    var ctx = ensureAudio();
+    if (!ctx) return;
+    var src = ctx.createBufferSource();
+    src.buffer = noiseBuffer(ctx, duration);
+    var filter = ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.Q.value = 0.9;
+    var now = ctx.currentTime;
+    filter.frequency.setValueAtTime(280, now);
+    filter.frequency.linearRampToValueAtTime(1400, now + duration * 0.5);
+    filter.frequency.linearRampToValueAtTime(320, now + duration);
+    var pan = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+    var gain = ctx.createGain();
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.linearRampToValueAtTime(0.5, now + duration * 0.18);
+    gain.gain.linearRampToValueAtTime(0.35, now + duration * 0.6);
+    gain.gain.linearRampToValueAtTime(0.0001, now + duration);
+    src.connect(filter);
+    if (pan) {
+      pan.pan.setValueAtTime(-0.9, now);
+      pan.pan.linearRampToValueAtTime(0.9, now + duration);
+      filter.connect(pan);
+      pan.connect(gain);
+    } else {
+      filter.connect(gain);
+    }
+    gain.connect(masterGain);
+    src.start(now);
+    src.stop(now + duration + 0.05);
+  }
+
+  function playTone(freq, startTime, duration, type, peakGain) {
+    var ctx = audioCtx;
+    var osc = ctx.createOscillator();
+    osc.type = type || 'sine';
+    osc.frequency.value = freq;
+    var gain = ctx.createGain();
+    gain.gain.setValueAtTime(0.0001, startTime);
+    gain.gain.linearRampToValueAtTime(peakGain || 0.22, startTime + duration * 0.15);
+    gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+    osc.connect(gain);
+    gain.connect(masterGain);
+    osc.start(startTime);
+    osc.stop(startTime + duration + 0.05);
+  }
+
+  function playChime() {
+    var ctx = ensureAudio();
+    if (!ctx) return;
+    var now = ctx.currentTime;
+    [523.25, 659.25, 783.99].forEach(function (freq, i) {
+      playTone(freq, now + i * 0.09, 0.6, 'triangle', 0.18);
+    });
+  }
+
+  function playSparkle() {
+    var ctx = ensureAudio();
+    if (!ctx) return;
+    var now = ctx.currentTime;
+    var scale = [523.25, 587.33, 659.25, 783.99, 880, 987.77, 1046.5];
+    for (var i = 0; i < 9; i++) {
+      var freq = scale[Math.floor(Math.random() * scale.length)];
+      playTone(freq, now + i * 0.055, 0.5, 'sine', 0.14);
+    }
+  }
+
+  function startAmbient() {
+    var ctx = ensureAudio();
+    if (!ctx || ambientNodes) return;
+    var now = ctx.currentTime;
+    var pad = ctx.createGain();
+    pad.gain.setValueAtTime(0.0001, now);
+    pad.gain.linearRampToValueAtTime(0.05, now + 2.5);
+    pad.connect(masterGain);
+
+    var lfo = ctx.createOscillator();
+    lfo.frequency.value = 0.08;
+    var lfoGain = ctx.createGain();
+    lfoGain.gain.value = 0.015;
+    lfo.connect(lfoGain);
+    lfoGain.connect(pad.gain);
+    lfo.start(now);
+
+    var oscillators = [110, 164.81, 220].map(function (freq) {
+      var osc = ctx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      osc.connect(pad);
+      osc.start(now);
+      return osc;
+    });
+
+    ambientNodes = { pad: pad, lfo: lfo, oscillators: oscillators };
+  }
+
+  function setMuted(next) {
+    muted = next;
+    soundToggle.classList.toggle('muted', muted);
+    soundToggle.setAttribute('aria-pressed', String(muted));
+    if (masterGain) {
+      var ctx = audioCtx;
+      masterGain.gain.linearRampToValueAtTime(muted ? 0 : 0.8, ctx.currentTime + 0.15);
+    }
+  }
+
+  soundToggle.addEventListener('click', function () {
+    ensureAudio();
+    setMuted(!muted);
+  });
 
   function spawnBurst() {
     var count = 30;
@@ -52,6 +188,8 @@
     setTimeout(function () {
       intro.classList.add('hidden');
       invitation.classList.remove('hidden');
+      soundToggle.classList.add('on-parchment');
+      startAmbient();
     }, 700);
   }
 
@@ -64,11 +202,15 @@
       return;
     }
 
+    ensureAudio();
     openBtn.classList.add('hidden');
     flightWrap.classList.remove('hidden');
     skipHint.classList.remove('hidden');
+    playWhoosh(3.6);
+    setTimeout(playChime, 1660);
     setTimeout(function () {
       spawnBurst();
+      playSparkle();
       setTimeout(revealInvitation, 1400);
     }, 3600);
   });
@@ -105,4 +247,22 @@
 
   tick();
   setInterval(tick, 1000);
+
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('.reveal-on-scroll').forEach(function (el) {
+      observer.observe(el);
+    });
+  } else {
+    document.querySelectorAll('.reveal-on-scroll').forEach(function (el) {
+      el.classList.add('in-view');
+    });
+  }
 })();
