@@ -44,6 +44,7 @@
           <span class="bldg" style="--h:46%;--w:9%;--l:62%"></span>
           <span class="bldg" style="--h:56%;--w:11%;--l:72%"></span>
           <span class="bldg" style="--h:32%;--w:10%;--l:85%"></span>
+          <span class="bldg" style="--h:42%;--w:9%;--l:95%"></span>
         </div>
         <div class="skyline front">
           <span class="bldg" style="--h:24%;--w:16%;--l:-4%"></span>
@@ -71,9 +72,24 @@
       <div class="cine-layer" id="scene-vehicle" aria-hidden="true">
         <div id="vehicle">
           <div class="v-flame"></div>
-          <div class="v-body">
-            <div class="v-dome"></div>
-          </div>
+          <svg class="v-craft" viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="hullGrad" x1="0" y1="0" x2="0.9" y2="1">
+                <stop offset="0%" stop-color="#f2fdff"/>
+                <stop offset="45%" stop-color="#7be7ff"/>
+                <stop offset="100%" stop-color="#1c6b82"/>
+              </linearGradient>
+              <linearGradient id="canopyGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#ffffff"/>
+                <stop offset="100%" stop-color="#8fe9ff"/>
+              </linearGradient>
+            </defs>
+            <path class="v-fin" d="M20 25 L3 13 L11 25 L3 37 Z"/>
+            <path class="v-hull" d="M11 25 C11 17.5 23 13 46 12 C71 11 93 18 99 25 C93 32 71 39 46 38 C23 37 11 32.5 11 25 Z"/>
+            <path class="v-belly" d="M42 36.5 L35 48 L54 37.5 Z"/>
+            <ellipse class="v-canopy" cx="60" cy="17.5" rx="15" ry="7.5"/>
+            <path class="v-panel" d="M32 15.5 L32 34.5 M52 12.5 L52 37.5"/>
+          </svg>
           <div class="v-spark s1"></div>
           <div class="v-spark s2"></div>
         </div>
@@ -83,8 +99,10 @@
     <!-- Alarm HUD -->
     <div id="alarm-overlay" aria-hidden="true">
       <div class="alarm-vignette"></div>
-      <p class="alarm-text">⚠ COLLISION ALERT ⚠</p>
-      <p class="alarm-sub">BRACE FOR IMPACT</p>
+      <div class="alarm-hud">
+        <p class="alarm-text">⚠ COLLISION ALERT ⚠</p>
+        <p class="alarm-sub">BRACE FOR IMPACT</p>
+      </div>
     </div>
 
     <!-- Time-freeze flash -->
@@ -113,6 +131,14 @@
   <!-- ===== MAIN INVITATION ===== -->
   <main id="invitation" class="hidden">
 
+    <div class="dawn-glow" aria-hidden="true">
+      <span class="dawn-star" style="--x:18%;--y:22%"></span>
+      <span class="dawn-star" style="--x:78%;--y:14%"></span>
+      <span class="dawn-star" style="--x:60%;--y:34%"></span>
+      <span class="dawn-star" style="--x:32%;--y:44%"></span>
+    </div>
+
+    <div class="invite-content">
     <div class="deco-top">
       <div class="crescent small"></div>
     </div>
@@ -161,13 +187,6 @@
         <p class="detail-main">Hassan El Sharbatly Mosque</p>
         <a class="map-link" href="https://maps.app.goo.gl/okLPoJKDUHhMJVNm7?g_st=ic" target="_blank" rel="noopener noreferrer">Get Directions →</a>
       </div>
-
-      <div class="detail-card">
-        <span class="detail-icon">✨</span>
-        <h2>Dress Code</h2>
-        <p class="detail-main">Formal Attire</p>
-        <p class="detail-sub">Ivory &amp; gold tones welcome</p>
-      </div>
     </section>
 
     <section class="countdown-wrap reveal-on-scroll">
@@ -198,6 +217,7 @@
       <p class="rsvp-text">We can't wait to celebrate this joyful occasion with you</p>
       <p class="signature">With love,<br>Omar &amp; Maryam</p>
     </footer>
+    </div>
 
   </main>
 

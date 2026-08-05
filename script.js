@@ -36,13 +36,20 @@
   var muted = false;
 
   function ensureAudio() {
-    if (audioCtx) return audioCtx;
-    var Ctx = window.AudioContext || window.webkitAudioContext;
-    if (!Ctx) return null;
-    audioCtx = new Ctx();
-    masterGain = audioCtx.createGain();
-    masterGain.gain.value = muted ? 0 : 0.8;
-    masterGain.connect(audioCtx.destination);
+    if (!audioCtx) {
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return null;
+      audioCtx = new Ctx();
+      masterGain = audioCtx.createGain();
+      masterGain.gain.value = muted ? 0 : 0.9;
+      masterGain.connect(audioCtx.destination);
+    }
+    // Some browsers (esp. inside embedded/iframed pages) create the context
+    // suspended even on a direct click; kick it explicitly every time we
+    // touch audio from a user gesture so playback never silently no-ops.
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume().catch(function () {});
+    }
     return audioCtx;
   }
 
@@ -74,7 +81,7 @@
     if (!ctx) return;
     var now = ctx.currentTime;
     [523.25, 659.25, 783.99].forEach(function (freq, i) {
-      playTone(freq, now + i * 0.09, 0.6, 'triangle', 0.18);
+      playTone(freq, now + i * 0.09, 0.6, 'triangle', 0.24);
     });
   }
 
@@ -85,7 +92,7 @@
     var scale = [523.25, 587.33, 659.25, 783.99, 880, 987.77, 1046.5];
     for (var i = 0; i < 9; i++) {
       var freq = scale[Math.floor(Math.random() * scale.length)];
-      playTone(freq, now + i * 0.055, 0.5, 'sine', 0.14);
+      playTone(freq, now + i * 0.055, 0.5, 'sine', 0.2);
     }
   }
 
@@ -125,7 +132,7 @@
     var now = ctx.currentTime;
     var gain = ctx.createGain();
     gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.linearRampToValueAtTime(0.16, now + 1.2);
+    gain.gain.linearRampToValueAtTime(0.24, now + 1.2);
     gain.connect(masterGain);
 
     var filter = ctx.createBiquadFilter();
@@ -175,7 +182,7 @@
     var toggle = false;
     function beep() {
       var now = ctx.currentTime;
-      playTone(toggle ? 880 : 660, now, 0.22, 'square', 0.12);
+      playTone(toggle ? 880 : 660, now, 0.22, 'square', 0.2);
       toggle = !toggle;
     }
     beep();
@@ -211,7 +218,7 @@
     var ctx = ensureAudio();
     if (!ctx || sputterIntervalId) return;
     sputterIntervalId = setInterval(function () {
-      playBurstNoise(0.18 + Math.random() * 0.12, 200 + Math.random() * 200, 900 + Math.random() * 600, 0.18);
+      playBurstNoise(0.18 + Math.random() * 0.12, 200 + Math.random() * 200, 900 + Math.random() * 600, 0.26);
     }, 340);
   }
   function stopSputter() {
@@ -277,8 +284,8 @@
     function step() {
       if (!cheerfulPlaying) return;
       var freq = CHEERFUL_NOTES[i % CHEERFUL_NOTES.length];
-      playTone(freq, ctx.currentTime, 0.42, 'triangle', 0.13);
-      if (i % 4 === 0) playTone(freq / 2, ctx.currentTime, 0.5, 'sine', 0.08);
+      playTone(freq, ctx.currentTime, 0.42, 'triangle', 0.2);
+      if (i % 4 === 0) playTone(freq / 2, ctx.currentTime, 0.5, 'sine', 0.13);
       i++;
       cheerfulTimeoutId = setTimeout(step, 260);
     }
@@ -563,6 +570,7 @@
   });
 
   skipBtn.addEventListener('click', function () {
+    ensureAudio();
     revealInvitation();
   });
 
