@@ -43,6 +43,14 @@
       masterGain = audioCtx.createGain();
       masterGain.gain.value = muted ? 0 : 0.9;
       masterGain.connect(audioCtx.destination);
+      // iOS Safari in particular needs an actual buffer played (not just
+      // resume()) synchronously inside the gesture to unlock hardware audio.
+      try {
+        var unlockSrc = audioCtx.createBufferSource();
+        unlockSrc.buffer = audioCtx.createBuffer(1, 1, audioCtx.sampleRate);
+        unlockSrc.connect(audioCtx.destination);
+        unlockSrc.start(0);
+      } catch (e) {}
     }
     // Some browsers (esp. inside embedded/iframed pages) create the context
     // suspended even on a direct click; kick it explicitly every time we

@@ -8,7 +8,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💍</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Cormorant+Garamond:wght@400;500;600&family=Great+Vibes&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,900&family=Cormorant+Garamond:wght@400;500;600&family=Great+Vibes&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -44,7 +44,6 @@
           <span class="bldg" style="--h:46%;--w:9%;--l:62%"></span>
           <span class="bldg" style="--h:56%;--w:11%;--l:72%"></span>
           <span class="bldg" style="--h:32%;--w:10%;--l:85%"></span>
-          <span class="bldg" style="--h:42%;--w:9%;--l:95%"></span>
         </div>
         <div class="skyline front">
           <span class="bldg" style="--h:24%;--w:16%;--l:-4%"></span>
@@ -74,14 +73,15 @@
           <div class="v-flame"></div>
           <svg class="v-craft" viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <linearGradient id="hullGrad" x1="0" y1="0" x2="0.9" y2="1">
-                <stop offset="0%" stop-color="#f2fdff"/>
-                <stop offset="45%" stop-color="#7be7ff"/>
-                <stop offset="100%" stop-color="#1c6b82"/>
+              <linearGradient id="hullGrad" x1="0" y1="0" x2="0.85" y2="1">
+                <stop offset="0%" stop-color="#ffffff"/>
+                <stop offset="32%" stop-color="#8fe9ff"/>
+                <stop offset="68%" stop-color="#22a4c4"/>
+                <stop offset="100%" stop-color="#0d5a70"/>
               </linearGradient>
               <linearGradient id="canopyGrad" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stop-color="#ffffff"/>
-                <stop offset="100%" stop-color="#8fe9ff"/>
+                <stop offset="100%" stop-color="#a9edff"/>
               </linearGradient>
             </defs>
             <path class="v-fin" d="M20 25 L3 13 L11 25 L3 37 Z"/>
@@ -169,23 +169,29 @@
     <section class="details reveal-on-scroll">
       <div class="detail-card">
         <span class="detail-icon">📅</span>
-        <h2>The Date</h2>
-        <p class="detail-main">Friday, September 11, 2026</p>
-        <p class="detail-sub">(11.09.2026)</p>
+        <div class="detail-text">
+          <h2>The Date</h2>
+          <p class="detail-main">Friday, September 11, 2026</p>
+          <p class="detail-sub">(11.09.2026)</p>
+        </div>
       </div>
 
       <div class="detail-card">
         <span class="detail-icon">🕗</span>
-        <h2>The Time</h2>
-        <p class="detail-main">8:00 PM</p>
-        <p class="detail-sub">Kindly arrive a little early</p>
+        <div class="detail-text">
+          <h2>The Time</h2>
+          <p class="detail-main">8:00 PM</p>
+          <p class="detail-sub">Kindly arrive a little early</p>
+        </div>
       </div>
 
       <div class="detail-card">
         <span class="detail-icon">🕌</span>
-        <h2>The Venue</h2>
-        <p class="detail-main">Hassan El Sharbatly Mosque</p>
-        <a class="map-link" href="https://maps.app.goo.gl/okLPoJKDUHhMJVNm7?g_st=ic" target="_blank" rel="noopener noreferrer">Get Directions →</a>
+        <div class="detail-text">
+          <h2>The Venue</h2>
+          <p class="detail-main">Hassan El Sharbatly Mosque</p>
+          <a class="map-link" href="https://maps.app.goo.gl/okLPoJKDUHhMJVNm7?g_st=ic" target="_blank" rel="noopener noreferrer">Get Directions →</a>
+        </div>
       </div>
     </section>
 
