@@ -21,8 +21,6 @@
   var audioCtx = null;
   var masterGain = null;
   var ambientNodes = null;
-  var cheerfulTimeoutId = null;
-  var cheerfulPlaying = false;
   var muted = false;
 
   function ensureAudio() {
@@ -150,28 +148,6 @@
     src.stop(now + 0.42);
   }
 
-  /* --- cheerful romantic loop (plucky arpeggio) --- */
-  var CHEERFUL_NOTES = [523.25, 659.25, 783.99, 659.25, 587.33, 783.99, 987.77, 783.99];
-  function startCheerful() {
-    var ctx = ensureAudio();
-    if (!ctx || cheerfulPlaying) return;
-    cheerfulPlaying = true;
-    var i = 0;
-    function step() {
-      if (!cheerfulPlaying) return;
-      var freq = CHEERFUL_NOTES[i % CHEERFUL_NOTES.length];
-      playTone(freq, ctx.currentTime, 0.42, 'triangle', 0.2);
-      if (i % 4 === 0) playTone(freq / 2, ctx.currentTime, 0.5, 'sine', 0.13);
-      i++;
-      cheerfulTimeoutId = setTimeout(step, 260);
-    }
-    step();
-  }
-  function stopCheerful() {
-    cheerfulPlaying = false;
-    if (cheerfulTimeoutId) { clearTimeout(cheerfulTimeoutId); cheerfulTimeoutId = null; }
-  }
-
   function setMuted(next) {
     muted = next;
     soundToggle.classList.toggle('muted', muted);
@@ -273,7 +249,6 @@
     if (revealed) return;
     revealed = true;
     clearTimers();
-    stopCheerful();
     fx.stop();
     try { introVideo.pause(); } catch (e) {}
     cinematic.style.transition = 'opacity 0.7s ease';
@@ -299,7 +274,7 @@
     introVideo.style.transition = 'opacity 0.6s ease';
     introVideo.style.opacity = '0';
 
-    schedule(function () { startCheerful(); }, 500);
+    schedule(function () { startAmbient(); }, 500);
     schedule(function () { showLine(line1); }, 700);
     schedule(function () { hideLine(line1); }, 3300);
     schedule(function () { showLine(line2); }, 4000);
