@@ -106,16 +106,40 @@
     lfoGain.connect(pad.gain);
     lfo.start(now);
 
-    var oscillators = [110, 164.81, 220].map(function (freq) {
+    // A warm A-major chord (root, third, fifth, octave) instead of a bare
+    // open fifth, plus a soft high shimmer voice, for a fuller, richer pad.
+    var voices = [
+      { freq: 110,    type: 'sine',     level: 1 },    // A2 root
+      { freq: 138.59, type: 'sine',     level: 0.75 }, // C#3 third
+      { freq: 164.81, type: 'sine',     level: 0.9 },  // E3 fifth
+      { freq: 220,    type: 'triangle', level: 0.6 },  // A3 octave
+      { freq: 329.63, type: 'sine',     level: 0.22 }  // E4 airy shimmer
+    ];
+    var oscillators = voices.map(function (v) {
       var osc = ctx.createOscillator();
-      osc.type = 'sine';
-      osc.frequency.value = freq;
-      osc.connect(pad);
+      osc.type = v.type;
+      osc.frequency.value = v.freq;
+      var g = ctx.createGain();
+      g.gain.value = v.level;
+      osc.connect(g);
+      g.connect(pad);
       osc.start(now);
       return osc;
     });
 
-    ambientNodes = { pad: pad, lfo: lfo, oscillators: oscillators };
+    // Sparse, slow music-box shimmer: single soft notes from the chord's
+    // own scale, minutes apart in feel, never a repeating melodic loop.
+    var sparkleScale = [440, 523.25, 587.33, 659.25, 830.61];
+    var sparkleOn = true;
+    function sparkleStep() {
+      if (!sparkleOn) return;
+      var freq = sparkleScale[Math.floor(Math.random() * sparkleScale.length)];
+      playTone(freq, ctx.currentTime, 3, 'sine', 0.05, pad);
+      ambientNodes.sparkleTimeout = setTimeout(sparkleStep, 2600 + Math.random() * 3200);
+    }
+
+    ambientNodes = { pad: pad, lfo: lfo, oscillators: oscillators, sparkleTimeout: null };
+    sparkleStep();
   }
 
   /* --- comedic record scratch: interrupts the film's own score --- */
