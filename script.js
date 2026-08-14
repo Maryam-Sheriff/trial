@@ -5,6 +5,8 @@
   var line1 = document.getElementById('line1');
   var line2 = document.getElementById('line2');
   var startBtn = document.getElementById('startBtn');
+  var skipToInvitation = document.getElementById('skipToInvitation');
+  var introLoading = document.getElementById('introLoading');
   var invitation = document.getElementById('invitation');
   var soundToggle = document.getElementById('soundToggle');
 
@@ -273,6 +275,7 @@
     if (revealed) return;
     revealed = true;
     clearTimers();
+    hideLoading();
     fx.stop();
     try { introVideo.pause(); } catch (e) {}
     cinematic.style.transition = 'opacity 0.7s ease';
@@ -306,6 +309,20 @@
     schedule(function () { revealInvitation(); }, 7500);
   }
 
+  // Only show the loading dot if the film takes a moment to actually start
+  // playing, so it never flashes on a normal fast load.
+  var loadingTimer = null;
+  function showLoadingIfSlow() {
+    clearTimeout(loadingTimer);
+    loadingTimer = setTimeout(function () {
+      introLoading.classList.add('show');
+    }, 350);
+  }
+  function hideLoading() {
+    clearTimeout(loadingTimer);
+    introLoading.classList.remove('show');
+  }
+
   function runIntro() {
     fx.resize();
     window.addEventListener('resize', function () { if (fx.w) fx.resize(); });
@@ -317,17 +334,19 @@
         beginBridge();
       }
     });
+    introVideo.addEventListener('playing', hideLoading);
     introVideo.addEventListener('ended', onVideoEnded);
-    introVideo.addEventListener('error', function () { revealInvitation(); });
+    introVideo.addEventListener('error', function () { hideLoading(); revealInvitation(); });
 
     introVideo.muted = muted;
+    showLoadingIfSlow();
     var playPromise = introVideo.play();
     if (playPromise && playPromise.catch) {
       playPromise.catch(function () {
         // Autoplay-with-sound was blocked despite the gesture; retry muted
         // so the visuals still play, and let the user unmute manually.
         introVideo.muted = true;
-        introVideo.play().catch(function () { revealInvitation(); });
+        introVideo.play().catch(function () { hideLoading(); revealInvitation(); });
       });
     }
   }
@@ -343,6 +362,11 @@
       return;
     }
     runIntro();
+  });
+
+  skipToInvitation.addEventListener('click', function () {
+    ensureAudio();
+    revealInvitation();
   });
 
   // Countdown to the wedding: Friday, September 11, 2026, 8:00 PM

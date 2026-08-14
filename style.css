@@ -146,7 +146,6 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
   transform: translate(-50%, -50%);
   z-index: 60;
   font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
   font-size: 1.05rem;
   letter-spacing: 0.06em;
   color: #fdfbf6;
@@ -173,8 +172,58 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
   50% { border-color: rgba(246,200,105,0.7); box-shadow: 0 0 24px rgba(246,200,105,0.22); }
 }
 
+/* --- skip link: invisible until a keyboard/screen-reader user reaches it --- */
+.sr-skip-link {
+  position: absolute;
+  left: 50%;
+  top: -80px;
+  transform: translateX(-50%);
+  z-index: 100;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem;
+  color: #fdfbf6;
+  background: #000;
+  border: 1px solid rgba(246,200,105,0.6);
+  padding: 10px 20px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: top 0.2s ease;
+}
+.sr-skip-link:focus {
+  top: max(14px, env(safe-area-inset-top));
+  outline: 2px solid var(--gold-fx);
+  outline-offset: 2px;
+}
+
+/* --- loading indicator: only appears if the film takes a moment to start --- */
+.intro-loading {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 55;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.intro-loading.show { opacity: 1; }
+.intro-loading span {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--gold-fx);
+  box-shadow: 0 0 12px 4px rgba(246,200,105,0.5);
+  animation: loadPulse 1.1s ease-in-out infinite;
+}
+@keyframes loadPulse {
+  0%, 100% { transform: scale(0.7); opacity: 0.5; }
+  50% { transform: scale(1.15); opacity: 1; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   #startBtn { animation: none !important; }
+  .intro-loading span { animation: none !important; }
   .reveal-on-scroll { opacity: 1; transform: none; transition: none; }
 }
 
@@ -295,7 +344,6 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
 }
 
 .tagline {
-  font-style: italic;
   color: var(--ink-soft);
   margin-top: 10px;
   font-size: 1.15rem;
@@ -342,7 +390,6 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
   font-family: 'Playfair Display', serif;
   font-size: 1.3rem;
   font-weight: 600;
-  font-style: italic;
   margin: 0 0 4px;
   color: var(--ink);
 }
@@ -369,7 +416,6 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
 .section-title {
   text-align: center;
   font-family: 'Playfair Display', serif;
-  font-style: italic;
   font-weight: 500;
   font-size: 1.35rem;
   color: var(--ink);
@@ -404,7 +450,6 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
   font-family: 'Playfair Display', serif;
   font-size: 1.6rem;
   font-weight: 600;
-  font-style: italic;
   color: var(--gold-dark);
   font-variant-numeric: tabular-nums;
 }
@@ -433,7 +478,7 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
   margin-top: 64px;
   padding-top: 4px;
 }
-.closing-text { font-size: 1.1rem; font-style: italic; color: var(--ink-soft); }
+.closing-text { font-size: 1.1rem; color: var(--ink-soft); }
 .signature {
   font-family: 'Great Vibes', cursive;
   font-size: 2.1rem;
