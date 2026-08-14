@@ -106,6 +106,47 @@
     }
   }
 
+  // A plucked, oud-like string voice: fast attack, a quick upward slide
+  // into pitch (the finger/plectrum "pull"), a buzzy harmonic layer that
+  // decays faster than the fundamental, then a long natural decay.
+  function playOudPluck(freq, startTime, dest) {
+    var ctx = audioCtx;
+    if (!ctx) return;
+    var duration = 1.8 + Math.random() * 1.3;
+
+    var body = ctx.createOscillator();
+    body.type = 'triangle';
+    body.frequency.setValueAtTime(freq * 1.02, startTime);
+    body.frequency.exponentialRampToValueAtTime(freq, startTime + 0.05);
+
+    var buzz = ctx.createOscillator();
+    buzz.type = 'sawtooth';
+    buzz.frequency.value = freq;
+
+    var filter = ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.Q.value = 0.8;
+    filter.frequency.setValueAtTime(freq * 7, startTime);
+    filter.frequency.exponentialRampToValueAtTime(freq * 1.6, startTime + duration);
+
+    var bodyGain = ctx.createGain();
+    bodyGain.gain.setValueAtTime(0.0001, startTime);
+    bodyGain.gain.linearRampToValueAtTime(0.24, startTime + 0.008);
+    bodyGain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+
+    var buzzGain = ctx.createGain();
+    buzzGain.gain.setValueAtTime(0.0001, startTime);
+    buzzGain.gain.linearRampToValueAtTime(0.07, startTime + 0.006);
+    buzzGain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration * 0.5);
+
+    body.connect(bodyGain); bodyGain.connect(filter);
+    buzz.connect(buzzGain); buzzGain.connect(filter);
+    filter.connect(dest || masterGain);
+
+    body.start(startTime); body.stop(startTime + duration + 0.05);
+    buzz.start(startTime); buzz.stop(startTime + duration * 0.5 + 0.05);
+  }
+
   function startAmbient() {
     var ctx = ensureAudio();
     if (!ctx || ambientNodes) return;
@@ -123,14 +164,12 @@
     lfoGain.connect(pad.gain);
     lfo.start(now);
 
-    // A warm A-major chord (root, third, fifth, octave) instead of a bare
-    // open fifth, plus a soft high shimmer voice, for a fuller, richer pad.
+    // A simple root+fifth drone, D3/A3 — maqam music leans on a drone
+    // rather than Western triadic harmony, so the oud melody carries the
+    // character instead of a full chord underneath it.
     var voices = [
-      { freq: 110,    type: 'sine',     level: 1 },    // A2 root
-      { freq: 138.59, type: 'sine',     level: 0.75 }, // C#3 third
-      { freq: 164.81, type: 'sine',     level: 0.9 },  // E3 fifth
-      { freq: 220,    type: 'triangle', level: 0.6 },  // A3 octave
-      { freq: 329.63, type: 'sine',     level: 0.22 }  // E4 airy shimmer
+      { freq: 146.83, type: 'sine', level: 1 },   // D3 root
+      { freq: 220.00, type: 'sine', level: 0.45 } // A3 fifth
     ];
     var oscillators = voices.map(function (v) {
       var osc = ctx.createOscillator();
@@ -144,19 +183,21 @@
       return osc;
     });
 
-    // Sparse, slow music-box shimmer: single soft notes from the chord's
-    // own scale, minutes apart in feel, never a repeating melodic loop.
-    var sparkleScale = [440, 523.25, 587.33, 659.25, 830.61];
-    var sparkleOn = true;
-    function sparkleStep() {
-      if (!sparkleOn) return;
-      var freq = sparkleScale[Math.floor(Math.random() * sparkleScale.length)];
-      playTone(freq, ctx.currentTime, 3, 'sine', 0.05, pad);
-      ambientNodes.sparkleTimeout = setTimeout(sparkleStep, 2600 + Math.random() * 3200);
+    // Maqam Hijaz scale on D (D Eb F# G A Bb C), the augmented-second
+    // interval between Eb and F# is what gives it that unmistakably
+    // Middle Eastern character. Sparse, unhurried plucked phrase.
+    var hijaz = [146.83, 155.56, 185.00, 196.00, 220.00, 233.08, 261.63,
+                 293.66, 311.13, 369.99, 392.00];
+    var oudOn = true;
+    function oudStep() {
+      if (!oudOn) return;
+      var freq = hijaz[Math.floor(Math.random() * hijaz.length)];
+      playOudPluck(freq, ctx.currentTime, pad);
+      ambientNodes.oudTimeout = setTimeout(oudStep, 900 + Math.random() * 1400);
     }
 
-    ambientNodes = { pad: pad, lfo: lfo, oscillators: oscillators, sparkleTimeout: null };
-    sparkleStep();
+    ambientNodes = { pad: pad, lfo: lfo, oscillators: oscillators, oudTimeout: null };
+    oudStep();
   }
 
   /* --- comedic record scratch: interrupts the film's own score --- */
