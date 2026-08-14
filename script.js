@@ -19,6 +19,21 @@
   function schedule(fn, t) { timers.push(setTimeout(fn, t)); }
   function clearTimers() { timers.forEach(clearTimeout); timers = []; }
 
+  // Returning visitors have already seen the film once; don't make them
+  // sit through it again every time they reopen the link to check a detail.
+  var INTRO_SEEN_KEY = 'omarMaryamIntroSeen';
+  function markIntroSeen() {
+    try { localStorage.setItem(INTRO_SEEN_KEY, '1'); } catch (e) {}
+  }
+  var seenBefore = false;
+  try { seenBefore = localStorage.getItem(INTRO_SEEN_KEY) === '1'; } catch (e) {}
+  if (seenBefore) {
+    revealed = true;
+    cinematic.classList.add('hidden');
+    invitation.classList.remove('hidden');
+    soundToggle.classList.add('on-parchment');
+  }
+
   /* ---------------- sound engine (synthesized, no audio files) ---------------- */
   var audioCtx = null;
   var masterGain = null;
@@ -274,6 +289,7 @@
   function revealInvitation() {
     if (revealed) return;
     revealed = true;
+    markIntroSeen();
     clearTimers();
     hideLoading();
     fx.stop();
