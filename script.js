@@ -5,7 +5,6 @@
   var line1 = document.getElementById('line1');
   var line2 = document.getElementById('line2');
   var startBtn = document.getElementById('startBtn');
-  var skipBtn = document.getElementById('skipCine');
   var invitation = document.getElementById('invitation');
   var soundToggle = document.getElementById('soundToggle');
 
@@ -339,18 +338,12 @@
     started = true;
     ensureAudio();
     startBtn.classList.add('hidden');
-    skipBtn.classList.remove('hidden');
 
     if (reduceMotion) {
       revealInvitation();
       return;
     }
     runIntro();
-  });
-
-  skipBtn.addEventListener('click', function () {
-    ensureAudio();
-    revealInvitation();
   });
 
   // Countdown to the wedding: Friday, September 11, 2026, 8:00 PM
