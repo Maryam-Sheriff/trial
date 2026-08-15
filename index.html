@@ -1,130 +1,156 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Omar &amp; Maryam — Wedding Invitation</title>
-<meta name="description" content="You're invited to the wedding of Omar &amp; Maryam — Friday, September 11, 2026 at Hassan El Sharbatly Mosque.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#faf8f2">
+<title>دعوة حفل عقد قران عمر ومريم</title>
+<meta name="description" content="يسعدنا دعوتكم لحضور حفل عقد قران عمر ومريم يوم الجمعة ١١ سبتمبر ٢٠٢٦ بقاعة النور، مسجد حسن الشربتلي.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://omarandmaryam.cyou/">
+<meta property="og:title" content="دعوة حفل عقد قران عمر ومريم">
+<meta property="og:description" content="يسعدنا دعوتكم لحضور حفل عقد قران عمر ومريم يوم الجمعة ١١ سبتمبر ٢٠٢٦ بقاعة النور، مسجد حسن الشربتلي.">
+<!-- WhatsApp/Facebook require an absolute image URL; a relative one is ignored -->
+<meta property="og:image" content="https://omarandmaryam.cyou/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="دعوة حفل عقد قران عمر ومريم">
+<meta name="twitter:description" content="يسعدنا دعوتكم لحضور حفل عقد قران عمر ومريم يوم الجمعة ١١ سبتمبر ٢٠٢٦ بقاعة النور، مسجد حسن الشربتلي.">
+<meta name="twitter:image" content="https://omarandmaryam.cyou/assets/og-image.jpg">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💍</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Cormorant+Garamond:wght@400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,700;1,900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Great+Vibes&family=Aref+Ruqaa:wght@400;700&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="lang-ar">
 
-<button id="soundToggle" type="button" aria-label="Toggle sound" aria-pressed="false">
-  <svg class="icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/>
-  </svg>
-  <svg class="icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M16 9l5 6M21 9l-5 6"/>
-  </svg>
-</button>
+<audio id="backgroundMusic" loop>
+  <source src="assets/background-music.mp3" type="audio/mpeg">
+</audio>
 
-<!-- ===== INTRO / OPENING SCENE ===== -->
-<section id="intro" aria-label="Invitation opening animation">
-  <div class="sky">
-    <div class="star s1"></div>
-    <div class="star s2"></div>
-    <div class="star s3"></div>
-    <div class="star s4"></div>
-    <div class="star s5"></div>
-    <div class="star s6"></div>
-    <div class="crescent"></div>
-    <div class="clouds">
-      <span class="cloud c1"></span>
-      <span class="cloud c2"></span>
-      <span class="cloud c3"></span>
-    </div>
-  </div>
+<div id="frame" class="frame">
 
-  <button id="openBtn" type="button">
-    <span class="ring-icon">💌</span>
-    <span>Open Our Invitation</span>
+  <button id="skipToInvitation" class="sr-skip-link" type="button"
+          data-en="Skip intro film and go to the invitation"
+          data-ar="تخطَّ المقدمة وانتقل إلى الدعوة">تخطَّ المقدمة وانتقل إلى الدعوة</button>
+
+  <button id="langToggle" type="button" aria-label="التبديل إلى اللغة الإنجليزية" title="English">
+    <span class="lang-label">EN</span>
   </button>
 
-  <div id="flightWrap" class="hidden" aria-hidden="true">
-    <div id="flightGroup">
-      <div id="planeSpin"><span id="plane">✈️</span></div>
-      <div id="banner">Omar <span class="heart">❤</span> Maryam</div>
-    </div>
-  </div>
-
-  <div id="burst" aria-hidden="true"></div>
-
-  <p id="skip" class="hidden">tap anywhere to continue</p>
-</section>
-
-<!-- ===== MAIN INVITATION ===== -->
-<main id="invitation" class="hidden">
-
-  <div class="deco-top">
-    <div class="crescent small"></div>
-  </div>
-
-  <header class="hero">
-    <svg class="crown" viewBox="0 0 48 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
-      <path d="M4 34h40l-3-19-9 9-8-15-8 15-9-9z"/>
-      <circle cx="4" cy="12" r="2.4" fill="currentColor" stroke="none"/>
-      <circle cx="24" cy="6" r="2.4" fill="currentColor" stroke="none"/>
-      <circle cx="44" cy="12" r="2.4" fill="currentColor" stroke="none"/>
+  <button id="soundToggle" type="button" aria-label="Toggle sound on and off" aria-pressed="false" title="Sound toggle">
+    <svg class="icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/>
     </svg>
-    <p class="kicker">Together with their families</p>
-    <h1 class="names"><span>Omar</span><span class="amp">&amp;</span><span>Maryam</span></h1>
-    <p class="tagline">joyfully invite you to celebrate their wedding</p>
-    <div class="divider">
-      <span></span><span class="divider-icon">✦</span><span></span>
-    </div>
-  </header>
+    <svg class="icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M16 9l5 6M21 9l-5 6"/>
+    </svg>
+  </button>
 
-  <section class="details reveal-on-scroll">
-    <div class="detail-card">
-      <span class="detail-icon">📅</span>
-      <h2>The Date</h2>
-      <p class="detail-main">Friday, September 11, 2026</p>
-      <p class="detail-sub">(11.09.2026)</p>
+  <!-- ===== CINEMATIC OPENING ===== -->
+  <section id="cinematic" aria-label="Cinematic opening film, leading into our marriage ceremony invitation">
+
+    <video id="introVideo" playsinline preload="auto" aria-hidden="true">
+      <source src="assets/intro-web.mp4" type="video/mp4">
+      <source src="assets/intro-web.webm" type="video/webm">
+    </video>
+
+    <!-- Darkens the video's bright confetti-burst ending so the story text stays legible -->
+    <div id="cineScrim" aria-hidden="true"></div>
+
+    <!-- Golden particle bridge: continues the video's own confetti ending -->
+    <canvas id="fx-canvas" aria-hidden="true"></canvas>
+
+    <!-- Story text -->
+    <div id="text-overlay" aria-hidden="true">
+      <p class="cine-line" id="line1"
+         data-en="Well… that escalated quickly."
+         data-ar="تصاعدٌ غير مبرر!">تصاعدٌ غير مبرر!</p>
+      <p class="cine-line" id="line2"
+         data-en="Anyway, you’re invited to our marriage ceremony!"
+         data-ar="على أي حال، أنتم مدعوون إلى حفل عقد قراننا!">على أي حال، أنتم مدعوون إلى حفل عقد قراننا!</p>
     </div>
 
-    <div class="detail-card">
-      <span class="detail-icon">🕗</span>
-      <h2>The Time</h2>
-      <p class="detail-main">8:00 PM</p>
-      <p class="detail-sub">Kindly arrive a little early</p>
-    </div>
+    <button id="startBtn" type="button">
+      <span class="start-mark">✦</span>
+      <span class="start-label" data-en="Tap to Begin" data-ar="اضغط للبدء">اضغط للبدء</span>
+      <span class="start-mark">✦</span>
+    </button>
 
-    <div class="detail-card">
-      <span class="detail-icon">🕌</span>
-      <h2>The Venue</h2>
-      <p class="detail-main">Hassan El Sharbatly Mosque</p>
-      <a class="map-link" href="https://maps.app.goo.gl/okLPoJKDUHhMJVNm7?g_st=ic" target="_blank" rel="noopener noreferrer">Get Directions →</a>
-    </div>
+    <div id="introLoading" class="intro-loading" aria-hidden="true"><span></span></div>
+
   </section>
 
-  <section class="countdown-wrap reveal-on-scroll">
-    <h2 class="section-title">Counting down to our big day</h2>
-    <div id="countdown" class="countdown">
-      <div class="count-block"><span id="cd-days">00</span><small>Days</small></div>
-      <div class="count-block"><span id="cd-hours">00</span><small>Hours</small></div>
-      <div class="count-block"><span id="cd-mins">00</span><small>Minutes</small></div>
-      <div class="count-block"><span id="cd-secs">00</span><small>Seconds</small></div>
+  <!-- ===== MAIN INVITATION ===== -->
+  <main id="invitation" class="hidden">
+
+    <div class="dawn-glow" aria-hidden="true">
+      <span class="dawn-star" style="--x:18%;--y:22%"></span>
+      <span class="dawn-star" style="--x:78%;--y:14%"></span>
+      <span class="dawn-star" style="--x:60%;--y:34%"></span>
+      <span class="dawn-star" style="--x:32%;--y:44%"></span>
     </div>
-  </section>
 
-  <section class="map-embed-wrap reveal-on-scroll">
-    <h2 class="section-title">Find Us Here</h2>
-    <div class="map-embed">
-      <img src="assets/map-location.jpg" alt="Map showing Hassan El Sharbatly Mosque location in New Cairo" loading="lazy">
+    <div class="invite-content">
+    <header class="hero">
+      <p class="kicker" data-en="Together with their families" data-ar="بمشيئة الله وبحضور عائلتيهما">بمشيئة الله وبحضور عائلتيهما</p>
+      <h1 class="names"><span data-en="Omar" data-ar="عمر">عمر</span><span class="amp" data-en="&amp;" data-ar="و">و</span><span data-en="Maryam" data-ar="مريم">مريم</span></h1>
+      <p class="tagline" data-en="joyfully invite you to their marriage ceremony" data-ar="يتشرفان بدعوتكم لحضور حفل عقد قرانهما">يتشرفان بدعوتكم لحضور حفل عقد قرانهما</p>
+      <div class="divider">
+        <span></span><span class="divider-icon">✦</span><span></span>
+      </div>
+    </header>
+
+    <section class="details reveal-on-scroll">
+      <div class="detail-row">
+        <h2 data-en="The Date" data-ar="التاريخ">التاريخ</h2>
+        <p class="detail-main" data-en="Friday, September 11, 2026" data-ar="الجمعة ١١ سبتمبر ٢٠٢٦">الجمعة ١١ سبتمبر ٢٠٢٦</p>
+        <p class="detail-sub" data-en="(11.09.2026)" data-ar="(١١ / ٠٩ / ٢٠٢٦)">(١١ / ٠٩ / ٢٠٢٦)</p>
+      </div>
+
+      <div class="detail-row">
+        <h2 data-en="The Time" data-ar="الموعد">الموعد</h2>
+        <p class="detail-main" data-en="8:30 PM" data-ar="٨:٣٠ مساءً">٨:٣٠ مساءً</p>
+        <p class="detail-sub" data-en="Kindly arrive by 8:00 PM" data-ar="نرجو الحضور في تمام الساعة ٨:٠٠ مساءً">نرجو الحضور في تمام الساعة ٨:٠٠ مساءً</p>
+      </div>
+
+    </section>
+
+    <section class="countdown-wrap reveal-on-scroll">
+      <h2 class="section-title" data-en="Counting down to our big day" data-ar="العد التنازلي ليومنا الكبير">العد التنازلي ليومنا الكبير</h2>
+      <div id="countdown" class="countdown">
+        <div class="count-block"><span id="cd-days">00</span><small data-en="Days" data-ar="يوم">يوم</small></div>
+        <div class="count-block"><span id="cd-hours">00</span><small data-en="Hours" data-ar="ساعة">ساعة</small></div>
+        <div class="count-block"><span id="cd-mins">00</span><small data-en="Minutes" data-ar="دقيقة">دقيقة</small></div>
+        <div class="count-block"><span id="cd-secs">00</span><small data-en="Seconds" data-ar="ثانية">ثانية</small></div>
+      </div>
+    </section>
+
+    <section class="map-embed-wrap reveal-on-scroll">
+      <h2 class="section-title" data-en="Find Us Here" data-ar="موقع الحفل">موقع الحفل</h2>
+      <div class="map-embed">
+        <iframe src="https://www.google.com/maps?q=Hassan+El+Sharbatly+Mosque,+Khaled+Ibn+Elwaleed,+New+Cairo,+Egypt&output=embed" width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+      <div class="address-block">
+        <h3 data-en="El-Noor Hall" data-ar="قاعة النور">قاعة النور</h3>
+        <p data-en="Hassan El-Sharbatly Mosque" data-ar="مسجد حسن الشربتلي">مسجد حسن الشربتلي</p>
+        <p data-en="New Cairo, Cairo, Egypt" data-ar="القاهرة الجديدة، القاهرة، مصر">القاهرة الجديدة، القاهرة، مصر</p>
+        <button class="copy-address" type="button" aria-label="Copy address to clipboard"
+                data-en="Copy Address" data-ar="نسخ العنوان">نسخ العنوان</button>
+      </div>
+    </section>
+
+    <footer class="closing reveal-on-scroll">
+      <p class="closing-text" data-en="We can't wait to celebrate this joyful occasion with you" data-ar="في انتظاركم لمشاركتنا فرحتنا بهذه المناسبة السعيدة">في انتظاركم لمشاركتنا فرحتنا بهذه المناسبة السعيدة</p>
+      <p class="signature" data-en-html="With love,&lt;br&gt;Omar &amp;amp; Maryam" data-ar-html="مع خالص المحبة،&lt;br&gt;عمر ومريم">مع خالص المحبة،<br>عمر ومريم</p>
+    </footer>
     </div>
-    <a class="map-link outline" href="https://maps.app.goo.gl/okLPoJKDUHhMJVNm7?g_st=ic" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
-  </section>
 
-  <footer class="rsvp reveal-on-scroll">
-    <p class="rsvp-text">We can't wait to celebrate this joyful occasion with you</p>
-    <p class="signature">With love,<br>Omar &amp; Maryam</p>
-  </footer>
+  </main>
 
-</main>
+</div>
 
 <script src="script.js"></script>
 </body>
