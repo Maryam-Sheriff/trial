@@ -1,6 +1,7 @@
 (function () {
   var cinematic = document.getElementById('cinematic');
   var introVideo = document.getElementById('introVideo');
+  var backgroundMusic = document.getElementById('backgroundMusic');
   var fxCanvas = document.getElementById('fx-canvas');
   var line1 = document.getElementById('line1');
   var line2 = document.getElementById('line2');
@@ -25,13 +26,20 @@
   function markIntroSeen() {
     try { localStorage.setItem(INTRO_SEEN_KEY, '1'); } catch (e) {}
   }
+  try { localStorage.removeItem(INTRO_SEEN_KEY); } catch (e) {}
   var seenBefore = false;
   try { seenBefore = localStorage.getItem(INTRO_SEEN_KEY) === '1'; } catch (e) {}
   if (seenBefore) {
     revealed = true;
     cinematic.classList.add('hidden');
+    skipToInvitation.classList.add('hidden');
     invitation.classList.remove('hidden');
     soundToggle.classList.add('on-parchment');
+    setTimeout(function () {
+      if (backgroundMusic && !muted) {
+        backgroundMusic.play().catch(function () {});
+      }
+    }, 100);
   }
 
   /* ---------------- sound engine (synthesized, no audio files) ---------------- */
@@ -235,6 +243,14 @@
     soundToggle.classList.toggle('muted', muted);
     soundToggle.setAttribute('aria-pressed', String(muted));
     introVideo.muted = muted;
+    if (backgroundMusic) {
+      if (muted) {
+        backgroundMusic.pause();
+      } else {
+        backgroundMusic.volume = 0.7;
+        backgroundMusic.play().catch(function () {});
+      }
+    }
     if (masterGain) {
       masterGain.gain.linearRampToValueAtTime(muted ? 0 : 0.9, audioCtx.currentTime + 0.15);
     }
@@ -335,6 +351,10 @@
     hideLoading();
     fx.stop();
     try { introVideo.pause(); } catch (e) {}
+    if (backgroundMusic && !muted) {
+      backgroundMusic.play().catch(function () {});
+    }
+    skipToInvitation.classList.add('hidden');
     cinematic.style.transition = 'opacity 0.7s ease';
     cinematic.style.opacity = '0';
     setTimeout(function () {
@@ -358,12 +378,12 @@
     introVideo.style.transition = 'opacity 0.6s ease';
     introVideo.style.opacity = '0';
 
-    schedule(function () { startAmbient(); }, 500);
-    schedule(function () { showLine(line1); }, 700);
-    schedule(function () { hideLine(line1); }, 3300);
-    schedule(function () { showLine(line2); }, 4000);
-    schedule(function () { hideLine(line2); }, 6600);
-    schedule(function () { revealInvitation(); }, 7500);
+    schedule(function () { startAmbient(); }, 400);
+    schedule(function () { showLine(line1); }, 500);
+    schedule(function () { hideLine(line1); }, 2500);
+    schedule(function () { showLine(line2); }, 3000);
+    schedule(function () { hideLine(line2); }, 4800);
+    schedule(function () { revealInvitation(); }, 5200);
   }
 
   // Only show the loading dot if the film takes a moment to actually start
@@ -395,14 +415,16 @@
     introVideo.addEventListener('ended', onVideoEnded);
     introVideo.addEventListener('error', function () { hideLoading(); revealInvitation(); });
 
-    introVideo.muted = muted;
+    // Video plays with audio during cinematic, background music only on invitation
+    introVideo.muted = false;
+    if (backgroundMusic) {
+      backgroundMusic.pause();
+    }
     showLoadingIfSlow();
     var playPromise = introVideo.play();
     if (playPromise && playPromise.catch) {
       playPromise.catch(function () {
-        // Autoplay-with-sound was blocked despite the gesture; retry muted
-        // so the visuals still play, and let the user unmute manually.
-        introVideo.muted = true;
+        introVideo.muted = false;
         introVideo.play().catch(function () { hideLoading(); revealInvitation(); });
       });
     }
@@ -469,6 +491,41 @@
   } else {
     document.querySelectorAll('.reveal-on-scroll').forEach(function (el) {
       el.classList.add('in-view');
+    });
+  }
+
+  // Copy address to clipboard
+  var copyAddressBtn = document.querySelector('.copy-address');
+  if (copyAddressBtn) {
+    copyAddressBtn.addEventListener('click', function () {
+      var addressText = 'Hassan El Sharbatly Mosque, New Cairo, Cairo, Egypt';
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(addressText).then(function () {
+          var originalText = copyAddressBtn.textContent;
+          copyAddressBtn.textContent = 'Copied!';
+          setTimeout(function () {
+            copyAddressBtn.textContent = originalText;
+          }, 2000);
+        }).catch(function () {
+          alert('Failed to copy address');
+        });
+      } else {
+        // Fallback for older browsers
+        var textArea = document.createElement('textarea');
+        textArea.value = addressText;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+          document.execCommand('copy');
+          copyAddressBtn.textContent = 'Copied!';
+          setTimeout(function () {
+            copyAddressBtn.textContent = originalText;
+          }, 2000);
+        } catch (err) {
+          alert('Failed to copy address');
+        }
+        document.body.removeChild(textArea);
+      }
     });
   }
 })();

@@ -24,15 +24,19 @@
 </head>
 <body>
 
+<audio id="backgroundMusic" loop>
+  <source src="assets/background-music.mp3" type="audio/mpeg">
+</audio>
+
 <div id="frame" class="frame">
 
   <button id="skipToInvitation" class="sr-skip-link" type="button">Skip intro film and go to the invitation</button>
 
-  <button id="soundToggle" type="button" aria-label="Toggle sound" aria-pressed="false">
-    <svg class="icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+  <button id="soundToggle" type="button" aria-label="Toggle sound on and off" aria-pressed="false" title="Sound toggle">
+    <svg class="icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/>
     </svg>
-    <svg class="icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <svg class="icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M16 9l5 6M21 9l-5 6"/>
     </svg>
   </button>
@@ -41,8 +45,7 @@
   <section id="cinematic" aria-label="Cinematic opening film, leading into our marriage ceremony invitation">
 
     <video id="introVideo" playsinline preload="auto" aria-hidden="true">
-      <source src="assets/intro.mp4" type="video/mp4">
-      <source src="assets/intro.webm" type="video/webm">
+      <source src="assets/VID_20260815021045612.mp4" type="video/mp4">
     </video>
 
     <!-- Golden particle bridge: continues the video's own confetti ending -->
@@ -80,26 +83,12 @@
     </div>
 
     <header class="hero">
-      <svg class="floral floral-left" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
-        <path d="M30 55C22 40 10 36 4 40c8 4 12 12 8 18M30 55C24 44 22 30 28 20M30 55c2-12 10-20 20-22"/>
-        <circle cx="28" cy="20" r="2.6"/><circle cx="48" cy="33" r="2.1"/><circle cx="10" cy="45" r="1.9"/>
-      </svg>
-      <svg class="crown" viewBox="0 0 48 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
-        <path d="M4 34h40l-3-19-9 9-8-15-8 15-9-9z"/>
-        <circle cx="4" cy="12" r="2.1" fill="currentColor" stroke="none"/>
-        <circle cx="24" cy="6" r="2.1" fill="currentColor" stroke="none"/>
-        <circle cx="44" cy="12" r="2.1" fill="currentColor" stroke="none"/>
-      </svg>
       <p class="kicker">Together with their families</p>
       <h1 class="names"><span>Omar</span><span class="amp">&amp;</span><span>Maryam</span></h1>
       <p class="tagline">joyfully invite you to their marriage ceremony</p>
       <div class="divider">
         <span></span><span class="divider-icon">✦</span><span></span>
       </div>
-      <svg class="floral floral-right" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
-        <path d="M30 55C38 40 50 36 56 40c-8 4-12 12-8 18M30 55c6-11 8-25 2-35M30 55c-2-12-10-20-20-22"/>
-        <circle cx="32" cy="20" r="2.6"/><circle cx="12" cy="33" r="2.1"/><circle cx="50" cy="45" r="1.9"/>
-      </svg>
     </header>
 
     <section class="details reveal-on-scroll">
@@ -113,12 +102,6 @@
         <h2>The Time</h2>
         <p class="detail-main">8:00 PM</p>
         <p class="detail-sub">Kindly arrive by 7:30 PM</p>
-      </div>
-
-      <div class="detail-row">
-        <h2>The Venue</h2>
-        <p class="detail-main">Hassan El Sharbatly Mosque</p>
-        <a class="map-link" href="https://maps.app.goo.gl/okLPoJKDUHhMJVNm7?g_st=ic" target="_blank" rel="noopener noreferrer">Get Directions</a>
       </div>
 
       <div class="detail-row">
@@ -141,9 +124,14 @@
     <section class="map-embed-wrap reveal-on-scroll">
       <h2 class="section-title">Find Us Here</h2>
       <div class="map-embed">
-        <img src="assets/map-location.jpg" alt="Map showing Hassan El Sharbatly Mosque location in New Cairo" loading="lazy">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3452.3893891091003!2d31.00369!3d30.01195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14583d3c3c3c3c3d%3A0x5e5e5e5e5e5e5e5e!2sHassan%20El%20Sharbatly%20Mosque!5e0!3m2!1sen!2seg!4v1629000000000" width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
       </div>
-      <a class="map-link outline" href="https://maps.app.goo.gl/okLPoJKDUHhMJVNm7?g_st=ic" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
+      <div class="address-block">
+        <h3>Hassan El Sharbatly</h3>
+        <p>El Nour Hall at the Mosque</p>
+        <p>New Cairo, Cairo, Egypt</p>
+        <button class="copy-address" type="button" aria-label="Copy address to clipboard">Copy Address</button>
+      </div>
     </section>
 
     <footer class="closing reveal-on-scroll">
