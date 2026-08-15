@@ -44,10 +44,9 @@
     }, 100);
   }
 
-  /* ---------------- sound engine (synthesized, no audio files) ---------------- */
+  /* ---------------- sound engine (record scratch only; music is an audio file) --- */
   var audioCtx = null;
   var masterGain = null;
-  var ambientNodes = null;
   var muted = false;
 
   function ensureAudio() {
@@ -78,127 +77,6 @@
     var data = buffer.getChannelData(0);
     for (var i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
     return buffer;
-  }
-
-  function playTone(freq, startTime, duration, type, peakGain, dest) {
-    var ctx = audioCtx;
-    if (!ctx) return;
-    var osc = ctx.createOscillator();
-    osc.type = type || 'sine';
-    osc.frequency.value = freq;
-    var gain = ctx.createGain();
-    gain.gain.setValueAtTime(0.0001, startTime);
-    gain.gain.linearRampToValueAtTime(peakGain || 0.22, startTime + duration * 0.15);
-    gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
-    osc.connect(gain);
-    gain.connect(dest || masterGain);
-    osc.start(startTime);
-    osc.stop(startTime + duration + 0.05);
-  }
-
-  function playSparkle() {
-    var ctx = ensureAudio();
-    if (!ctx) return;
-    var now = ctx.currentTime;
-    var scale = [523.25, 587.33, 659.25, 783.99, 880, 987.77, 1046.5];
-    for (var i = 0; i < 9; i++) {
-      var freq = scale[Math.floor(Math.random() * scale.length)];
-      playTone(freq, now + i * 0.055, 0.5, 'sine', 0.16);
-    }
-  }
-
-  // A plucked, oud-like string voice: fast attack, a quick upward slide
-  // into pitch (the finger/plectrum "pull"), a buzzy harmonic layer that
-  // decays faster than the fundamental, then a long natural decay.
-  function playOudPluck(freq, startTime, dest) {
-    var ctx = audioCtx;
-    if (!ctx) return;
-    var duration = 1.8 + Math.random() * 1.3;
-
-    var body = ctx.createOscillator();
-    body.type = 'triangle';
-    body.frequency.setValueAtTime(freq * 1.02, startTime);
-    body.frequency.exponentialRampToValueAtTime(freq, startTime + 0.05);
-
-    var buzz = ctx.createOscillator();
-    buzz.type = 'sawtooth';
-    buzz.frequency.value = freq;
-
-    var filter = ctx.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.Q.value = 0.8;
-    filter.frequency.setValueAtTime(freq * 7, startTime);
-    filter.frequency.exponentialRampToValueAtTime(freq * 1.6, startTime + duration);
-
-    var bodyGain = ctx.createGain();
-    bodyGain.gain.setValueAtTime(0.0001, startTime);
-    bodyGain.gain.linearRampToValueAtTime(0.24, startTime + 0.008);
-    bodyGain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
-
-    var buzzGain = ctx.createGain();
-    buzzGain.gain.setValueAtTime(0.0001, startTime);
-    buzzGain.gain.linearRampToValueAtTime(0.07, startTime + 0.006);
-    buzzGain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration * 0.5);
-
-    body.connect(bodyGain); bodyGain.connect(filter);
-    buzz.connect(buzzGain); buzzGain.connect(filter);
-    filter.connect(dest || masterGain);
-
-    body.start(startTime); body.stop(startTime + duration + 0.05);
-    buzz.start(startTime); buzz.stop(startTime + duration * 0.5 + 0.05);
-  }
-
-  function startAmbient() {
-    var ctx = ensureAudio();
-    if (!ctx || ambientNodes) return;
-    var now = ctx.currentTime;
-    var pad = ctx.createGain();
-    pad.gain.setValueAtTime(0.0001, now);
-    pad.gain.linearRampToValueAtTime(0.05, now + 2.5);
-    pad.connect(masterGain);
-
-    var lfo = ctx.createOscillator();
-    lfo.frequency.value = 0.08;
-    var lfoGain = ctx.createGain();
-    lfoGain.gain.value = 0.015;
-    lfo.connect(lfoGain);
-    lfoGain.connect(pad.gain);
-    lfo.start(now);
-
-    // A simple root+fifth drone, D3/A3 — maqam music leans on a drone
-    // rather than Western triadic harmony, so the oud melody carries the
-    // character instead of a full chord underneath it.
-    var voices = [
-      { freq: 146.83, type: 'sine', level: 1 },   // D3 root
-      { freq: 220.00, type: 'sine', level: 0.45 } // A3 fifth
-    ];
-    var oscillators = voices.map(function (v) {
-      var osc = ctx.createOscillator();
-      osc.type = v.type;
-      osc.frequency.value = v.freq;
-      var g = ctx.createGain();
-      g.gain.value = v.level;
-      osc.connect(g);
-      g.connect(pad);
-      osc.start(now);
-      return osc;
-    });
-
-    // Maqam Hijaz scale on D (D Eb F# G A Bb C), the augmented-second
-    // interval between Eb and F# is what gives it that unmistakably
-    // Middle Eastern character. Sparse, unhurried plucked phrase.
-    var hijaz = [146.83, 155.56, 185.00, 196.00, 220.00, 233.08, 261.63,
-                 293.66, 311.13, 369.99, 392.00];
-    var oudOn = true;
-    function oudStep() {
-      if (!oudOn) return;
-      var freq = hijaz[Math.floor(Math.random() * hijaz.length)];
-      playOudPluck(freq, ctx.currentTime, pad);
-      ambientNodes.oudTimeout = setTimeout(oudStep, 900 + Math.random() * 1400);
-    }
-
-    ambientNodes = { pad: pad, lfo: lfo, oscillators: oscillators, oudTimeout: null };
-    oudStep();
   }
 
   /* --- comedic record scratch: interrupts the film's own score --- */
@@ -388,7 +266,6 @@
       invitation.classList.remove('hidden');
       soundToggle.classList.add('on-parchment');
       document.body.classList.add('invitation-active');
-      startAmbient();
     }, reduceMotion ? 0 : 700);
   }
 
@@ -406,7 +283,6 @@
     introVideo.style.opacity = '0';
     if (cineScrim) cineScrim.classList.add('on');
 
-    schedule(function () { startAmbient(); }, 400);
     schedule(function () { showLine(line1); }, 800);
     schedule(function () { hideLine(line1); }, 2900);
     schedule(function () { showLine(line2); }, 3400);
