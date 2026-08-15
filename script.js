@@ -96,15 +96,6 @@
     osc.stop(startTime + duration + 0.05);
   }
 
-  function playChime() {
-    var ctx = ensureAudio();
-    if (!ctx) return;
-    var now = ctx.currentTime;
-    [523.25, 659.25, 783.99].forEach(function (freq, i) {
-      playTone(freq, now + i * 0.09, 0.6, 'triangle', 0.2);
-    });
-  }
-
   function playSparkle() {
     var ctx = ensureAudio();
     if (!ctx) return;
@@ -281,21 +272,39 @@
     this.canvas.height = this.h * this.dpr;
     this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
   };
-  // Scatter particles directly into a gentle twinkle field, continuing
-  // the film's own confetti burst rather than re-simulating an explosion.
+  // Scatter tumbling confetti ribbons radiating outward from the screen's
+  // center, continuing the film's own radial burst (not a downward fall).
   FX.prototype.scatterTwinkle = function (count) {
     this.particles = [];
-    for (var i = 0; i < count; i++) {
-      this.particles.push({
-        x: Math.random() * this.w,
-        y: this.h * 0.15 + Math.random() * this.h * 0.7,
-        r: 0.9 + Math.random() * 2,
-        alpha: 0.5,
+    var cx = this.w / 2;
+    var cy = this.h * 0.42;
+    var maxR = Math.max(this.w, this.h) * 0.55;
+    var dustCount = Math.round(count * 0.5);
+    for (var i = 0; i < count + dustCount; i++) {
+      var isDust = i >= count;
+      var angle = Math.random() * Math.PI * 2;
+      // denser near center, already spread toward the edges (mid-burst)
+      var radius = Math.pow(Math.random(), 0.6) * maxR;
+      var speed = (isDust ? 8 : 25) + Math.random() * (isDust ? 18 : 55);
+      var p = {
+        x: cx + Math.cos(angle) * radius,
+        y: cy + Math.sin(angle) * radius * 0.95,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        rot: Math.random() * Math.PI * 2,
+        rotSpeed: (Math.random() - 0.5) * 5,
         color: Math.random() < 0.8 ? GOLD_COLORS[Math.floor(Math.random() * GOLD_COLORS.length)] : WHITE,
-        phase: Math.random() * Math.PI * 2,
-        driftX: (Math.random() - 0.5) * 4,
-        driftY: -2 - Math.random() * 4
-      });
+        age: 0,
+        life: 2.4 + Math.random() * 1.1,
+        dust: isDust
+      };
+      if (isDust) {
+        p.r = 0.6 + Math.random() * 1.2;
+      } else {
+        p.w = 3 + Math.random() * 3;
+        p.h = 6 + Math.random() * 7;
+      }
+      this.particles.push(p);
     }
   };
   FX.prototype.stop = function () {
@@ -316,24 +325,39 @@
     }
     this.raf = requestAnimationFrame(loop);
   };
-  FX.prototype.update = function (dt, now) {
+  FX.prototype.update = function (dt) {
     this.particles.forEach(function (p) {
-      p.x += p.driftX * dt;
-      p.y += p.driftY * dt;
-      p.alpha = 0.35 + 0.45 * Math.sin(now * 0.0016 + p.phase);
+      // drag only: pieces keep radiating outward, just losing burst energy
+      p.vx *= (1 - 0.3 * dt);
+      p.vy *= (1 - 0.3 * dt);
+      p.x += p.vx * dt;
+      p.y += p.vy * dt;
+      p.rot += p.rotSpeed * dt;
+      p.age += dt;
+      p.alpha = Math.max(0, 1 - p.age / p.life);
     });
   };
   FX.prototype.draw = function () {
     var ctx = this.ctx;
     ctx.clearRect(0, 0, this.w, this.h);
     this.particles.forEach(function (p) {
-      ctx.globalAlpha = Math.max(0, p.alpha);
+      if (p.alpha <= 0) return;
+      ctx.save();
+      ctx.globalAlpha = p.dust ? p.alpha * 0.7 : p.alpha;
       ctx.fillStyle = p.color;
       ctx.shadowColor = p.color;
-      ctx.shadowBlur = 5;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fill();
+      if (p.dust) {
+        ctx.shadowBlur = 2;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.shadowBlur = 3;
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      }
+      ctx.restore();
     });
     ctx.globalAlpha = 1;
     ctx.shadowBlur = 0;
@@ -364,7 +388,6 @@
       invitation.classList.remove('hidden');
       soundToggle.classList.add('on-parchment');
       document.body.classList.add('invitation-active');
-      playChime();
       startAmbient();
     }, reduceMotion ? 0 : 700);
   }
@@ -372,6 +395,7 @@
   function beginBridge() {
     if (bridgeStarted) return;
     bridgeStarted = true;
+    fx.scatterTwinkle(130);
     fxCanvas.classList.add('on');
   }
 
@@ -407,7 +431,6 @@
   function runIntro() {
     fx.resize();
     window.addEventListener('resize', function () { if (fx.w) fx.resize(); });
-    fx.scatterTwinkle(130);
     fx.start();
 
     introVideo.addEventListener('timeupdate', function () {
