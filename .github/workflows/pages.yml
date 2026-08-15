@@ -30,10 +30,11 @@ jobs:
       - name: Disable Jekyll processing
         run: touch .nojekyll
 
-      # enablement turns Pages on automatically the first time this runs
+      # Requires Pages to be switched on once by hand:
+      #   Settings -> Pages -> Build and deployment -> Source: "GitHub Actions"
+      # It cannot be enabled from here: creating a Pages site needs admin
+      # rights that the workflow's GITHUB_TOKEN is never granted.
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
