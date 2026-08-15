@@ -395,7 +395,7 @@
   function beginBridge() {
     if (bridgeStarted) return;
     bridgeStarted = true;
-    fx.scatterTwinkle(320);
+    fx.scatterTwinkle(620);
     fxCanvas.classList.add('on');
   }
 
@@ -525,7 +525,7 @@
   var copyAddressBtn = document.querySelector('.copy-address');
   if (copyAddressBtn) {
     copyAddressBtn.addEventListener('click', function () {
-      var addressText = 'Noor Hall, Hassan El-Sharbatly Mosque, New Cairo, Cairo, Egypt';
+      var addressText = 'El-Noor Hall, Hassan El-Sharbatly Mosque, New Cairo, Cairo, Egypt';
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(addressText).then(function () {
           var originalText = copyAddressBtn.textContent;
