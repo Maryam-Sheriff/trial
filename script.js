@@ -395,7 +395,7 @@
   function beginBridge() {
     if (bridgeStarted) return;
     bridgeStarted = true;
-    fx.scatterTwinkle(130);
+    fx.scatterTwinkle(320);
     fxCanvas.classList.add('on');
   }
 
