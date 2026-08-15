@@ -354,18 +354,6 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
 .invite-content::before { left: 0; }
 .invite-content::after { right: 0; }
 
-.deco-top { text-align: center; margin-bottom: 6px; }
-
-.crescent.small {
-  width: 32px;
-  height: 32px;
-  box-shadow: -9px 3px 0 1px var(--ivory);
-  background: var(--gold);
-  border-radius: 50%;
-  margin: 0 auto;
-  transform: rotate(-15deg);
-}
-
 .hero { position: relative; text-align: center; padding: 22px 0 12px; }
 
 .kicker {
