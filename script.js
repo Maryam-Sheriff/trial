@@ -448,8 +448,8 @@
     revealInvitation();
   });
 
-  // Countdown to the wedding: Friday, September 11, 2026, 8:00 PM
-  var weddingDate = new Date(2026, 8, 11, 20, 0, 0);
+  // Countdown to the wedding: Friday, September 11, 2026, 8:30 PM
+  var weddingDate = new Date(2026, 8, 11, 20, 30, 0);
   var dEl = document.getElementById('cd-days');
   var hEl = document.getElementById('cd-hours');
   var mEl = document.getElementById('cd-mins');

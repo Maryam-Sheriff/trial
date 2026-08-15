@@ -16,15 +16,15 @@ html, body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  background: #000;
+  background: var(--ivory);
 }
 
 body {
   font-family: 'Cormorant Garamond', serif;
-  background: #000;
+  background: var(--ivory);
   color: var(--ink);
   font-size: 19px;
-  line-height: 1.6;
+  line-height: 1.75;
 }
 
 .hidden { display: none !important; }
@@ -432,8 +432,8 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
 .details {
   display: flex;
   flex-direction: column;
-  gap: 36px;
-  margin: 40px 0 60px;
+  gap: 46px;
+  margin: 48px 0 68px;
 }
 
 .detail-row {
@@ -446,16 +446,17 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
   text-transform: uppercase;
   letter-spacing: 0.34em;
   color: var(--ink-soft);
-  margin-bottom: 10px;
+  margin-bottom: 14px;
 }
 .detail-main {
   font-family: 'Playfair Display', serif;
   font-size: 1.3rem;
   font-weight: 600;
-  margin: 0 0 4px;
+  margin: 0 0 8px;
   color: var(--ink);
+  line-height: 1.4;
 }
-.detail-sub { color: var(--ink-soft); margin: 0; font-size: 0.92rem; }
+.detail-sub { color: var(--ink-soft); margin: 0; font-size: 0.92rem; line-height: 1.6; }
 
 .section-title {
   text-align: center;
@@ -466,7 +467,7 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
   margin-bottom: 22px;
 }
 
-.countdown-wrap { margin: 60px 0; text-align: center; }
+.countdown-wrap { margin: 72px 0; text-align: center; }
 .countdown {
   display: flex;
   justify-content: center;
@@ -504,7 +505,7 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
   color: var(--ink-soft);
 }
 
-.map-embed-wrap { margin: 60px 0; text-align: center; }
+.map-embed-wrap { margin: 72px 0; text-align: center; }
 .map-embed {
   overflow: hidden;
   border-radius: 8px;
@@ -513,6 +514,7 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
 .map-embed iframe {
   border: none;
   border-radius: 8px;
+  filter: grayscale(0.45) sepia(0.32) saturate(1.35) brightness(1.03) contrast(0.96) hue-rotate(-6deg);
 }
 
 .address-block {
@@ -554,10 +556,10 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
 
 .closing {
   text-align: center;
-  margin-top: 64px;
+  margin-top: 76px;
   padding-top: 4px;
 }
-.closing-text { font-size: 1.1rem; color: var(--ink-soft); }
+.closing-text { font-size: 1.1rem; color: var(--ink-soft); line-height: 1.7; }
 .signature {
   font-family: 'Great Vibes', cursive;
   font-size: 2.1rem;
@@ -587,7 +589,7 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
   .invite-content { padding-top: 32px; }
   .names { font-size: clamp(1.8rem, 6vw, 2.4rem); }
   .section-title { font-size: 1.1rem; }
-  .details { gap: 28px; margin: 32px 0 48px; }
+  .details { gap: 36px; margin: 38px 0 56px; }
   .sr-skip-link { padding: 10px 20px; font-size: 0.85rem; }
   #invitation::before, #invitation::after { width: 140px; height: 157px; }
 }
