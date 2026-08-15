@@ -357,6 +357,47 @@
     introVideo.addEventListener('ended', onVideoEnded);
     introVideo.addEventListener('error', function () { hideLoading(); revealInvitation(); });
 
+    // Watchdogs: without these, a film that never starts or stalls partway
+    // leaves the visitor staring at the black cinematic backdrop forever,
+    // since 'ended' is the only thing that hands over to the invitation.
+    var START_TIMEOUT = 9000;   // never got playing at all
+    var STALL_TIMEOUT = 12000;  // started, then stopped progressing
+    var DEAD_TIMEOUT = 4500;    // nothing buffered at all: treat as unplayable
+
+    // A source that fails outright fires no error event on the video element,
+    // so silence here has to be treated as failure rather than waited on.
+    var deadWatchdog = setTimeout(function () {
+      if (revealed) return;
+      var nothingBuffered = introVideo.readyState === 0 &&
+        (!introVideo.buffered || introVideo.buffered.length === 0);
+      if (nothingBuffered) revealInvitation();
+    }, DEAD_TIMEOUT);
+
+    var startWatchdog = setTimeout(function () {
+      if (!revealed && introVideo.currentTime === 0) revealInvitation();
+    }, START_TIMEOUT);
+
+    var stallWatchdog = null;
+    function bumpStallWatchdog() {
+      clearTimeout(stallWatchdog);
+      stallWatchdog = setTimeout(function () {
+        if (!revealed) revealInvitation();
+      }, STALL_TIMEOUT);
+    }
+    introVideo.addEventListener('playing', function () {
+      clearTimeout(deadWatchdog);
+      clearTimeout(startWatchdog);
+      bumpStallWatchdog();
+    });
+    introVideo.addEventListener('timeupdate', bumpStallWatchdog);
+    introVideo.addEventListener('ended', function () {
+      clearTimeout(deadWatchdog);
+      clearTimeout(startWatchdog);
+      clearTimeout(stallWatchdog);
+    });
+    // stalling shows the loading dot again so it doesn't look frozen
+    introVideo.addEventListener('waiting', showLoadingIfSlow);
+
     // Video plays with audio during cinematic, background music only on invitation
     introVideo.muted = false;
     if (backgroundMusic) {
