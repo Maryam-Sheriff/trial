@@ -482,12 +482,17 @@
   var mEl = document.getElementById('cd-mins');
   var sEl = document.getElementById('cd-secs');
 
-  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  var ARABIC_DIGITS = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+  function localizeDigits(str) {
+    if (currentLang !== 'ar') return str;
+    return str.replace(/[0-9]/g, function (d) { return ARABIC_DIGITS[+d]; });
+  }
+  function pad(n) { return localizeDigits(n < 10 ? '0' + n : '' + n); }
 
   function tick() {
     var diff = weddingDate.getTime() - Date.now();
     if (diff <= 0) {
-      dEl.textContent = hEl.textContent = mEl.textContent = sEl.textContent = '00';
+      dEl.textContent = hEl.textContent = mEl.textContent = sEl.textContent = localizeDigits('00');
       return;
     }
     var days = Math.floor(diff / 86400000);
@@ -583,6 +588,9 @@
       var label = langToggle.querySelector('.lang-label');
       if (label) label.textContent = isAr ? 'EN' : 'ع';
     }
+
+    // redraw the countdown so its digits switch script along with the text
+    tick();
 
     try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
   }
