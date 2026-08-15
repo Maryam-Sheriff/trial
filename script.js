@@ -523,7 +523,7 @@
 
   /* ---------------- language switching (English / Arabic) ---------------- */
   var LANG_KEY = 'omarMaryamLang';
-  var currentLang = 'en';
+  var currentLang = 'ar';
   var langToggle = document.getElementById('langToggle');
 
   var META_BY_LANG = {
@@ -589,7 +589,7 @@
 
   var savedLang = null;
   try { savedLang = localStorage.getItem(LANG_KEY); } catch (e) {}
-  applyLang(savedLang === 'ar' ? 'ar' : 'en');
+  applyLang(savedLang === 'en' ? 'en' : 'ar');
 
   if (langToggle) {
     langToggle.addEventListener('click', function () {
