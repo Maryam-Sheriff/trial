@@ -3,6 +3,7 @@
   var introVideo = document.getElementById('introVideo');
   var backgroundMusic = document.getElementById('backgroundMusic');
   var fxCanvas = document.getElementById('fx-canvas');
+  var cineScrim = document.getElementById('cineScrim');
   var line1 = document.getElementById('line1');
   var line2 = document.getElementById('line2');
   var startBtn = document.getElementById('startBtn');
@@ -379,13 +380,14 @@
     playRecordScratch();
     introVideo.style.transition = 'opacity 0.6s ease';
     introVideo.style.opacity = '0';
+    if (cineScrim) cineScrim.classList.add('on');
 
     schedule(function () { startAmbient(); }, 400);
-    schedule(function () { showLine(line1); }, 500);
-    schedule(function () { hideLine(line1); }, 2500);
-    schedule(function () { showLine(line2); }, 3000);
-    schedule(function () { hideLine(line2); }, 4800);
-    schedule(function () { revealInvitation(); }, 5200);
+    schedule(function () { showLine(line1); }, 800);
+    schedule(function () { hideLine(line1); }, 2900);
+    schedule(function () { showLine(line2); }, 3400);
+    schedule(function () { hideLine(line2); }, 5200);
+    schedule(function () { revealInvitation(); }, 5600);
   }
 
   // Only show the loading dot if the film takes a moment to actually start
