@@ -573,7 +573,8 @@ body.lang-ar .count-block span { font-family: 'Cormorant Garamond', serif; }
 .count-block:not(:last-child)::after {
   content: "";
   position: absolute;
-  right: 0;
+  /* logical edge, so the rule sits between blocks in both LTR and RTL */
+  inset-inline-end: 0;
   top: 12%;
   bottom: 12%;
   width: 1px;
