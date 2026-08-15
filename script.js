@@ -109,6 +109,48 @@
     src.stop(now + 0.42);
   }
 
+  // Browsers only let audio start from a user gesture. The film hands over to
+  // the invitation on a timer, so that later play() has no activation behind it
+  // and gets rejected. Unlock the element during the opening tap instead —
+  // start it muted, then immediately pause — after which programmatic play()
+  // on that same element is allowed.
+  var musicPrimed = false;
+  function primeBackgroundMusic() {
+    if (!backgroundMusic || musicPrimed) return;
+    musicPrimed = true;
+    backgroundMusic.muted = true;
+    var settle = function () {
+      // don't clobber playback that legitimately started in the meantime
+      if (!revealed) {
+        backgroundMusic.pause();
+        try { backgroundMusic.currentTime = 0; } catch (e) {}
+      }
+      backgroundMusic.muted = false;
+    };
+    var p = backgroundMusic.play();
+    if (p && p.then) p.then(settle).catch(function () { backgroundMusic.muted = false; });
+    else settle();
+  }
+
+  // If play() is still refused, retry once on the visitor's next interaction
+  // rather than leaving the invitation silent until they find the sound button.
+  function playBackgroundMusic() {
+    if (!backgroundMusic || muted) return;
+    backgroundMusic.volume = 0.7;
+    var p = backgroundMusic.play();
+    if (p && p.catch) {
+      p.catch(function () {
+        var retry = function () {
+          document.removeEventListener('pointerdown', retry);
+          document.removeEventListener('keydown', retry);
+          if (!muted) backgroundMusic.play().catch(function () {});
+        };
+        document.addEventListener('pointerdown', retry);
+        document.addEventListener('keydown', retry);
+      });
+    }
+  }
+
   function setMuted(next) {
     muted = next;
     soundToggle.classList.toggle('muted', muted);
@@ -118,8 +160,7 @@
       if (muted) {
         backgroundMusic.pause();
       } else {
-        backgroundMusic.volume = 0.7;
-        backgroundMusic.play().catch(function () {});
+        playBackgroundMusic();
       }
     }
     if (masterGain) {
@@ -255,9 +296,7 @@
     hideLoading();
     fx.stop();
     try { introVideo.pause(); } catch (e) {}
-    if (backgroundMusic && !muted) {
-      backgroundMusic.play().catch(function () {});
-    }
+    playBackgroundMusic();
     skipToInvitation.classList.add('hidden');
     cinematic.style.transition = 'opacity 0.7s ease';
     cinematic.style.opacity = '0';
@@ -337,6 +376,7 @@
     if (started) return;
     started = true;
     ensureAudio();
+    primeBackgroundMusic();
     startBtn.classList.add('hidden');
 
     if (reduceMotion) {
@@ -346,6 +386,8 @@
     runIntro();
   });
 
+  // Skip reveals the invitation synchronously inside this click, so play() has
+  // user activation on its own and needs no priming.
   skipToInvitation.addEventListener('click', function () {
     ensureAudio();
     revealInvitation();
