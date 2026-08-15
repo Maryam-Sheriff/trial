@@ -35,6 +35,7 @@
     skipToInvitation.classList.add('hidden');
     invitation.classList.remove('hidden');
     soundToggle.classList.add('on-parchment');
+    document.body.classList.add('invitation-active');
     setTimeout(function () {
       if (backgroundMusic && !muted) {
         backgroundMusic.play().catch(function () {});
@@ -361,6 +362,7 @@
       cinematic.classList.add('hidden');
       invitation.classList.remove('hidden');
       soundToggle.classList.add('on-parchment');
+      document.body.classList.add('invitation-active');
       playChime();
       startAmbient();
     }, reduceMotion ? 0 : 700);
