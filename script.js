@@ -521,20 +521,98 @@
     });
   }
 
+  /* ---------------- language switching (English / Arabic) ---------------- */
+  var LANG_KEY = 'omarMaryamLang';
+  var currentLang = 'en';
+  var langToggle = document.getElementById('langToggle');
+
+  var META_BY_LANG = {
+    en: {
+      title: "Omar & Maryam's Marriage Ceremony Invitation",
+      description: "You're invited to the marriage ceremony of Omar & Maryam on Friday, September 11, 2026 at El-Noor Hall, Hassan El-Sharbatly Mosque.",
+      address: 'El-Noor Hall, Hassan El-Sharbatly Mosque, New Cairo, Cairo, Egypt',
+      copied: 'Copied!',
+      copyFailed: 'Failed to copy address',
+      toggleLabel: 'Switch language to Arabic'
+    },
+    ar: {
+      title: 'دعوة حفل عقد قران عمر ومريم',
+      description: 'يسعدنا دعوتكم لحضور حفل عقد قران عمر ومريم يوم الجمعة ١١ سبتمبر ٢٠٢٦ بقاعة النور، مسجد حسن الشربتلي.',
+      address: 'قاعة النور، مسجد حسن الشربتلي، القاهرة الجديدة، القاهرة، مصر',
+      copied: 'تم النسخ!',
+      copyFailed: 'تعذّر نسخ العنوان',
+      toggleLabel: 'التبديل إلى اللغة الإنجليزية'
+    }
+  };
+
+  function applyLang(lang) {
+    currentLang = lang;
+    var isAr = lang === 'ar';
+
+    document.documentElement.lang = isAr ? 'ar' : 'en';
+    document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+    document.body.classList.toggle('lang-ar', isAr);
+
+    document.querySelectorAll('[data-en]').forEach(function (el) {
+      var val = el.getAttribute(isAr ? 'data-ar' : 'data-en');
+      if (val !== null) el.textContent = val;
+    });
+    document.querySelectorAll('[data-en-html]').forEach(function (el) {
+      var val = el.getAttribute(isAr ? 'data-ar-html' : 'data-en-html');
+      if (val !== null) el.innerHTML = val;
+    });
+
+    var meta = META_BY_LANG[lang];
+    document.title = meta.title;
+    [
+      ['meta[name="description"]', 'content'],
+      ['meta[property="og:description"]', 'content'],
+      ['meta[name="twitter:description"]', 'content']
+    ].forEach(function (pair) {
+      var node = document.querySelector(pair[0]);
+      if (node) node.setAttribute(pair[1], meta.description);
+    });
+    ['meta[property="og:title"]', 'meta[name="twitter:title"]'].forEach(function (sel) {
+      var node = document.querySelector(sel);
+      if (node) node.setAttribute('content', meta.title);
+    });
+
+    if (langToggle) {
+      langToggle.setAttribute('aria-label', meta.toggleLabel);
+      langToggle.title = isAr ? 'English' : 'العربية';
+      var label = langToggle.querySelector('.lang-label');
+      if (label) label.textContent = isAr ? 'EN' : 'ع';
+    }
+
+    try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
+  }
+
+  var savedLang = null;
+  try { savedLang = localStorage.getItem(LANG_KEY); } catch (e) {}
+  applyLang(savedLang === 'ar' ? 'ar' : 'en');
+
+  if (langToggle) {
+    langToggle.addEventListener('click', function () {
+      applyLang(currentLang === 'ar' ? 'en' : 'ar');
+    });
+  }
+
   // Copy address to clipboard
   var copyAddressBtn = document.querySelector('.copy-address');
   if (copyAddressBtn) {
     copyAddressBtn.addEventListener('click', function () {
-      var addressText = 'El-Noor Hall, Hassan El-Sharbatly Mosque, New Cairo, Cairo, Egypt';
+      var strings = META_BY_LANG[currentLang];
+      var addressText = strings.address;
+      var originalText = copyAddressBtn.textContent;
+      function showCopied() {
+        copyAddressBtn.textContent = strings.copied;
+        setTimeout(function () {
+          copyAddressBtn.textContent = originalText;
+        }, 2000);
+      }
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(addressText).then(function () {
-          var originalText = copyAddressBtn.textContent;
-          copyAddressBtn.textContent = 'Copied!';
-          setTimeout(function () {
-            copyAddressBtn.textContent = originalText;
-          }, 2000);
-        }).catch(function () {
-          alert('Failed to copy address');
+        navigator.clipboard.writeText(addressText).then(showCopied).catch(function () {
+          alert(strings.copyFailed);
         });
       } else {
         // Fallback for older browsers
@@ -544,12 +622,9 @@
         textArea.select();
         try {
           document.execCommand('copy');
-          copyAddressBtn.textContent = 'Copied!';
-          setTimeout(function () {
-            copyAddressBtn.textContent = originalText;
-          }, 2000);
+          showCopied();
         } catch (err) {
-          alert('Failed to copy address');
+          alert(strings.copyFailed);
         }
         document.body.removeChild(textArea);
       }

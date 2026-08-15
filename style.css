@@ -88,6 +88,88 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
 #soundToggle.muted .icon-on { display: none; }
 #soundToggle.muted .icon-off { display: block; }
 
+/* --- language toggle: sits beside the sound button, mirrors in RTL --- */
+#langToggle {
+  position: absolute;
+  top: max(14px, env(safe-area-inset-top));
+  right: 66px;
+  z-index: 80;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.35);
+  background: rgba(0,0,0,0.4);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  backdrop-filter: blur(2px);
+  transition: background .25s ease, transform .2s ease, border-color .25s ease, color .25s ease;
+}
+#langToggle:hover { transform: scale(1.08); }
+#langToggle:focus-visible {
+  outline: 2px solid var(--gold-fx);
+  outline-offset: 3px;
+}
+body.invitation-active #langToggle {
+  color: var(--gold-dark);
+  border-color: var(--hairline);
+  background: rgba(250,248,242,0.8);
+}
+[dir="rtl"] #soundToggle { right: auto; left: 14px; }
+[dir="rtl"] #langToggle { right: auto; left: 66px; }
+
+/* --- Arabic typography --- */
+/* Amiri is a revival of the classic Bulaq Press Naskh: the closest Arabic
+   counterpart to the Latin serif used here. Aref Ruqaa carries the
+   calligraphic display weight — Ruq'ah being the hand common in Egypt. */
+body.lang-ar {
+  font-family: 'Amiri', serif;
+  line-height: 2;
+}
+body.lang-ar h1,
+body.lang-ar h2,
+body.lang-ar h3,
+body.lang-ar .names,
+body.lang-ar .detail-main,
+body.lang-ar .section-title,
+body.lang-ar .cine-line {
+  font-family: 'Aref Ruqaa', 'Amiri', serif;
+}
+body.lang-ar .names {
+  font-weight: 700;
+  line-height: 1.6;
+}
+body.lang-ar .tagline,
+body.lang-ar .closing-text {
+  font-family: 'Amiri', serif;
+}
+body.lang-ar .signature {
+  font-family: 'Aref Ruqaa', 'Amiri', serif;
+  font-weight: 700;
+  font-size: 1.55rem;
+  line-height: 2.3;
+}
+/* Ruqaa/Naskh carry their own slant; a synthetic italic just smears them */
+body.lang-ar .cine-line { font-style: normal; }
+body.lang-ar .detail-main { font-weight: 400; }
+/* Arabic letterforms connect, so wide tracking breaks words apart */
+body.lang-ar .kicker,
+body.lang-ar .detail-row h2,
+body.lang-ar .count-block small {
+  letter-spacing: 0;
+  text-transform: none;
+}
+body.lang-ar .kicker { font-size: 0.9rem; }
+body.lang-ar .detail-row h2 { font-size: 0.95rem; font-weight: 700; }
+body.lang-ar .count-block small { font-size: 0.78rem; }
+body.lang-ar .count-block span { font-family: 'Cormorant Garamond', serif; }
+
 /* ===================== CINEMATIC OPENING (video) ===================== */
 #cinematic {
   position: relative;
@@ -303,6 +385,9 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
 }
 #invitation::before { top: 0; right: 0; }
 #invitation::after { bottom: 0; left: 0; transform: rotate(180deg); }
+/* mirror the diagonal bouquet composition for right-to-left reading */
+[dir="rtl"] #invitation::before { right: auto; left: 0; transform: scaleX(-1); }
+[dir="rtl"] #invitation::after { left: auto; right: 0; transform: rotate(180deg) scaleX(-1); }
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(24px); }
