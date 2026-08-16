@@ -30,6 +30,14 @@ jobs:
       - name: Disable Jekyll processing
         run: touch .nojekyll
 
+      # index.html asks for style.css?v=dev and script.js?v=dev. Stamp the
+      # commit into those query strings so a deploy can never be half-applied:
+      # a phone holding yesterday's script.js in its cache would otherwise keep
+      # running it against today's markup, and the fix would look like it had
+      # not shipped. A new commit means a new URL, so the browser must refetch.
+      - name: Stamp asset versions
+        run: sed -i "s/?v=dev/?v=${GITHUB_SHA::8}/g" index.html
+
       # Requires Pages to be switched on once by hand:
       #   Settings -> Pages -> Build and deployment -> Source: "GitHub Actions"
       # It cannot be enabled from here: creating a Pages site needs admin

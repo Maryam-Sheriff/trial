@@ -89,11 +89,8 @@
     invitation.classList.remove('hidden');
     soundToggle.classList.add('on-parchment');
     document.body.classList.add('invitation-active');
-    setTimeout(function () {
-      if (backgroundMusic && !muted) {
-        backgroundMusic.play().catch(function () {});
-      }
-    }, 100);
+    // straight to the invitation, so the music is allowed from the start
+    setTimeout(function () { playBackgroundMusic(); }, 100);
   }
 
   /* ---------------- sound engine (record scratch only; music is an audio file) --- */
@@ -124,28 +121,57 @@
     return audioCtx;
   }
 
-  // The film owns the sound until it ends, so the music cannot start inside
-  // the tap that begins it. Unlock the element during that tap instead —
-  // play it muted, then pause — after which a later play() is permitted.
-  var musicPrimed = false;
+  /* ---------------- when the music is allowed to be heard ------------------
+     The music belongs to the invitation. Not the film, not the credits.
+
+     Browsers only let a page start audio from inside a real user gesture, and
+     the only gesture we get is the tap that chooses a seat — which happens
+     two scenes too early. So that tap starts the track muted, purely to get
+     the element unlocked, and it stays muted until the invitation opens.
+
+     The previous version tried to be tidier: play muted, then pause, then
+     unmute, leaving the element parked and ready. That has a race in it. A
+     play() is not instant — it resolves once playback has actually begun —
+     and pausing a play that is still in flight does not reliably stop it in
+     WebKit. The play would resume a moment later against an element that had
+     already been unmuted, and the music came up over the film.
+
+     So nothing here unmutes speculatively. `musicAllowed` is the single
+     switch, thrown only when the invitation appears, and the guard below
+     re-mutes the element if anything at all manages to start it before then.
+     A muted element is silent by definition, which is a far stronger promise
+     than hoping a pause lands in time.
+     ---------------------------------------------------------------------- */
+  var musicAllowed = false;   // true only once the invitation is on screen
+  var musicUnlocked = false;
+
+  if (backgroundMusic) {
+    backgroundMusic.addEventListener('play', function () {
+      if (!musicAllowed) {
+        backgroundMusic.muted = true;
+        backgroundMusic.volume = 0;
+      }
+    });
+  }
+
   function primeBackgroundMusic() {
-    if (!backgroundMusic || musicPrimed) return;
-    musicPrimed = true;
+    if (!backgroundMusic || musicUnlocked) return;
+    musicUnlocked = true;
     backgroundMusic.muted = true;
-    var settle = function () {
-      backgroundMusic.pause();
-      try { backgroundMusic.currentTime = 0; } catch (e) {}
-      backgroundMusic.muted = false;
-    };
-    var pr = backgroundMusic.play();
-    if (pr && pr.then) pr.then(settle).catch(function () { backgroundMusic.muted = false; });
-    else settle();
+    backgroundMusic.volume = 0;
+    var p = backgroundMusic.play();
+    if (p && p.catch) p.catch(function () {});
   }
 
   // If play() is still refused, retry once on the visitor's next interaction
   // rather than leaving the invitation silent until they find the sound button.
   function playBackgroundMusic() {
-    if (!backgroundMusic || muted) return;
+    if (!backgroundMusic) return;
+    musicAllowed = true;
+    if (muted) return;
+    // it has been running silently under the film; start the track from its top
+    try { backgroundMusic.currentTime = 0; } catch (e) {}
+    backgroundMusic.muted = false;
     backgroundMusic.volume = 0.7;
     var p = backgroundMusic.play();
     if (p && p.catch) {
@@ -153,7 +179,10 @@
         var retry = function () {
           document.removeEventListener('pointerdown', retry);
           document.removeEventListener('keydown', retry);
-          if (!muted) backgroundMusic.play().catch(function () {});
+          if (!muted) {
+            backgroundMusic.muted = false;
+            backgroundMusic.play().catch(function () {});
+          }
         };
         document.addEventListener('pointerdown', retry);
         document.addEventListener('keydown', retry);
@@ -168,9 +197,11 @@
     if (backgroundMusic) {
       if (muted) {
         backgroundMusic.pause();
-      } else {
+      } else if (revealed) {
         playBackgroundMusic();
       }
+      // Before the invitation, un-muting only records the preference — it
+      // must not become a second way to start the music over the film.
     }
     if (masterGain) {
       masterGain.gain.linearRampToValueAtTime(muted ? 0 : 0.9, audioCtx.currentTime + 0.15);
