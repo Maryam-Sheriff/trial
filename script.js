@@ -217,33 +217,30 @@
   /* ---------------- the seating ---------------- */
   // Rows recede toward the screen, so the back row is widest. Seat counts are
   // chosen for the viewport rather than scaled down from a desktop layout.
-  // Drawn with a light source above and in front, so the cushions catch
-  // highlights and the seat throws a contact shadow onto the floor.
+  // Seen from the back of the house: the guest is looking at the backs of the
+  // chairs, with the projector behind and above them lighting the top edges.
+  // The cushions face away, toward the screen, so they stay hidden.
   var SEAT_SVG =
     '<svg viewBox="0 0 46 52" aria-hidden="true">' +
       '<ellipse class="seat-halo" cx="23" cy="27" rx="25" ry="26" fill="url(#seatHalo)"/>' +
-      '<ellipse class="seat-shadow" cx="23" cy="47" rx="18" ry="4" fill="rgba(0,0,0,0.5)"/>' +
-      // rear of the seat, just visible behind the back
-      '<rect x="10" y="6" width="26" height="24" rx="8" fill="#2a0e13"/>' +
-      // the back cushion
-      '<rect class="seat-back" x="8" y="4" width="30" height="26" rx="8.5" fill="url(#seatVelvet)"/>' +
-      '<rect x="8" y="4" width="30" height="26" rx="8.5" fill="url(#seatSheen)"/>' +
-      // buttoned seam down the middle
-      '<path d="M23 8 L23 27" stroke="rgba(0,0,0,0.34)" stroke-width="0.9"/>' +
-      '<path d="M15 9 Q23 12 31 9" stroke="rgba(255,255,255,0.10)" stroke-width="0.7" fill="none"/>' +
-      // the cushion the guest sits on, tilted toward the screen
-      '<path class="seat-base" d="M9 30 L37 30 L34 39 L12 39 Z" fill="url(#seatVelvet)"/>' +
-      '<path d="M9 30 L37 30 L36 32.5 L10 32.5 Z" fill="rgba(255,255,255,0.09)"/>' +
-      // armrests, with a lit top edge
-      '<rect x="3.5" y="26" width="6" height="14" rx="2.6" fill="#3a1219"/>' +
-      '<rect x="3.5" y="26" width="6" height="2.4" rx="1.2" fill="rgba(214,178,102,0.28)"/>' +
-      '<rect x="36.5" y="26" width="6" height="14" rx="2.6" fill="#3a1219"/>' +
-      '<rect x="36.5" y="26" width="6" height="2.4" rx="1.2" fill="rgba(214,178,102,0.28)"/>' +
+      '<ellipse class="seat-shadow" cx="23" cy="47.5" rx="16" ry="3.4" fill="rgba(0,0,0,0.55)"/>' +
       // legs
-      '<rect x="11" y="39" width="3" height="7" rx="1.2" fill="#1c080c"/>' +
-      '<rect x="32" y="39" width="3" height="7" rx="1.2" fill="#1c080c"/>' +
-      // gold piping around the back
-      '<rect x="8" y="4" width="30" height="26" rx="8.5" fill="none" stroke="rgba(214,178,102,0.26)" stroke-width="0.7"/>' +
+      '<rect x="14" y="39" width="3" height="7" rx="1.2" fill="#1a070b"/>' +
+      '<rect x="29" y="39" width="3" height="7" rx="1.2" fill="#1a070b"/>' +
+      // armrests, seen end-on and running away toward the screen
+      '<rect x="3.5" y="27" width="6.5" height="12" rx="2.6" fill="#38111a"/>' +
+      '<rect x="3.5" y="27" width="6.5" height="2.2" rx="1.1" fill="rgba(224,192,121,0.34)"/>' +
+      '<rect x="36" y="27" width="6.5" height="12" rx="2.6" fill="#38111a"/>' +
+      '<rect x="36" y="27" width="6.5" height="2.2" rx="1.1" fill="rgba(224,192,121,0.34)"/>' +
+      // the back panel: the tall shape that dominates this view
+      '<rect class="seat-back" x="7.5" y="7" width="31" height="33" rx="9.5" fill="url(#seatVelvet)"/>' +
+      '<rect x="7.5" y="7" width="31" height="33" rx="9.5" fill="url(#seatSheen)"/>' +
+      // light from the projector catching the crown of the seat
+      '<path d="M12 10.5 Q23 6.6 34 10.5" stroke="rgba(255,232,198,0.30)" stroke-width="1.5" fill="none" stroke-linecap="round"/>' +
+      // upholstery seam down the back
+      '<path d="M23 11 L23 38" stroke="rgba(0,0,0,0.30)" stroke-width="0.9"/>' +
+      // gold piping around the panel
+      '<rect x="7.5" y="7" width="31" height="33" rx="9.5" fill="none" stroke="rgba(214,178,102,0.24)" stroke-width="0.7"/>' +
     '</svg>';
 
   function seatsPerRow() {
