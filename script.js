@@ -346,7 +346,6 @@
     titleCard.classList.remove('hidden');
     void titleCard.offsetWidth;
     titleCard.classList.add('on');
-    playBackgroundMusic();   // the film is over; the music takes it from here
     schedule(function () { filmScene.classList.add('hidden'); }, 1500);
     schedule(revealInvitation, reduceMotion ? 400 : 5600);
   }
@@ -357,8 +356,9 @@
     markIntroSeen();
     clearTimers();
     fx.stop();
-    playBackgroundMusic();
     try { filmVideo.pause(); } catch (e) {}
+    // the music belongs to the invitation: not the film, not the credits
+    playBackgroundMusic();
     skipToInvitation.classList.add('hidden');
 
     invitation.classList.remove('hidden');
