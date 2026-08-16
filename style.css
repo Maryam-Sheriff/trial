@@ -631,14 +631,23 @@ body.lang-ar .sr-skip-link { letter-spacing: 0; text-transform: none; font-size:
 }
 
 /* --- gilt corners --- */
-.card-corners { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.card-corners {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  --cnr-w: clamp(116px, 30vw, 208px);
+}
 .cnr {
   position: absolute;
   background-repeat: no-repeat;
-  background-size: contain;
+  /* the PNGs are trimmed to their artwork, and each element is given that
+     exact aspect ratio, so 100% 100% scales without distorting and the
+     ornament's right angle lands precisely on the card's corner */
+  background-size: 100% 100%;
   background-image: url("assets/corner-plain.png");
-  width: clamp(104px, 27vw, 190px);
-  aspect-ratio: 3 / 2;
+  width: var(--cnr-w);
+  aspect-ratio: 726 / 583;
   opacity: 0.92;
 }
 /* the art is drawn with its right angle at the bottom-right, so the other
@@ -648,11 +657,35 @@ body.lang-ar .sr-skip-link { letter-spacing: 0; text-transform: none; font-size:
 .cnr.tr { top: 0;    right: 0; transform: scaleY(-1); }
 .cnr.tl { top: 0;    left: 0;  transform: scale(-1, -1); }
 /* the mosque sits at the foot of the card, on the right */
+/* Same width as the other three, so every horizontal arm runs the same
+   length along the card edge; the mosque is only taller, by its dome. */
 .cnr.br {
   background-image: url("assets/corner-mosque.png");
-  aspect-ratio: 900 / 822;
-  width: clamp(124px, 32vw, 224px);
+  aspect-ratio: 847 / 822;
 }
+
+/* --- a hint of a gold rule down each edge, not a full frame ---
+   These live on .card-corners rather than the padded content box so they sit
+   hard against the card's edges, running between the gilt corners and fading
+   out well before either of them. --- */
+.card-corners::before,
+.card-corners::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom,
+    transparent 0,
+    transparent 130px,
+    rgba(201,162,74,0.30) 290px,
+    rgba(201,162,74,0.30) calc(100% - 290px),
+    transparent calc(100% - 130px),
+    transparent 100%);
+  pointer-events: none;
+}
+.card-corners::before { left: 0; }
+.card-corners::after  { right: 0; }
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(24px); }
@@ -674,24 +707,6 @@ body.lang-ar .sr-skip-link { letter-spacing: 0; text-transform: none; font-size:
   padding-top: 0;
 }
 
-/* --- a soft hint of a gold rule down each side, not a full frame --- */
-.invite-content::before,
-.invite-content::after {
-  content: "";
-  position: absolute;
-  top: 60px;
-  height: 260px;
-  width: 1px;
-  background: linear-gradient(to bottom,
-    transparent 0%,
-    rgba(139,111,45,0.34) 30%,
-    rgba(139,111,45,0.34) 70%,
-    transparent 100%);
-  pointer-events: none;
-  z-index: 0;
-}
-.invite-content::before { left: 0; }
-.invite-content::after { right: 0; }
 
 .hero { position: relative; text-align: center; padding: 22px 0 12px; }
 
