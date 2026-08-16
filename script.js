@@ -19,6 +19,60 @@
   function schedule(fn, t) { timers.push(setTimeout(fn, t)); }
   function clearTimers() { timers.forEach(clearTimeout); timers = []; }
 
+  /* ---------------- touch: respond to the finger, not to the release -------
+     A `click` listener does nothing until the finger lifts, which on a phone
+     is a long time to sit there wondering whether the tap registered. These
+     controls take the press instead: the element reacts the instant the
+     pointer lands, holds that state while the finger is down, and only
+     commits on release. If the finger travels more than a few pixels it was
+     a scroll, not a tap, so the press is abandoned and nothing fires.
+     ------------------------------------------------------------------- */
+  var DRAG_SLOP = 10; // px of travel before a press is read as a drag
+
+  function onTap(el, fn) {
+    var id = null, x0 = 0, y0 = 0, live = false;
+
+    function release() {
+      live = false;
+      el.classList.remove('pressing');
+      if (id !== null && el.hasPointerCapture && el.hasPointerCapture(id)) {
+        try { el.releasePointerCapture(id); } catch (e) {}
+      }
+      id = null;
+    }
+
+    el.addEventListener('pointerdown', function (e) {
+      if (!e.isPrimary || (e.button !== undefined && e.button !== 0)) return;
+      id = e.pointerId; x0 = e.clientX; y0 = e.clientY; live = true;
+      el.classList.add('pressing');
+      // capture so we still hear the move/up even if the finger slides off
+      try { el.setPointerCapture(id); } catch (err) {}
+    });
+
+    el.addEventListener('pointermove', function (e) {
+      if (!live || e.pointerId !== id) return;
+      if (Math.abs(e.clientX - x0) > DRAG_SLOP ||
+          Math.abs(e.clientY - y0) > DRAG_SLOP) release();
+    });
+
+    el.addEventListener('pointerup', function (e) {
+      if (!live || e.pointerId !== id) return;
+      var moved = Math.abs(e.clientX - x0) > DRAG_SLOP ||
+                  Math.abs(e.clientY - y0) > DRAG_SLOP;
+      release();
+      if (!moved) fn.call(el, e);
+    });
+
+    el.addEventListener('pointercancel', release);
+    el.addEventListener('lostpointercapture', release);
+
+    // Enter/Space on a focused control arrive as a click with detail 0, and
+    // never as a pointer event, so keyboard users still get through here.
+    el.addEventListener('click', function (e) {
+      if (e.detail === 0) fn.call(el, e);
+    });
+  }
+
   // Returning visitors have already seen the film once; don't make them
   // sit through it again every time they reopen the link to check a detail.
   var INTRO_SEEN_KEY = 'omarMaryamIntroSeen';
@@ -122,7 +176,7 @@
       masterGain.gain.linearRampToValueAtTime(muted ? 0 : 0.9, audioCtx.currentTime + 0.15);
     }
   }
-  soundToggle.addEventListener('click', function () {
+  onTap(soundToggle, function () {
     ensureAudio();
     setMuted(!muted);
   });
@@ -281,12 +335,84 @@
         seat.className = 'seat';
         seat.innerHTML = SEAT_SVG;
         seat.setAttribute('aria-label', labelEn[r] + ', seat ' + (i + 1) + ' — begin the film');
-        seat.addEventListener('click', function () { chooseSeat(this); });
+        // Pointer taps are resolved by the delegated handler below; this only
+        // catches Enter/Space from a keyboard, which arrives as detail 0.
+        seat.addEventListener('click', function (e) {
+          if (e.detail === 0) chooseSeat(this);
+        });
         slot.appendChild(seat);
         row.appendChild(slot);
       }
       seating.appendChild(row);
     });
+  }
+
+  /* ---------------- picking a seat ----------------------------------------
+     The seats are laid out in 3D — each one turns on its own axis and sits at
+     its own depth so the rows curve towards the screen — and Chromium will
+     not hit-test the front row's angled seats at all: only the one seat with
+     no rotation of its own can be clicked. So the seats are not asked to
+     catch their own pointer events. The seating area catches the press and
+     works out which seat was meant from the seats' on-screen rectangles.
+
+     That also buys a courtesy the browser would never give: a seat is barely
+     a finger wide, so a press that lands just outside one still counts as
+     that seat, and the nearest seat within a finger's width is chosen.
+     ---------------------------------------------------------------------- */
+  function seatAt(x, y) {
+    var seats = seating.querySelectorAll('.seat');
+    var best = null, bestD = Infinity;
+    for (var i = 0; i < seats.length; i++) {
+      var b = seats[i].getBoundingClientRect();
+      if (!b.width) continue;
+      // distance from the point to the rectangle (0 when inside it)
+      var dx = Math.max(b.left - x, 0, x - b.right);
+      var dy = Math.max(b.top - y, 0, y - b.bottom);
+      var d = dx * dx + dy * dy;
+      if (d < bestD) { bestD = d; best = seats[i]; }
+    }
+    return bestD <= 22 * 22 ? best : null;
+  }
+
+  if (seating) {
+    var seatId = null, seatX = 0, seatY = 0, pressed = null;
+
+    function releaseSeat() {
+      if (pressed) pressed.classList.remove('pressing');
+      pressed = null;
+      if (seatId !== null && seating.hasPointerCapture &&
+          seating.hasPointerCapture(seatId)) {
+        try { seating.releasePointerCapture(seatId); } catch (e) {}
+      }
+      seatId = null;
+    }
+
+    seating.addEventListener('pointerdown', function (e) {
+      if (!e.isPrimary || (e.button !== undefined && e.button !== 0)) return;
+      var seat = seatAt(e.clientX, e.clientY);
+      if (!seat) return;
+      seatId = e.pointerId; seatX = e.clientX; seatY = e.clientY; pressed = seat;
+      seat.classList.add('pressing');
+      try { seating.setPointerCapture(seatId); } catch (err) {}
+    });
+
+    seating.addEventListener('pointermove', function (e) {
+      if (!pressed || e.pointerId !== seatId) return;
+      if (Math.abs(e.clientX - seatX) > DRAG_SLOP ||
+          Math.abs(e.clientY - seatY) > DRAG_SLOP) releaseSeat();
+    });
+
+    seating.addEventListener('pointerup', function (e) {
+      if (!pressed || e.pointerId !== seatId) return;
+      var seat = pressed;
+      var moved = Math.abs(e.clientX - seatX) > DRAG_SLOP ||
+                  Math.abs(e.clientY - seatY) > DRAG_SLOP;
+      releaseSeat();
+      if (!moved) chooseSeat(seat);
+    });
+
+    seating.addEventListener('pointercancel', releaseSeat);
+    seating.addEventListener('lostpointercapture', releaseSeat);
   }
 
   var rebuildTimer = null;
@@ -386,12 +512,12 @@
   fx.start();
   fxCanvas.classList.add('on');
 
-  skipFilm.addEventListener('click', function () {
+  onTap(skipFilm, function () {
     if (creditsRolling) revealInvitation();
     else rollCredits();
   });
 
-  skipToInvitation.addEventListener('click', function () {
+  onTap(skipToInvitation, function () {
     ensureAudio();
     revealInvitation();
   });
@@ -521,7 +647,7 @@
   applyLang(savedLang === 'en' ? 'en' : 'ar');
 
   if (langToggle) {
-    langToggle.addEventListener('click', function () {
+    onTap(langToggle, function () {
       applyLang(currentLang === 'ar' ? 'en' : 'ar');
     });
   }
@@ -529,7 +655,7 @@
   // Copy address to clipboard
   var copyAddressBtn = document.querySelector('.copy-address');
   if (copyAddressBtn) {
-    copyAddressBtn.addEventListener('click', function () {
+    onTap(copyAddressBtn, function () {
       var strings = META_BY_LANG[currentLang];
       var addressText = strings.address;
       var originalText = copyAddressBtn.textContent;

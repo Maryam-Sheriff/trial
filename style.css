@@ -12,6 +12,25 @@
   --hairline: rgba(201,162,74,0.28);
   --gold-fx: #c9a24a;
   --gold-fx-2: #e0c079;
+
+  /* --- motion ---
+     Two curves, both settling rather than stopping. --ease-settle is
+     critically damped: it decelerates into place and never overshoots, which
+     is what almost everything here wants. --ease-spring carries a little
+     momentum past the mark and back, and is reserved for a control springing
+     back after a finger lifts off it. Durations are short enough that an
+     interrupted transition — a second tap arriving mid-flight — resumes from
+     wherever the element actually is without any visible seam. */
+  --ease-settle: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-spring: cubic-bezier(0.34, 1.32, 0.52, 1);
+  --t-press: 90ms;     /* finger down: as close to instant as reads as motion */
+  --t-quick: 220ms;    /* release, hover, state flips */
+  --t-move:  420ms;    /* something travelling across the screen */
+
+  /* --- translucent material ---
+     Controls float over the film and over the card, so they take their
+     colour from whatever is behind them rather than carrying their own. */
+  --material-blur: blur(20px) saturate(180%);
 }
 
 * { box-sizing: border-box; }
@@ -27,9 +46,26 @@ body {
   font-family: 'Cormorant Garamond', serif;
   background: #000;
   color: var(--ink);
-  font-size: 19px;
+  /* rem, not px: the whole scale is built from this one value, so a visitor
+     who has raised their browser's default text size raises the entire
+     invitation with it rather than being ignored. */
+  font-size: 1.1875rem;
   line-height: 1.75;
+  /* Cream type on black gains weight it was never drawn with; smoothing
+     hands the serifs back their intended thinness. */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-optical-sizing: auto;
+  text-rendering: optimizeLegibility;
 }
+
+/* Short lines are set as shapes, not as flowed text: a name or a heading
+   that breaks two words onto a second line should split evenly rather than
+   leaving one word stranded. Body copy just avoids the orphan. */
+h1, h2, h3, .names, .card-names, .section-title, .detail-main, .signature {
+  text-wrap: balance;
+}
+p, .closing-text, .tagline { text-wrap: pretty; }
 /* Once the invitation is showing, let the page background match it
    instead of the cinema's dark backdrop (only html/body, not #cinema). */
 body.invitation-active,
@@ -78,8 +114,14 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  backdrop-filter: blur(2px);
-  transition: background .25s ease, transform .2s ease, border-color .25s ease, color .25s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  backdrop-filter: var(--material-blur);
+  -webkit-backdrop-filter: var(--material-blur);
+  transition: background var(--t-quick) var(--ease-settle),
+              transform var(--t-quick) var(--ease-spring),
+              border-color var(--t-quick) var(--ease-settle),
+              color var(--t-quick) var(--ease-settle);
 }
 #soundToggle.on-parchment {
   color: var(--gold);
@@ -112,8 +154,14 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
   font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: 0.02em;
-  backdrop-filter: blur(2px);
-  transition: background .25s ease, transform .2s ease, border-color .25s ease, color .25s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  backdrop-filter: var(--material-blur);
+  -webkit-backdrop-filter: var(--material-blur);
+  transition: background var(--t-quick) var(--ease-settle),
+              transform var(--t-quick) var(--ease-spring),
+              border-color var(--t-quick) var(--ease-settle),
+              color var(--t-quick) var(--ease-settle);
 }
 #langToggle:hover { transform: scale(1.08); }
 #langToggle:focus-visible {
@@ -353,6 +401,11 @@ body.lang-ar .cinema-sub {
 .seat-row[data-row="3"] { transform: rotateX(10deg) scale(0.98); opacity: 0.92; }
 .seat-row[data-row="4"] { transform: rotateX(8deg)  scale(1.06); opacity: 1; }
 
+/* The button is the hit target and never moves. Everything the seat does —
+   lifting to meet the cursor, shrinking under a finger, rising into its
+   spotlight — happens to the drawing inside it. If the target itself moved,
+   a seat would slide out from under the pointer at the moment of contact,
+   and near its edges the press would land on the row behind instead. */
 .seat {
   position: relative;
   display: block;
@@ -363,34 +416,39 @@ body.lang-ar .cinema-sub {
   background: none;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition: transform 0.45s cubic-bezier(0.2,0.7,0.3,1), filter 0.45s ease;
+  touch-action: manipulation;
 }
-.seat svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.seat svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+  transition: transform var(--t-move) var(--ease-settle),
+              filter var(--t-move) var(--ease-settle);
+}
 .seat .seat-back,
-.seat .seat-base { transition: fill 0.45s ease; }
+.seat .seat-base { transition: fill var(--t-move) var(--ease-settle); }
 .seat .seat-halo {
   opacity: 0;
   transform-origin: center;
-  transition: opacity 0.45s ease;
+  transition: opacity var(--t-move) var(--ease-settle);
 }
 @media (hover: hover) {
-  .seat:hover { transform: translateY(-6px) scale(1.09); filter: drop-shadow(0 10px 20px rgba(0,0,0,0.65)); }
+  .seat:hover svg { transform: translateY(-6px) scale(1.09); filter: drop-shadow(0 10px 20px rgba(0,0,0,0.65)); }
   .seat:hover .seat-halo { opacity: 1; }
 }
 /* a slow shimmer along the front row hints that seats can be touched */
 .seat-row[data-row="4"] .seat .seat-halo { animation: seatBreathe 4.2s ease-in-out infinite; }
 @keyframes seatBreathe { 0%,100% { opacity: 0; } 50% { opacity: 0.34; } }
-.seat:focus-visible {
-  outline: none;
-  transform: translateY(-5px) scale(1.07);
-}
+.seat:focus-visible { outline: none; }
+.seat:focus-visible svg { transform: translateY(-5px) scale(1.07); }
 .seat:focus-visible .seat-halo { opacity: 1; }
 
 /* the chosen seat holds a spotlight while the room falls away */
-.seat.chosen {
+.seat.chosen { z-index: 3; }
+.seat.chosen svg {
   transform: translateY(-8px) scale(1.16);
   filter: drop-shadow(0 0 26px rgba(233,199,132,0.85));
-  z-index: 3;
 }
 .seat.chosen .seat-halo { opacity: 1; }
 #cinema.dimming .seat:not(.chosen) { opacity: 0.12; transition: opacity 1.2s ease; }
@@ -451,8 +509,15 @@ body.lang-ar .cinema-sub {
   background: rgba(0,0,0,0.35);
   border: 1px solid rgba(214,178,102,0.3);
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  backdrop-filter: var(--material-blur);
+  -webkit-backdrop-filter: var(--material-blur);
   opacity: 0;
-  transition: opacity 0.6s ease, color 0.3s ease, border-color 0.3s ease;
+  transition: opacity 0.6s var(--ease-settle),
+              color var(--t-quick) var(--ease-settle),
+              border-color var(--t-quick) var(--ease-settle),
+              transform var(--t-quick) var(--ease-spring);
 }
 [dir="rtl"] .film-skip { right: auto; left: max(16px, env(safe-area-inset-left)); letter-spacing: 0; text-transform: none; font-size: 0.95rem; }
 #film.on .film-skip { opacity: 1; }
@@ -571,7 +636,11 @@ body.lang-ar .card-date { font-family: 'Amiri', serif; letter-spacing: 0.14em; w
   border-bottom: 1px solid rgba(214,178,102,0.32);
   padding: 6px 2px;
   cursor: pointer;
-  transition: color 0.3s ease, border-color 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: color var(--t-quick) var(--ease-settle),
+              border-color var(--t-quick) var(--ease-settle),
+              transform var(--t-quick) var(--ease-spring);
 }
 body.lang-ar .sr-skip-link { letter-spacing: 0; text-transform: none; font-size: 0.92rem; }
 .sr-skip-link:hover { color: #f0e2c6; border-color: rgba(214,178,102,0.75); }
@@ -580,6 +649,37 @@ body.lang-ar .sr-skip-link { letter-spacing: 0; text-transform: none; font-size:
 .sr-skip-link:focus-visible {
   outline: 1px solid rgba(214,178,102,0.8);
   outline-offset: 5px;
+}
+
+/* --- the press ---
+   Every control shortens under the finger the moment it lands (fast, linear
+   enough to feel like contact) and springs back on release. The scale is
+   small on purpose: it should read as the surface giving, not as an
+   animation playing. --- */
+#soundToggle.pressing,
+#langToggle.pressing {
+  transform: scale(0.9);
+  transition-duration: var(--t-press);
+  transition-timing-function: var(--ease-settle);
+}
+.seat.pressing svg {
+  transform: translateY(-3px) scale(0.96);
+  transition-duration: var(--t-press);
+  transition-timing-function: var(--ease-settle);
+}
+.seat.pressing .seat-halo { opacity: 1; transition-duration: var(--t-press); }
+.film-skip.pressing,
+.sr-skip-link.pressing {
+  color: #f6ead0;
+  border-color: rgba(214,178,102,0.85);
+  transform: scale(0.96);
+  transition-duration: var(--t-press);
+}
+.sr-skip-link.pressing { transform: translateX(-50%) scale(0.96); }
+.copy-address.pressing {
+  transform: scale(0.95);
+  transition-duration: var(--t-press);
+  transition-timing-function: var(--ease-settle);
 }
 
 /* --- consistent keyboard focus --- */
@@ -594,14 +694,60 @@ body.lang-ar .sr-skip-link { letter-spacing: 0; text-transform: none; font-size:
   outline-offset: 3px;
 }
 
+/* ===================== ACCESSIBILITY PREFERENCES =====================
+   Each of these turns off one dimension of the design without taking the
+   others with it: motion, translucency and low contrast are separate
+   preferences and a visitor may hold any combination of them. In every case
+   the content and the interaction survive intact — only the finish changes.
+   ==================================================================== */
+
 @media (prefers-reduced-motion: reduce) {
-  .proj-beam, .screen-glow, .film-grain, .card-grain { animation: none !important; }
-  .seat, .seating, .screen-curtain, #film, #titleCard { transition-duration: 0.2s !important; }
+  .proj-beam, .screen-glow, .film-grain, .card-grain,
+  .seat-row[data-row="4"] .seat .seat-halo { animation: none !important; }
+  .seat svg, .seating, .screen-curtain, #film, #titleCard { transition-duration: 0.2s !important; }
   #titleCard.on .card-presents, #titleCard.on .card-names span,
   #titleCard.on .card-rule, #titleCard.on .card-date {
     animation: none !important; opacity: 1; transform: none;
   }
   .reveal-on-scroll { opacity: 1; transform: none; transition: none; }
+  /* The press still has to answer the finger — but as a change of tone
+     rather than a change of size, so nothing moves under the touch. */
+  .seat.pressing svg, #soundToggle.pressing, #langToggle.pressing,
+  .film-skip.pressing, .sr-skip-link.pressing, .copy-address.pressing {
+    transform: none;
+  }
+  .sr-skip-link.pressing { transform: translateX(-50%); }
+  .seat.pressing svg { filter: drop-shadow(0 0 18px rgba(233,199,132,0.9)); }
+  #soundToggle.pressing, #langToggle.pressing,
+  .copy-address.pressing { border-color: var(--gold-dark); }
+}
+
+/* Frosted glass is the first thing to go for anyone who finds it hard to
+   read against; the controls fall back to solid ground of the same colour. */
+@media (prefers-reduced-transparency: reduce) {
+  #soundToggle, #langToggle, .film-skip {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  #soundToggle, #langToggle { background: #14090c; }
+  .film-skip { background: #0d0608; }
+  .card-texture, .film-grain, .card-grain { opacity: 0.02; }
+}
+
+/* At higher contrast the gold stops being a whisper: hairlines become real
+   rules, and the soft secondary ink comes up to meet the primary. */
+@media (prefers-contrast: more) {
+  :root {
+    --hairline: rgba(201,162,74,0.75);
+    --ink-soft: #dcc9a8;
+  }
+  #soundToggle, #langToggle { border-color: #f0dcae; color: #fff; background: #000; }
+  .film-skip, .sr-skip-link { color: #f4e7cc; border-color: rgba(240,220,174,0.9); }
+  .cnr { opacity: 1; }
+  .card-corners::before, .card-corners::after { display: none; }
+  .seat:focus-visible, #soundToggle:focus-visible, #langToggle:focus-visible {
+    outline-width: 3px;
+  }
 }
 
 /* ===================== MAIN INVITATION ===================== */
@@ -927,7 +1073,7 @@ body.lang-ar .countdown { direction: ltr; }
 }
 
 @media (max-width: 380px) {
-  body { font-size: 17px; }
+  body { font-size: 1.0625rem; }
   .kicker { letter-spacing: 0.18em; font-size: 0.72rem; }
   #invitation::before, #invitation::after { width: 118px; }
 }
