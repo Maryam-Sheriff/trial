@@ -1,20 +1,17 @@
 (function () {
   var cinematic = document.getElementById('cinematic');
-  var introVideo = document.getElementById('introVideo');
   var backgroundMusic = document.getElementById('backgroundMusic');
   var fxCanvas = document.getElementById('fx-canvas');
-  var cineScrim = document.getElementById('cineScrim');
+  var emblem = document.getElementById('emblem');
   var line1 = document.getElementById('line1');
   var line2 = document.getElementById('line2');
   var startBtn = document.getElementById('startBtn');
   var skipToInvitation = document.getElementById('skipToInvitation');
-  var introLoading = document.getElementById('introLoading');
   var invitation = document.getElementById('invitation');
   var soundToggle = document.getElementById('soundToggle');
 
   var revealed = false;
   var started = false;
-  var bridgeStarted = false;
   var timers = [];
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -72,66 +69,6 @@
     return audioCtx;
   }
 
-  function noiseBuffer(ctx, duration) {
-    var buffer = ctx.createBuffer(1, Math.max(1, ctx.sampleRate * duration), ctx.sampleRate);
-    var data = buffer.getChannelData(0);
-    for (var i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
-    return buffer;
-  }
-
-  /* --- comedic record scratch: interrupts the film's own score --- */
-  function playRecordScratch() {
-    var ctx = ensureAudio();
-    if (!ctx) return;
-    var now = ctx.currentTime;
-    var src = ctx.createBufferSource();
-    src.buffer = noiseBuffer(ctx, 0.4);
-    src.loop = true;
-    var filter = ctx.createBiquadFilter();
-    filter.type = 'bandpass';
-    filter.Q.value = 6;
-    filter.frequency.setValueAtTime(1200, now);
-    var gain = ctx.createGain();
-    gain.gain.setValueAtTime(0.5, now);
-    gain.gain.setValueAtTime(0.5, now + 0.32);
-    gain.gain.linearRampToValueAtTime(0.0001, now + 0.4);
-
-    var rates = [1, 2.6, 0.6, 2.2, 0.4, 1.8, 0.15];
-    rates.forEach(function (rate, i) {
-      var t = now + i * 0.05;
-      src.playbackRate.setValueAtTime(rate, t);
-    });
-
-    src.connect(filter);
-    filter.connect(gain);
-    gain.connect(masterGain);
-    src.start(now);
-    src.stop(now + 0.42);
-  }
-
-  // Browsers only let audio start from a user gesture. The film hands over to
-  // the invitation on a timer, so that later play() has no activation behind it
-  // and gets rejected. Unlock the element during the opening tap instead —
-  // start it muted, then immediately pause — after which programmatic play()
-  // on that same element is allowed.
-  var musicPrimed = false;
-  function primeBackgroundMusic() {
-    if (!backgroundMusic || musicPrimed) return;
-    musicPrimed = true;
-    backgroundMusic.muted = true;
-    var settle = function () {
-      // don't clobber playback that legitimately started in the meantime
-      if (!revealed) {
-        backgroundMusic.pause();
-        try { backgroundMusic.currentTime = 0; } catch (e) {}
-      }
-      backgroundMusic.muted = false;
-    };
-    var p = backgroundMusic.play();
-    if (p && p.then) p.then(settle).catch(function () { backgroundMusic.muted = false; });
-    else settle();
-  }
-
   // If play() is still refused, retry once on the visitor's next interaction
   // rather than leaving the invitation silent until they find the sound button.
   function playBackgroundMusic() {
@@ -155,7 +92,6 @@
     muted = next;
     soundToggle.classList.toggle('muted', muted);
     soundToggle.setAttribute('aria-pressed', String(muted));
-    introVideo.muted = muted;
     if (backgroundMusic) {
       if (muted) {
         backgroundMusic.pause();
@@ -191,41 +127,25 @@
     this.canvas.height = this.h * this.dpr;
     this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
   };
-  // Scatter tumbling confetti ribbons radiating outward from the screen's
-  // center, continuing the film's own radial burst (not a downward fall).
-  FX.prototype.scatterTwinkle = function (count) {
+  // Slow-drifting gold dust: motes rise gently and twinkle, the way light
+  // catches specks in a warm room. Deliberately calm, not a confetti burst.
+  FX.prototype.goldDust = function (count) {
     this.particles = [];
-    var cx = this.w / 2;
-    var cy = this.h * 0.42;
-    var maxR = Math.max(this.w, this.h) * 0.55;
-    var dustCount = Math.round(count * 0.5);
-    for (var i = 0; i < count + dustCount; i++) {
-      var isDust = i >= count;
-      var angle = Math.random() * Math.PI * 2;
-      // denser near center, already spread toward the edges (mid-burst)
-      var radius = Math.pow(Math.random(), 0.6) * maxR;
-      var speed = (isDust ? 8 : 25) + Math.random() * (isDust ? 18 : 55);
-      var p = {
-        x: cx + Math.cos(angle) * radius,
-        y: cy + Math.sin(angle) * radius * 0.95,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed,
-        rot: Math.random() * Math.PI * 2,
-        rotSpeed: (Math.random() - 0.5) * 5,
-        color: Math.random() < 0.8 ? GOLD_COLORS[Math.floor(Math.random() * GOLD_COLORS.length)] : WHITE,
-        age: 0,
-        life: 2.4 + Math.random() * 1.1,
-        dust: isDust
-      };
-      if (isDust) {
-        p.r = 0.6 + Math.random() * 1.2;
-      } else {
-        p.w = 3 + Math.random() * 3;
-        p.h = 6 + Math.random() * 7;
-      }
-      this.particles.push(p);
+    for (var i = 0; i < count; i++) {
+      this.particles.push({
+        x: Math.random() * this.w,
+        y: Math.random() * this.h,
+        r: 0.5 + Math.random() * 1.7,
+        vx: (Math.random() - 0.5) * 5,
+        vy: -(3 + Math.random() * 9),
+        color: Math.random() < 0.85 ? GOLD_COLORS[Math.floor(Math.random() * GOLD_COLORS.length)] : WHITE,
+        phase: Math.random() * Math.PI * 2,
+        twinkle: 0.5 + Math.random() * 1.1,
+        base: 0.18 + Math.random() * 0.5
+      });
     }
   };
+
   FX.prototype.stop = function () {
     if (this.raf) cancelAnimationFrame(this.raf);
     this.raf = null;
@@ -244,16 +164,16 @@
     }
     this.raf = requestAnimationFrame(loop);
   };
-  FX.prototype.update = function (dt) {
+  FX.prototype.update = function (dt, now) {
+    var h = this.h, w = this.w;
     this.particles.forEach(function (p) {
-      // drag only: pieces keep radiating outward, just losing burst energy
-      p.vx *= (1 - 0.3 * dt);
-      p.vy *= (1 - 0.3 * dt);
       p.x += p.vx * dt;
       p.y += p.vy * dt;
-      p.rot += p.rotSpeed * dt;
-      p.age += dt;
-      p.alpha = Math.max(0, 1 - p.age / p.life);
+      // wrap so the drift never thins out during the opening
+      if (p.y < -8) { p.y = h + 8; p.x = Math.random() * w; }
+      if (p.x < -8) p.x = w + 8;
+      else if (p.x > w + 8) p.x = -8;
+      p.alpha = p.base * (0.55 + 0.45 * Math.sin(now * 0.001 * p.twinkle + p.phase));
     });
   };
   FX.prototype.draw = function () {
@@ -261,22 +181,13 @@
     ctx.clearRect(0, 0, this.w, this.h);
     this.particles.forEach(function (p) {
       if (p.alpha <= 0) return;
-      ctx.save();
-      ctx.globalAlpha = p.dust ? p.alpha * 0.7 : p.alpha;
+      ctx.globalAlpha = p.alpha;
       ctx.fillStyle = p.color;
       ctx.shadowColor = p.color;
-      if (p.dust) {
-        ctx.shadowBlur = 2;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fill();
-      } else {
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.rot);
-        ctx.shadowBlur = 3;
-        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
-      }
-      ctx.restore();
+      ctx.shadowBlur = 6;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
     });
     ctx.globalAlpha = 1;
     ctx.shadowBlur = 0;
@@ -293,131 +204,44 @@
     revealed = true;
     markIntroSeen();
     clearTimers();
-    hideLoading();
     fx.stop();
-    try { introVideo.pause(); } catch (e) {}
     playBackgroundMusic();
     skipToInvitation.classList.add('hidden');
-    cinematic.style.transition = 'opacity 0.7s ease';
+    cinematic.style.transition = 'opacity 0.9s ease';
     cinematic.style.opacity = '0';
     setTimeout(function () {
       cinematic.classList.add('hidden');
       invitation.classList.remove('hidden');
       soundToggle.classList.add('on-parchment');
       document.body.classList.add('invitation-active');
-    }, reduceMotion ? 0 : 700);
+    }, reduceMotion ? 0 : 900);
   }
 
-  function beginBridge() {
-    if (bridgeStarted) return;
-    bridgeStarted = true;
-    fx.scatterTwinkle(620);
-    fxCanvas.classList.add('on');
-  }
-
-  function onVideoEnded() {
-    beginBridge();
-    playRecordScratch();
-    introVideo.style.transition = 'opacity 0.6s ease';
-    introVideo.style.opacity = '0';
-    if (cineScrim) cineScrim.classList.add('on');
-
-    schedule(function () { showLine(line1); }, 800);
-    schedule(function () { hideLine(line1); }, 2900);
-    schedule(function () { showLine(line2); }, 3400);
-    schedule(function () { hideLine(line2); }, 5200);
-    schedule(function () { revealInvitation(); }, 5600);
-  }
-
-  // Only show the loading dot if the film takes a moment to actually start
-  // playing, so it never flashes on a normal fast load.
-  var loadingTimer = null;
-  function showLoadingIfSlow() {
-    clearTimeout(loadingTimer);
-    loadingTimer = setTimeout(function () {
-      introLoading.classList.add('show');
-    }, 350);
-  }
-  function hideLoading() {
-    clearTimeout(loadingTimer);
-    introLoading.classList.remove('show');
-  }
-
+  // The opening is a timed sequence now: warm light, then the monogram draws
+  // itself in and catches a sheen, then the two lines, then the invitation.
   function runIntro() {
     fx.resize();
     window.addEventListener('resize', function () { if (fx.w) fx.resize(); });
+    fx.goldDust(110);
     fx.start();
+    fxCanvas.classList.add('on');
+    cinematic.classList.add('lit');
 
-    introVideo.addEventListener('timeupdate', function () {
-      if (!bridgeStarted && introVideo.duration && (introVideo.duration - introVideo.currentTime) < 1.5) {
-        beginBridge();
-      }
-    });
-    introVideo.addEventListener('playing', hideLoading);
-    introVideo.addEventListener('ended', onVideoEnded);
-    introVideo.addEventListener('error', function () { hideLoading(); revealInvitation(); });
-
-    // Watchdogs: without these, a film that never starts or stalls partway
-    // leaves the visitor staring at the black cinematic backdrop forever,
-    // since 'ended' is the only thing that hands over to the invitation.
-    var START_TIMEOUT = 9000;   // never got playing at all
-    var STALL_TIMEOUT = 12000;  // started, then stopped progressing
-    var DEAD_TIMEOUT = 4500;    // nothing buffered at all: treat as unplayable
-
-    // A source that fails outright fires no error event on the video element,
-    // so silence here has to be treated as failure rather than waited on.
-    var deadWatchdog = setTimeout(function () {
-      if (revealed) return;
-      var nothingBuffered = introVideo.readyState === 0 &&
-        (!introVideo.buffered || introVideo.buffered.length === 0);
-      if (nothingBuffered) revealInvitation();
-    }, DEAD_TIMEOUT);
-
-    var startWatchdog = setTimeout(function () {
-      if (!revealed && introVideo.currentTime === 0) revealInvitation();
-    }, START_TIMEOUT);
-
-    var stallWatchdog = null;
-    function bumpStallWatchdog() {
-      clearTimeout(stallWatchdog);
-      stallWatchdog = setTimeout(function () {
-        if (!revealed) revealInvitation();
-      }, STALL_TIMEOUT);
-    }
-    introVideo.addEventListener('playing', function () {
-      clearTimeout(deadWatchdog);
-      clearTimeout(startWatchdog);
-      bumpStallWatchdog();
-    });
-    introVideo.addEventListener('timeupdate', bumpStallWatchdog);
-    introVideo.addEventListener('ended', function () {
-      clearTimeout(deadWatchdog);
-      clearTimeout(startWatchdog);
-      clearTimeout(stallWatchdog);
-    });
-    // stalling shows the loading dot again so it doesn't look frozen
-    introVideo.addEventListener('waiting', showLoadingIfSlow);
-
-    // Video plays with audio during cinematic, background music only on invitation
-    introVideo.muted = false;
-    if (backgroundMusic) {
-      backgroundMusic.pause();
-    }
-    showLoadingIfSlow();
-    var playPromise = introVideo.play();
-    if (playPromise && playPromise.catch) {
-      playPromise.catch(function () {
-        introVideo.muted = false;
-        introVideo.play().catch(function () { hideLoading(); revealInvitation(); });
-      });
-    }
+    schedule(function () { emblem.classList.add('show'); }, 250);
+    schedule(function () { emblem.classList.add('fade'); }, 5200);
+    schedule(function () { showLine(line1); }, 6100);
+    schedule(function () { hideLine(line1); }, 8400);
+    schedule(function () { showLine(line2); }, 8900);
+    schedule(function () { hideLine(line2); }, 11400);
+    schedule(function () { revealInvitation(); }, 11900);
   }
 
   startBtn.addEventListener('click', function () {
     if (started) return;
     started = true;
     ensureAudio();
-    primeBackgroundMusic();
+    // starting here means play() always has a user gesture behind it
+    playBackgroundMusic();
     startBtn.classList.add('hidden');
 
     if (reduceMotion) {
