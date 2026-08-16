@@ -35,8 +35,22 @@ jobs:
       # a phone holding yesterday's script.js in its cache would otherwise keep
       # running it against today's markup, and the fix would look like it had
       # not shipped. A new commit means a new URL, so the browser must refetch.
+      #
+      # The check at the end is the point. The first attempt at this step ran
+      # clean — bash, exit 0, green tick — and changed nothing, and the deploy
+      # shipped an unstamped page anyway. sed reports success when its pattern
+      # matches nothing, so "the step passed" says only that sed ran. Assert
+      # the file actually changed, or the silent no-op just comes back.
       - name: Stamp asset versions
-        run: sed -i "s/?v=dev/?v=${GITHUB_SHA::8}/g" index.html
+        env:
+          SHA: ${{ github.sha }}
+        run: |
+          sed -i "s|?v=dev|?v=${SHA:0:8}|g" index.html
+          grep -n -E '(script\.js|style\.css)\?v=' index.html
+          if grep -q '?v=dev' index.html; then
+            echo "::error::asset version stamp did not apply — index.html still asks for ?v=dev"
+            exit 1
+          fi
 
       # Requires Pages to be switched on once by hand:
       #   Settings -> Pages -> Build and deployment -> Source: "GitHub Actions"
