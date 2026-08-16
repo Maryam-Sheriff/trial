@@ -630,27 +630,29 @@ body.lang-ar .sr-skip-link { letter-spacing: 0; text-transform: none; font-size:
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/></filter><rect width='160' height='160' filter='url(%23p)'/></svg>");
 }
 
-/* --- carved gilt ornament, set into opposite corners of the card --- */
-#invitation::before,
-#invitation::after {
-  content: "";
+/* --- gilt corners --- */
+.card-corners { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.cnr {
   position: absolute;
-  width: clamp(118px, 33vw, 210px);
-  aspect-ratio: 1;
-  background-image: url("assets/corner-ornament.svg");
   background-repeat: no-repeat;
   background-size: contain;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.9;
+  background-image: url("assets/corner-plain.png");
+  width: clamp(104px, 27vw, 190px);
+  aspect-ratio: 3 / 2;
+  opacity: 0.92;
 }
-/* The artwork is drawn as a bottom-right corner, so each placement mirrors it.
-   The pair sits on the diagonal opposite the sound and language buttons, which
-   swap sides with the reading direction. */
-#invitation::before { top: 0; left: 0; transform: scale(-1, -1); }
-#invitation::after  { bottom: 0; right: 0; transform: none; }
-[dir="rtl"] #invitation::before { left: auto; right: 0; transform: scaleY(-1); }
-[dir="rtl"] #invitation::after  { right: auto; left: 0; transform: scaleX(-1); }
+/* the art is drawn with its right angle at the bottom-right, so the other
+   three placements are mirrored from it */
+.cnr.br { bottom: 0; right: 0; }
+.cnr.bl { bottom: 0; left: 0;  transform: scaleX(-1); }
+.cnr.tr { top: 0;    right: 0; transform: scaleY(-1); }
+.cnr.tl { top: 0;    left: 0;  transform: scale(-1, -1); }
+/* the mosque sits at the foot of the card, on the right */
+.cnr.br {
+  background-image: url("assets/corner-mosque.png");
+  aspect-ratio: 900 / 822;
+  width: clamp(124px, 32vw, 224px);
+}
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(24px); }
@@ -750,21 +752,11 @@ body.lang-ar .sr-skip-link { letter-spacing: 0; text-transform: none; font-size:
 
 .divider {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
   margin: 30px auto 0;
-  width: min(300px, 76%);
+  width: min(330px, 82%);
+  height: clamp(26px, 7vw, 40px);
+  background: url("assets/divider-gold.png") center / contain no-repeat;
 }
-.divider span:not(.divider-icon) {
-  height: 1px;
-  flex: 1;
-  background: rgba(201,162,74,0.7);
-  opacity: 0.55;
-}
-.divider-icon { color: rgba(201,162,74,0.95); font-size: 1rem; }
-
 /* --- details: quiet, icon-free rows, separated by space not lines --- */
 .details {
   display: flex;
