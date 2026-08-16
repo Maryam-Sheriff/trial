@@ -38,6 +38,12 @@
       <stop offset="45%" stop-color="#5c1a24"/>
       <stop offset="100%" stop-color="#3a0f16"/>
     </linearGradient>
+    <!-- light falling from the projector, catching the top of each cushion -->
+    <linearGradient id="seatSheen" x1="0" y1="0" x2="0.25" y2="1">
+      <stop offset="0%" stop-color="rgba(255,225,190,0.20)"/>
+      <stop offset="38%" stop-color="rgba(255,225,190,0.05)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0.30)"/>
+    </linearGradient>
     <radialGradient id="seatHalo" cx="0.5" cy="0.5" r="0.5">
       <stop offset="0%" stop-color="rgba(233,199,132,0.55)"/>
       <stop offset="55%" stop-color="rgba(233,199,132,0.16)"/>
@@ -69,6 +75,8 @@
   <section id="cinema" aria-label="An old cinema. Choose a seat to begin the film.">
 
     <div class="house-light" aria-hidden="true"></div>
+    <div class="house-walls" aria-hidden="true"></div>
+    <div class="house-floor" aria-hidden="true"></div>
     <div class="proj-beam" aria-hidden="true"></div>
     <canvas id="fx-canvas" aria-hidden="true"></canvas>
 
@@ -80,8 +88,11 @@
     </div>
 
     <p class="cinema-invite" id="cinemaInvite"
-       data-en="Please take your seat"
-       data-ar="تفضّلوا بالجلوس">تفضّلوا بالجلوس</p>
+       data-en="Choose your seat"
+       data-ar="اختاروا مقعدكم">اختاروا مقعدكم</p>
+
+    <p class="cinema-sub" data-en="Tap any seat to begin the film"
+       data-ar="اضغطوا على أي مقعد لبدء الفيلم">اضغطوا على أي مقعد لبدء الفيلم</p>
 
     <!-- Rows are generated so the seat count can adapt to the viewport -->
     <div id="seating" class="seating" role="group"
@@ -112,7 +123,7 @@
         <span data-en="Maryam" data-ar="مريم">مريم</span>
       </h1>
       <div class="card-rule" aria-hidden="true"></div>
-      <p class="card-date" data-en="11 . 09 . 2026" data-ar="١١ . ٠٩ . ٢٠٢٦">١١ . ٠٩ . ٢٠٢٦</p>
+      <p class="card-date num-run" data-en="11 . 09 . 2026" data-ar="١١ . ٠٩ . ٢٠٢٦">١١ . ٠٩ . ٢٠٢٦</p>
     </div>
   </section>
 
@@ -140,7 +151,7 @@
       <div class="detail-row">
         <h2 data-en="The Date" data-ar="التاريخ">التاريخ</h2>
         <p class="detail-main" data-en="Friday, September 11, 2026" data-ar="الجمعة ١١ سبتمبر ٢٠٢٦">الجمعة ١١ سبتمبر ٢٠٢٦</p>
-        <p class="detail-sub" data-en="(11.09.2026)" data-ar="(١١ / ٠٩ / ٢٠٢٦)">(١١ / ٠٩ / ٢٠٢٦)</p>
+        <p class="detail-sub num-run" data-en="(11.09.2026)" data-ar="(١١ / ٠٩ / ٢٠٢٦)">(١١ / ٠٩ / ٢٠٢٦)</p>
       </div>
 
       <div class="detail-row">

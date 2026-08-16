@@ -70,6 +70,24 @@
     return audioCtx;
   }
 
+  // The film owns the sound until it ends, so the music cannot start inside
+  // the tap that begins it. Unlock the element during that tap instead —
+  // play it muted, then pause — after which a later play() is permitted.
+  var musicPrimed = false;
+  function primeBackgroundMusic() {
+    if (!backgroundMusic || musicPrimed) return;
+    musicPrimed = true;
+    backgroundMusic.muted = true;
+    var settle = function () {
+      backgroundMusic.pause();
+      try { backgroundMusic.currentTime = 0; } catch (e) {}
+      backgroundMusic.muted = false;
+    };
+    var pr = backgroundMusic.play();
+    if (pr && pr.then) pr.then(settle).catch(function () { backgroundMusic.muted = false; });
+    else settle();
+  }
+
   // If play() is still refused, retry once on the visitor's next interaction
   // rather than leaving the invitation silent until they find the sound button.
   function playBackgroundMusic() {
@@ -199,16 +217,33 @@
   /* ---------------- the seating ---------------- */
   // Rows recede toward the screen, so the back row is widest. Seat counts are
   // chosen for the viewport rather than scaled down from a desktop layout.
+  // Drawn with a light source above and in front, so the cushions catch
+  // highlights and the seat throws a contact shadow onto the floor.
   var SEAT_SVG =
-    '<svg viewBox="0 0 40 45" aria-hidden="true">' +
-      '<ellipse class="seat-halo" cx="20" cy="24" rx="21" ry="23" fill="url(#seatHalo)"/>' +
-      '<rect class="seat-base" x="5" y="27" width="30" height="8" rx="2.5" fill="url(#seatVelvet)"/>' +
-      '<rect class="seat-back" x="7" y="4" width="26" height="24" rx="7" fill="url(#seatVelvet)"/>' +
-      '<rect x="7" y="4" width="26" height="24" rx="7" fill="none" stroke="rgba(214,178,102,0.30)" stroke-width="0.7"/>' +
-      '<path d="M20 6 L20 26" stroke="rgba(0,0,0,0.28)" stroke-width="0.8"/>' +
-      '<rect x="2.5" y="22" width="5" height="13" rx="2.2" fill="#2b1116"/>' +
-      '<rect x="32.5" y="22" width="5" height="13" rx="2.2" fill="#2b1116"/>' +
-      '<rect x="8" y="35" width="24" height="3" rx="1.2" fill="#1d0b0f"/>' +
+    '<svg viewBox="0 0 46 52" aria-hidden="true">' +
+      '<ellipse class="seat-halo" cx="23" cy="27" rx="25" ry="26" fill="url(#seatHalo)"/>' +
+      '<ellipse class="seat-shadow" cx="23" cy="47" rx="18" ry="4" fill="rgba(0,0,0,0.5)"/>' +
+      // rear of the seat, just visible behind the back
+      '<rect x="10" y="6" width="26" height="24" rx="8" fill="#2a0e13"/>' +
+      // the back cushion
+      '<rect class="seat-back" x="8" y="4" width="30" height="26" rx="8.5" fill="url(#seatVelvet)"/>' +
+      '<rect x="8" y="4" width="30" height="26" rx="8.5" fill="url(#seatSheen)"/>' +
+      // buttoned seam down the middle
+      '<path d="M23 8 L23 27" stroke="rgba(0,0,0,0.34)" stroke-width="0.9"/>' +
+      '<path d="M15 9 Q23 12 31 9" stroke="rgba(255,255,255,0.10)" stroke-width="0.7" fill="none"/>' +
+      // the cushion the guest sits on, tilted toward the screen
+      '<path class="seat-base" d="M9 30 L37 30 L34 39 L12 39 Z" fill="url(#seatVelvet)"/>' +
+      '<path d="M9 30 L37 30 L36 32.5 L10 32.5 Z" fill="rgba(255,255,255,0.09)"/>' +
+      // armrests, with a lit top edge
+      '<rect x="3.5" y="26" width="6" height="14" rx="2.6" fill="#3a1219"/>' +
+      '<rect x="3.5" y="26" width="6" height="2.4" rx="1.2" fill="rgba(214,178,102,0.28)"/>' +
+      '<rect x="36.5" y="26" width="6" height="14" rx="2.6" fill="#3a1219"/>' +
+      '<rect x="36.5" y="26" width="6" height="2.4" rx="1.2" fill="rgba(214,178,102,0.28)"/>' +
+      // legs
+      '<rect x="11" y="39" width="3" height="7" rx="1.2" fill="#1c080c"/>' +
+      '<rect x="32" y="39" width="3" height="7" rx="1.2" fill="#1c080c"/>' +
+      // gold piping around the back
+      '<rect x="8" y="4" width="30" height="26" rx="8.5" fill="none" stroke="rgba(214,178,102,0.26)" stroke-width="0.7"/>' +
     '</svg>';
 
   function seatsPerRow() {
@@ -229,13 +264,23 @@
       row.className = 'seat-row';
       row.setAttribute('data-row', String(r));
       for (var i = 0; i < count; i++) {
+        // curve the row: seats away from the centre turn in and sit further back
+        var offset = i - (count - 1) / 2;
+        var slot = document.createElement('span');
+        slot.className = 'seat-slot';
+        slot.style.transform =
+          'rotateY(' + (-offset * 2.6).toFixed(2) + 'deg) ' +
+          'translateZ(' + (-Math.pow(Math.abs(offset), 1.7) * 3.4).toFixed(1) + 'px) ' +
+          'translateY(' + (Math.pow(Math.abs(offset), 1.8) * 0.9).toFixed(1) + 'px)';
+
         var seat = document.createElement('button');
         seat.type = 'button';
         seat.className = 'seat';
         seat.innerHTML = SEAT_SVG;
         seat.setAttribute('aria-label', labelEn[r] + ', seat ' + (i + 1) + ' — begin the film');
         seat.addEventListener('click', function () { chooseSeat(this); });
-        row.appendChild(seat);
+        slot.appendChild(seat);
+        row.appendChild(slot);
       }
       seating.appendChild(row);
     });
@@ -255,8 +300,9 @@
     if (chosen || revealed) return;
     chosen = true;
     ensureAudio();
-    // the tap is a real gesture, so both the music and the film may start here
-    playBackgroundMusic();
+    // Unlock the music now — this tap is the only user gesture we get — but
+    // keep it silent so it does not talk over the film. It starts at credits.
+    primeBackgroundMusic();
 
     seat.classList.add('chosen');
     cinema.classList.add('dimming');
@@ -268,6 +314,7 @@
   function startFilm() {
     if (revealed) return;
     fx.stop();
+    skipToInvitation.classList.add('hidden');   // the film has its own Skip
     filmScene.classList.remove('hidden');
     // reflow so the opacity transition actually runs
     void filmScene.offsetWidth;
@@ -300,6 +347,7 @@
     titleCard.classList.remove('hidden');
     void titleCard.offsetWidth;
     titleCard.classList.add('on');
+    playBackgroundMusic();   // the film is over; the music takes it from here
     schedule(function () { filmScene.classList.add('hidden'); }, 1500);
     schedule(revealInvitation, reduceMotion ? 400 : 5600);
   }

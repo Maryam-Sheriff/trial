@@ -224,6 +224,28 @@ body.lang-ar .count-block span { font-family: 'Cormorant Garamond', serif; }
   71%      { opacity: 0.80; }
 }
 
+/* raked floor receding toward the screen, plus the walls closing in */
+.house-floor {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 58%;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, transparent 0%, rgba(52,20,26,0.30) 45%, rgba(20,7,10,0.85) 100%),
+    radial-gradient(ellipse 60% 80% at 50% 100%, rgba(120,60,40,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.house-walls {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(8,3,5,0.92) 0%, rgba(8,3,5,0.34) 13%, transparent 30%,
+                           transparent 70%, rgba(8,3,5,0.34) 87%, rgba(8,3,5,0.92) 100%),
+    linear-gradient(180deg, rgba(8,3,5,0.75) 0%, transparent 22%);
+}
+
 /* --- the screen at the far end of the room --- */
 .silver-screen {
   position: relative;
@@ -280,6 +302,27 @@ body.lang-ar .count-block span { font-family: 'Cormorant Garamond', serif; }
 }
 body.lang-ar .cinema-invite { font-family: 'Aref Ruqaa', 'Amiri', serif; font-style: normal; }
 
+.cinema-sub {
+  position: relative;
+  z-index: 6;
+  margin: clamp(6px, 1.4vh, 12px) 0 0;
+  font-size: 0.74rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(214,178,102,0.66);
+  animation: subPulse 3.4s ease-in-out infinite;
+  transition: opacity 0.9s ease;
+}
+body.lang-ar .cinema-sub {
+  letter-spacing: 0; text-transform: none; font-size: 0.92rem;
+  font-family: 'Amiri', serif;
+}
+@keyframes subPulse { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
+#cinema.dimming .cinema-sub { opacity: 0; }
+
+/* numerals keep day-month-year order inside an RTL paragraph */
+.num-run { direction: ltr; unicode-bidi: isolate; }
+
 #cinema.dimming .cinema-invite { opacity: 0; }
 
 /* --- the seating: rows recede, so the room has depth --- */
@@ -312,7 +355,8 @@ body.lang-ar .cinema-invite { font-family: 'Aref Ruqaa', 'Amiri', serif; font-st
 
 .seat {
   position: relative;
-  width: clamp(29px, 7vw, 50px);
+  display: block;
+  width: clamp(31px, 7.4vw, 54px);
   aspect-ratio: 1 / 1.12;
   padding: 0;
   border: 0;
@@ -330,9 +374,12 @@ body.lang-ar .cinema-invite { font-family: 'Aref Ruqaa', 'Amiri', serif; font-st
   transition: opacity 0.45s ease;
 }
 @media (hover: hover) {
-  .seat:hover { transform: translateY(-5px) scale(1.07); filter: drop-shadow(0 8px 18px rgba(0,0,0,0.6)); }
+  .seat:hover { transform: translateY(-6px) scale(1.09); filter: drop-shadow(0 10px 20px rgba(0,0,0,0.65)); }
   .seat:hover .seat-halo { opacity: 1; }
 }
+/* a slow shimmer along the front row hints that seats can be touched */
+.seat-row[data-row="4"] .seat .seat-halo { animation: seatBreathe 4.2s ease-in-out infinite; }
+@keyframes seatBreathe { 0%,100% { opacity: 0; } 50% { opacity: 0.34; } }
 .seat:focus-visible {
   outline: none;
   transform: translateY(-5px) scale(1.07);
