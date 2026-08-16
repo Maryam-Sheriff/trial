@@ -630,27 +630,27 @@ body.lang-ar .sr-skip-link { letter-spacing: 0; text-transform: none; font-size:
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/></filter><rect width='160' height='160' filter='url(%23p)'/></svg>");
 }
 
-/* --- gold-leaf & paper-flower bouquet, anchored at the foot of the card --- */
+/* --- carved gilt ornament, set into opposite corners of the card --- */
 #invitation::before,
 #invitation::after {
   content: "";
   position: absolute;
-  width: 176px;
-  height: 197px;
-  background-image: url("assets/floral-corner.png");
+  width: clamp(118px, 33vw, 210px);
+  aspect-ratio: 1;
+  background-image: url("assets/corner-ornament.svg");
   background-repeat: no-repeat;
   background-size: contain;
   pointer-events: none;
   z-index: 1;
-  /* the artwork is white paper on cream, so tint it to gold for the dark card */
-  filter: sepia(1) saturate(1.5) hue-rotate(-14deg) brightness(0.5) contrast(0.95);
-  opacity: 0.5;
+  opacity: 0.9;
 }
-#invitation::before { display: none; }
-#invitation::after { bottom: 0; left: 0; transform: rotate(180deg); }
-/* mirror the diagonal bouquet composition for right-to-left reading */
-[dir="rtl"] #invitation::before { right: auto; left: 0; transform: scaleX(-1); }
-[dir="rtl"] #invitation::after { left: auto; right: 0; transform: rotate(180deg) scaleX(-1); }
+/* The artwork is drawn as a bottom-right corner, so each placement mirrors it.
+   The pair sits on the diagonal opposite the sound and language buttons, which
+   swap sides with the reading direction. */
+#invitation::before { top: 0; left: 0; transform: scale(-1, -1); }
+#invitation::after  { bottom: 0; right: 0; transform: none; }
+[dir="rtl"] #invitation::before { left: auto; right: 0; transform: scaleY(-1); }
+[dir="rtl"] #invitation::after  { right: auto; left: 0; transform: scaleX(-1); }
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(24px); }
@@ -922,7 +922,7 @@ body.lang-ar .countdown { direction: ltr; }
 @media (max-width: 380px) {
   body { font-size: 17px; }
   .kicker { letter-spacing: 0.18em; font-size: 0.72rem; }
-  #invitation::before, #invitation::after { width: 118px; height: 132px; }
+  #invitation::before, #invitation::after { width: 118px; }
 }
 
 @media (max-width: 767px) {
@@ -933,5 +933,5 @@ body.lang-ar .countdown { direction: ltr; }
   .section-title { font-size: 1.1rem; }
   .details { gap: 36px; margin: 38px 0 56px; }
   .sr-skip-link { padding: 10px 20px; font-size: 0.85rem; }
-  #invitation::before, #invitation::after { width: 140px; height: 157px; }
+  #invitation::before, #invitation::after { width: 140px; }
 }
