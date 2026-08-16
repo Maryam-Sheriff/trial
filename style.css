@@ -321,7 +321,7 @@ body.lang-ar .cinema-sub {
 #cinema.dimming .cinema-sub { opacity: 0; }
 
 /* numerals keep day-month-year order inside an RTL paragraph */
-.num-run { direction: ltr; unicode-bidi: isolate; }
+.num-run { direction: ltr; unicode-bidi: bidi-override; }
 
 #cinema.dimming .cinema-invite { opacity: 0; }
 
@@ -619,8 +619,7 @@ body.lang-ar .sr-skip-link { letter-spacing: 0; text-transform: none; font-size:
 
 /* The film's grain carries onto the card, so the invitation reads as printed
    stock from the same world rather than a clean web page. */
-#invitation::after {
-  content: "";
+.card-texture {
   position: fixed;
   inset: 0;
   z-index: 3;
@@ -630,7 +629,7 @@ body.lang-ar .sr-skip-link { letter-spacing: 0; text-transform: none; font-size:
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/></filter><rect width='160' height='160' filter='url(%23p)'/></svg>");
 }
 
-/* --- dimensional gold-leaf & white paper-flower bouquets, corner-anchored --- */
+/* --- gold-leaf & paper-flower bouquet, anchored at the foot of the card --- */
 #invitation::before,
 #invitation::after {
   content: "";
@@ -643,7 +642,7 @@ body.lang-ar .sr-skip-link { letter-spacing: 0; text-transform: none; font-size:
   pointer-events: none;
   z-index: 1;
 }
-#invitation::before { top: 0; right: 0; }
+#invitation::before { display: none; }
 #invitation::after { bottom: 0; left: 0; transform: rotate(180deg); }
 /* mirror the diagonal bouquet composition for right-to-left reading */
 [dir="rtl"] #invitation::before { right: auto; left: 0; transform: scaleX(-1); }
@@ -655,41 +654,45 @@ body.lang-ar .sr-skip-link { letter-spacing: 0; text-transform: none; font-size:
 }
 
 /* Elegant gold & marble transition: bridges the film and invitation */
-.dawn-glow {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 172px;
+/* --- programme cover: a dark band carrying the names, over the cream card --- */
+.dawn-glow { display: none; }
+
+.hero {
+  position: relative;
+  text-align: center;
+  /* break out of the card's side padding so the band runs edge to edge */
+  margin: 0 -26px;
+  padding: clamp(46px, 11vh, 84px) 26px clamp(34px, 8vh, 58px);
+  background:
+    radial-gradient(ellipse 120% 90% at 50% 0%, rgba(201,162,74,0.13) 0%, transparent 62%),
+    linear-gradient(180deg, #23090e 0%, #3d1018 46%, #52161f 100%);
+  box-shadow: inset 0 -1px 0 rgba(201,162,74,0.42), 0 14px 34px rgba(35,9,14,0.30);
   overflow: hidden;
-  background: 
-    radial-gradient(ellipse 800px 300px at 50% 0%, rgba(212, 165, 74, 0.15) 0%, transparent 70%),
-    linear-gradient(180deg,
-      #faf8f2 0%,
-      #f5ede1 45%,
-      #f0e5d7 70%,
-      #faf8f2 100%);
-  z-index: 0;
-  box-shadow: 
-    inset 0 -2px 8px rgba(107, 95, 77, 0.08),
-    inset 0 2px 4px rgba(212, 165, 74, 0.06);
 }
-.dawn-star {
+/* a hairline of gold along the foot of the band, like foil on a cover */
+.hero::after {
+  content: "";
   position: absolute;
-  left: var(--x);
-  top: var(--y);
-  width: 1px;
+  left: 12%;
+  right: 12%;
+  bottom: 0;
   height: 1px;
-  background: rgba(212, 165, 74, 0.3);
-  border-radius: 50%;
-  opacity: 0.6;
-  box-shadow: 0 0 3px 0.5px rgba(212, 165, 74, 0.25);
+  background: linear-gradient(90deg, transparent, rgba(201,162,74,0.85), transparent);
+}
+/* the band keeps its own grain, tying it back to the film */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.08;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><filter id='h'><feTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='3'/></filter><rect width='150' height='150' filter='url(%23h)'/></svg>");
 }
 
 .invite-content {
   position: relative;
   z-index: 1;
-  padding-top: 52px;
+  padding-top: 0;
 }
 
 /* --- a soft hint of a gold rule down each side, not a full frame --- */
@@ -714,11 +717,12 @@ body.lang-ar .sr-skip-link { letter-spacing: 0; text-transform: none; font-size:
 .hero { position: relative; text-align: center; padding: 22px 0 12px; }
 
 .kicker {
+  position: relative;
   text-transform: uppercase;
   letter-spacing: 0.32em;
   font-size: 0.75rem;
-  color: var(--ink-soft);
-  margin: 0 0 12px;
+  color: rgba(201,162,74,0.82);
+  margin: 0 0 14px;
   font-weight: 600;
 }
 
@@ -742,6 +746,7 @@ body.lang-ar .sr-skip-link { letter-spacing: 0; text-transform: none; font-size:
   gap: 16px;
   flex-wrap: wrap;
   font-family: 'Playfair Display', serif;
+  position: relative;
   font-size: clamp(2rem, 8vw, 3.2rem);
   font-weight: 700;
   font-style: normal;
@@ -749,6 +754,8 @@ body.lang-ar .sr-skip-link { letter-spacing: 0; text-transform: none; font-size:
   letter-spacing: -0.02em;
   line-height: 1.2;
 }
+.hero .names { color: #f4e8d2; text-shadow: 0 0 30px rgba(201,162,74,0.22); }
+.hero .names .amp { color: rgba(201,162,74,0.92); }
 .names .amp {
   color: var(--gold);
   font-size: 0.65em;
@@ -757,13 +764,15 @@ body.lang-ar .sr-skip-link { letter-spacing: 0; text-transform: none; font-size:
 }
 
 .tagline {
-  color: var(--ink-soft);
+  position: relative;
+  color: rgba(232,213,181,0.82);
   margin-top: 10px;
   font-size: 1.15rem;
   letter-spacing: 0.01em;
 }
 
 .divider {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -774,10 +783,10 @@ body.lang-ar .sr-skip-link { letter-spacing: 0; text-transform: none; font-size:
 .divider span:not(.divider-icon) {
   height: 1px;
   flex: 1;
-  background: var(--gold);
+  background: rgba(201,162,74,0.7);
   opacity: 0.55;
 }
-.divider-icon { color: var(--gold); font-size: 1rem; }
+.divider-icon { color: rgba(201,162,74,0.95); font-size: 1rem; }
 
 /* --- details: quiet, icon-free rows, separated by space not lines --- */
 .details {
@@ -940,6 +949,7 @@ body.lang-ar .countdown { direction: ltr; }
 
 @media (max-width: 767px) {
   #invitation { padding: 0 22px 40px; }
+  .hero { margin: 0 -22px; padding-left: 22px; padding-right: 22px; }
   .invite-content { padding-top: 32px; }
   .names { font-size: clamp(1.8rem, 6vw, 2.4rem); }
   .section-title { font-size: 1.1rem; }

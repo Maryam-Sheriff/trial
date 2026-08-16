@@ -248,10 +248,12 @@
 
   function seatsPerRow() {
     var w = window.innerWidth;
-    if (w < 360) return [4, 5, 6, 7, 8];
-    if (w < 520) return [5, 6, 7, 8, 9];
-    if (w < 900) return [7, 8, 9, 10, 11];
-    return [9, 10, 11, 12, 13];
+    // row 0 sits closest to the screen and is the longest; the house
+    // narrows as it comes back toward the viewer
+    if (w < 360) return [8, 7, 6, 5, 4];
+    if (w < 520) return [9, 8, 7, 6, 5];
+    if (w < 900) return [11, 10, 9, 8, 7];
+    return [13, 12, 11, 10, 9];
   }
 
   function buildSeating() {
@@ -270,8 +272,8 @@
         slot.className = 'seat-slot';
         slot.style.transform =
           'rotateY(' + (-offset * 2.6).toFixed(2) + 'deg) ' +
-          'translateZ(' + (-Math.pow(Math.abs(offset), 1.7) * 3.4).toFixed(1) + 'px) ' +
-          'translateY(' + (Math.pow(Math.abs(offset), 1.8) * 0.9).toFixed(1) + 'px)';
+          'translateZ(' + (Math.pow(Math.abs(offset), 1.7) * 3.4).toFixed(1) + 'px) ' +
+          'translateY(' + (Math.pow(Math.abs(offset), 1.8) * 0.55).toFixed(1) + 'px)';
 
         var seat = document.createElement('button');
         seat.type = 'button';
