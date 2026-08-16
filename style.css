@@ -280,10 +280,13 @@ body.lang-ar .count-block span { font-family: 'Cormorant Garamond', serif; }
 }
 
 /* --- skip link: visible and accessible, only on cinematic --- */
+/* Sits at the bottom: centred at the top it ran into the sound and
+   language buttons once the label was long enough (Arabic especially). */
 .sr-skip-link {
   position: fixed;
   left: 50%;
-  top: max(12px, env(safe-area-inset-top));
+  bottom: max(22px, calc(env(safe-area-inset-bottom) + 14px));
+  max-width: calc(100vw - 32px);
   transform: translateX(-50%);
   z-index: 100;
   font-family: 'Cormorant Garamond', serif;
@@ -564,6 +567,9 @@ body.lang-ar .count-block span { font-family: 'Cormorant Garamond', serif; }
   justify-content: center;
   flex-wrap: wrap;
 }
+/* Keep the units running days -> seconds left-to-right in Arabic too;
+   RTL would otherwise reverse them and put days on the right. */
+body.lang-ar .countdown { direction: ltr; }
 .count-block {
   position: relative;
   background: transparent;
