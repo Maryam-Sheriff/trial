@@ -1,8 +1,8 @@
 :root {
   /* Aged stationery rather than bright white: the invitation should read as
      a printed card from the same world as the film. */
-  --ivory: #16090c;        /* the card is cut from the same dark as the room */
-  --ivory-2: #1e0d11;
+  --ivory: #000;           /* the card is black; only the gold and the type carry it */
+  --ivory-2: #0b0709;
   --gold: #c9a24a;         /* antique gold, now the ink rather than an accent */
   --gold-dark: #dcbb7c;
   --burgundy: #d9b978;
@@ -34,7 +34,7 @@ body {
    instead of the cinema's dark backdrop (only html/body, not #cinema). */
 body.invitation-active,
 html:has(body.invitation-active) {
-  background: #110709;
+  background: #000;
 }
 
 .hidden { display: none !important; }
@@ -47,7 +47,7 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
   width: 100%;
   min-height: 100vh;
   margin: 0 auto;
-  background: #110709;
+  background: #000;
   overflow-x: hidden;
   box-shadow: none;
 }
@@ -533,10 +533,12 @@ body.lang-ar .card-names { font-family: 'Aref Ruqaa', 'Amiri', serif; letter-spa
   margin: 0;
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(0.95rem, 4vw, 1.25rem);
-  letter-spacing: 0.3em;
+  letter-spacing: 0.28em;
+  /* without separators the groups need real air, or 09 and 2026 merge */
+  word-spacing: 1.1em;
   color: rgba(232,213,181,0.85);
 }
-body.lang-ar .card-date { font-family: 'Amiri', serif; letter-spacing: 0.14em; }
+body.lang-ar .card-date { font-family: 'Amiri', serif; letter-spacing: 0.14em; word-spacing: 1em; }
 
 /* --- dust motes drifting through the projector beam --- */
 #fx-canvas {
@@ -609,10 +611,10 @@ body.lang-ar .sr-skip-link { letter-spacing: 0; text-transform: none; font-size:
   margin: 0 auto;
   padding: 0 26px 60px;
   background:
-    radial-gradient(ellipse 900px 480px at 10% 0%, rgba(201,162,74,0.10) 0%, transparent 55%),
-    radial-gradient(ellipse 700px 460px at 95% 22%, rgba(125,39,51,0.24) 0%, transparent 58%),
-    radial-gradient(ellipse 820px 620px at 15% 92%, rgba(125,39,51,0.18) 0%, transparent 62%),
-    linear-gradient(180deg, #1d0b10 0%, #16090c 45%, #120709 100%);
+    radial-gradient(ellipse 900px 460px at 12% 0%, rgba(201,162,74,0.09) 0%, transparent 52%),
+    radial-gradient(ellipse 700px 440px at 92% 20%, rgba(125,39,51,0.14) 0%, transparent 55%),
+    radial-gradient(ellipse 820px 600px at 15% 94%, rgba(125,39,51,0.10) 0%, transparent 58%),
+    #000;
   animation: fadeUp 1s ease both;
 }
 

@@ -267,10 +267,14 @@
         var offset = i - (count - 1) / 2;
         var slot = document.createElement('span');
         slot.className = 'seat-slot';
+        var away = Math.pow(Math.abs(offset), 1.75);
         slot.style.transform =
-          'rotateY(' + (-offset * 2.6).toFixed(2) + 'deg) ' +
-          'translateZ(' + (Math.pow(Math.abs(offset), 1.7) * 3.4).toFixed(1) + 'px) ' +
-          'translateY(' + (Math.pow(Math.abs(offset), 1.8) * 0.55).toFixed(1) + 'px)';
+          // each seat turns to face the screen at the centre of the circle
+          'rotateY(' + (-offset * 3.4).toFixed(2) + 'deg) ' +
+          // ends of the row sit nearer the screen, so the arc curves inward
+          'translateZ(' + (-away * 4.6).toFixed(1) + 'px) ' +
+          // and being further off, they ride a little higher in the frame
+          'translateY(' + (-away * 0.7).toFixed(1) + 'px)';
 
         var seat = document.createElement('button');
         seat.type = 'button';
