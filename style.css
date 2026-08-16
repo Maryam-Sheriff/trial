@@ -1,13 +1,17 @@
 :root {
-  --ivory: #faf8f2;
-  --ivory-2: #f1ebdd;
-  --gold: #8b6f2d;
-  --gold-dark: #5a4820;
-  --ink: #1a1410;
-  --ink-soft: #4a3f2f;
-  --hairline: rgba(107,95,77,0.35);
-  --gold-fx: #d4a54a;
-  --gold-fx-2: #e8bc5c;
+  /* Aged stationery rather than bright white: the invitation should read as
+     a printed card from the same world as the film. */
+  --ivory: #f3ebdd;
+  --ivory-2: #e9dcc6;
+  --gold: #9c7c33;         /* muted antique gold */
+  --gold-dark: #6f5722;
+  --burgundy: #5c1a24;     /* the velvet of the seats and curtains */
+  --burgundy-soft: #7d2733;
+  --ink: #2b1418;          /* very dark brown, never pure black */
+  --ink-soft: #6a4b45;
+  --hairline: rgba(92,26,36,0.28);
+  --gold-fx: #c9a24a;
+  --gold-fx-2: #e0c079;
 }
 
 * { box-sizing: border-box; }
@@ -27,7 +31,7 @@ body {
   line-height: 1.75;
 }
 /* Once the invitation is showing, let the page background match it
-   instead of the opening's dark backdrop (only html/body, not #cinematic). */
+   instead of the cinema's dark backdrop (only html/body, not #cinema). */
 body.invitation-active,
 html:has(body.invitation-active) {
   background: var(--ivory);
@@ -80,7 +84,7 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
 #soundToggle.on-parchment {
   color: var(--gold-dark);
   border-color: var(--hairline);
-  background: rgba(250,248,242,0.8);
+  background: rgba(243,235,221,0.86);
 }
 #soundToggle:hover { transform: scale(1.08); }
 #soundToggle svg { width: 18px; height: 18px; }
@@ -119,7 +123,7 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
 body.invitation-active #langToggle {
   color: var(--gold-dark);
   border-color: var(--hairline);
-  background: rgba(250,248,242,0.8);
+  background: rgba(243,235,221,0.86);
 }
 [dir="rtl"] #soundToggle { right: auto; left: 14px; }
 [dir="rtl"] #langToggle { right: auto; left: 66px; }
@@ -137,8 +141,7 @@ body.lang-ar h2,
 body.lang-ar h3,
 body.lang-ar .names,
 body.lang-ar .detail-main,
-body.lang-ar .section-title,
-body.lang-ar .cine-line {
+body.lang-ar .section-title {
   font-family: 'Aref Ruqaa', 'Amiri', serif;
 }
 body.lang-ar .names {
@@ -155,8 +158,6 @@ body.lang-ar .signature {
   font-size: 1.55rem;
   line-height: 2.3;
 }
-/* Ruqaa/Naskh carry their own slant; a synthetic italic just smears them */
-body.lang-ar .cine-line { font-style: normal; }
 body.lang-ar .detail-main { font-weight: 400; }
 /* Arabic letterforms connect, so wide tracking breaks words apart */
 body.lang-ar .kicker,
@@ -170,179 +171,340 @@ body.lang-ar .detail-row h2 { font-size: 0.95rem; font-weight: 700; }
 body.lang-ar .count-block small { font-size: 0.78rem; }
 body.lang-ar .count-block span { font-family: 'Cormorant Garamond', serif; }
 
-/* ===================== OPENING SEQUENCE ===================== */
-#cinematic {
-  position: relative;
+/* ===================== ACT I — THE CINEMA ===================== */
+#cinema {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
   width: 100%;
   height: 100vh;
   height: 100svh;
   overflow: hidden;
-  /* deep espresso rather than flat black, so the gold reads as warm metal */
   background:
-    radial-gradient(ellipse 120% 90% at 50% 45%, #241a10 0%, #140e08 55%, #0b0705 100%);
+    radial-gradient(ellipse 90% 60% at 50% 8%, rgba(214,178,102,0.10) 0%, transparent 60%),
+    linear-gradient(180deg, #1a0d10 0%, #140a0d 42%, #0d0608 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  transition: opacity 1.1s ease;
+}
+
+/* dim wash from the house lights, drops away when a seat is chosen */
+.house-light {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: radial-gradient(ellipse 70% 50% at 50% 40%, rgba(216,166,90,0.10) 0%, transparent 65%);
+  transition: opacity 1.6s ease;
+  pointer-events: none;
+}
+#cinema.dimming .house-light { opacity: 0; }
+
+/* the projector's cone of light, angled down over the seats */
+.proj-beam {
+  position: absolute;
+  top: -8%;
+  left: 50%;
+  width: 78vw;
+  height: 62vh;
+  z-index: 3;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(233,205,150,0.13) 0%, rgba(233,205,150,0.04) 45%, transparent 80%);
+  clip-path: polygon(43% 0%, 57% 0%, 100% 100%, 0% 100%);
+  filter: blur(6px);
+  opacity: 0.75;
+  pointer-events: none;
+  animation: flicker 5.5s ease-in-out infinite;
+}
+@keyframes flicker {
+  0%, 100% { opacity: 0.72; }
+  43%      { opacity: 0.84; }
+  47%      { opacity: 0.64; }
+  71%      { opacity: 0.80; }
+}
+
+/* --- the screen at the far end of the room --- */
+.silver-screen {
+  position: relative;
+  z-index: 4;
+  margin-top: clamp(26px, 7vh, 64px);
+  width: min(78vw, 560px);
+  aspect-ratio: 16 / 7;
+  border: 1px solid rgba(214,178,102,0.34);
+  background: linear-gradient(180deg, #241318 0%, #180d11 100%);
+  box-shadow:
+    0 0 0 7px rgba(58,20,26,0.85),
+    0 0 0 8px rgba(214,178,102,0.22),
+    0 26px 60px rgba(0,0,0,0.72);
+  overflow: hidden;
+  transition: box-shadow 1.2s ease, border-color 1.2s ease;
+}
+.screen-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(240,222,186,0.16) 0%, transparent 70%);
+  opacity: 0.55;
+  animation: flicker 6.5s ease-in-out infinite reverse;
+}
+/* velvet curtains, parting as the film begins */
+.screen-curtain {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 52%;
+  background:
+    repeating-linear-gradient(90deg,
+      #4a141d 0px, #63202b 9px, #3d1017 18px, #4a141d 27px),
+    #4a141d;
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.6);
+  transition: transform 1.5s cubic-bezier(0.7, 0, 0.3, 1);
+}
+.screen-curtain.left  { left: 0; }
+.screen-curtain.right { right: 0; }
+#cinema.dimming .screen-curtain.left  { transform: translateX(-101%); }
+#cinema.dimming .screen-curtain.right { transform: translateX(101%); }
+
+/* --- the room's copy --- */
+.cinema-invite {
+  position: relative;
+  z-index: 6;
+  margin: clamp(18px, 4vh, 34px) 0 0;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(1.05rem, 4.4vw, 1.5rem);
+  letter-spacing: 0.04em;
+  color: #e8d5b5;
+  text-shadow: 0 2px 14px rgba(0,0,0,0.8);
+  transition: opacity 0.9s ease;
+}
+body.lang-ar .cinema-invite { font-family: 'Aref Ruqaa', 'Amiri', serif; font-style: normal; }
+
+#cinema.dimming .cinema-invite { opacity: 0; }
+
+/* --- the seating: rows recede, so the room has depth --- */
+.seating {
+  position: relative;
+  z-index: 5;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  justify-content: flex-end;
+  gap: clamp(7px, 1.5vh, 15px);
+  width: 100%;
+  padding: clamp(10px, 2.5vh, 26px) 10px clamp(46px, 11vh, 104px);
+  perspective: 760px;
+}
+.seat-row {
+  display: flex;
+  justify-content: center;
+  gap: clamp(5px, 1.4vw, 11px);
+  transform-style: preserve-3d;
+}
+/* rows nearer the viewer sit lower, larger and brighter */
+.seat-row[data-row="0"] { transform: rotateX(16deg) scale(0.74); opacity: 0.60; }
+.seat-row[data-row="1"] { transform: rotateX(14deg) scale(0.82); opacity: 0.71; }
+.seat-row[data-row="2"] { transform: rotateX(12deg) scale(0.90); opacity: 0.82; }
+.seat-row[data-row="3"] { transform: rotateX(10deg) scale(0.98); opacity: 0.92; }
+.seat-row[data-row="4"] { transform: rotateX(8deg)  scale(1.06); opacity: 1; }
+
+.seat {
+  position: relative;
+  width: clamp(29px, 7vw, 50px);
+  aspect-ratio: 1 / 1.12;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.45s cubic-bezier(0.2,0.7,0.3,1), filter 0.45s ease;
+}
+.seat svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.seat .seat-back,
+.seat .seat-base { transition: fill 0.45s ease; }
+.seat .seat-halo {
+  opacity: 0;
+  transform-origin: center;
+  transition: opacity 0.45s ease;
+}
+@media (hover: hover) {
+  .seat:hover { transform: translateY(-5px) scale(1.07); filter: drop-shadow(0 8px 18px rgba(0,0,0,0.6)); }
+  .seat:hover .seat-halo { opacity: 1; }
+}
+.seat:focus-visible {
+  outline: none;
+  transform: translateY(-5px) scale(1.07);
+}
+.seat:focus-visible .seat-halo { opacity: 1; }
+
+/* the chosen seat holds a spotlight while the room falls away */
+.seat.chosen {
+  transform: translateY(-8px) scale(1.16);
+  filter: drop-shadow(0 0 26px rgba(233,199,132,0.85));
+  z-index: 3;
+}
+.seat.chosen .seat-halo { opacity: 1; }
+#cinema.dimming .seat:not(.chosen) { opacity: 0.12; transition: opacity 1.2s ease; }
+#cinema.dimming .seating { transition: transform 1.6s ease; transform: scale(1.06); }
+
+/* ===================== ACT II — THE FILM ===================== */
+#film {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: #000;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-/* --- pool of warm light that swells as the emblem appears --- */
-#cineGlow {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-  background: radial-gradient(circle 42vmin at 50% 50%, rgba(212,165,74,0.20) 0%, rgba(212,165,74,0.07) 45%, transparent 72%);
   opacity: 0;
-  transform: scale(0.85);
-  transition: opacity 2.4s ease, transform 3.4s ease;
-  pointer-events: none;
+  transition: opacity 1.2s ease;
 }
-#cinematic.lit #cineGlow { opacity: 1; transform: scale(1); }
-
-/* --- gilded monogram --- */
-#emblem {
-  position: absolute;
-  z-index: 40;
-  width: min(58vw, 240px);
-  aspect-ratio: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transform: scale(0.94);
-  transition: opacity 1.2s ease, transform 1.6s ease;
-  pointer-events: none;
-}
-#emblem.show { opacity: 1; transform: scale(1); }
-#emblem.fade { opacity: 0; transform: scale(1.06); transition: opacity 0.9s ease, transform 1.2s ease; }
-
-.emblem-ring {
-  position: absolute;
-  inset: 0;
+#film.on { opacity: 1; }
+#filmVideo {
   width: 100%;
   height: 100%;
-  filter: drop-shadow(0 0 10px rgba(212,165,74,0.28));
+  object-fit: contain;
+  background: #000;
 }
-/* the two rings draw themselves in rather than simply appearing */
-.emblem-ring .ring-outer { stroke-dasharray: 604; stroke-dashoffset: 604; }
-.emblem-ring .ring-inner { stroke-dasharray: 547; stroke-dashoffset: 547; }
-#emblem.show .ring-outer { animation: drawRing 2s ease forwards; }
-#emblem.show .ring-inner { animation: drawRing 2.2s ease 0.15s forwards; }
-@keyframes drawRing { to { stroke-dashoffset: 0; } }
+.film-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 78% 68% at 50% 50%, transparent 42%, rgba(0,0,0,0.55) 100%);
+}
+/* a restless grain layer, so the picture never sits perfectly still */
+.film-grain,
+.card-grain {
+  position: absolute;
+  inset: -60%;
+  pointer-events: none;
+  opacity: 0.16;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='0.5'/></svg>");
+  animation: grainShift 0.6s steps(3) infinite;
+}
+@keyframes grainShift {
+  0%   { transform: translate(0, 0); }
+  33%  { transform: translate(-3%, 2%); }
+  66%  { transform: translate(2%, -3%); }
+  100% { transform: translate(0, 0); }
+}
+.film-skip {
+  position: absolute;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: max(20px, calc(env(safe-area-inset-bottom) + 12px));
+  z-index: 4;
+  padding: 9px 20px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(232,213,181,0.62);
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(214,178,102,0.3);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.6s ease, color 0.3s ease, border-color 0.3s ease;
+}
+[dir="rtl"] .film-skip { right: auto; left: max(16px, env(safe-area-inset-left)); letter-spacing: 0; text-transform: none; font-size: 0.95rem; }
+#film.on .film-skip { opacity: 1; }
+.film-skip:hover { color: #f0e2c6; border-color: rgba(214,178,102,0.7); }
 
-.emblem-ring .ring-flourish { opacity: 0; }
-#emblem.show .ring-flourish { animation: flourishIn 1s ease 1.5s forwards; }
-@keyframes flourishIn { to { opacity: 0.95; } }
-
-.emblem-initials {
-  position: relative;
+/* ===================== ACT III — THE TITLE CARD ===================== */
+#titleCard {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  background: linear-gradient(180deg, #150a0d 0%, #0d0608 100%);
   display: flex;
   align-items: center;
-  gap: 0.42em;
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2.1rem, 11vw, 3.4rem);
-  font-weight: 600;
-  line-height: 1;
-  /* brushed-gold fill with a highlight that sweeps across on cue */
-  background: linear-gradient(100deg,
-    #9d7c33 0%, #d4a54a 28%, #fff6d8 46%, #d4a54a 64%, #9d7c33 100%);
-  background-size: 260% 100%;
-  background-position: 120% 0;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  justify-content: center;
   opacity: 0;
+  transition: opacity 1.4s ease;
 }
-body.lang-ar .emblem-initials { font-family: 'Aref Ruqaa', 'Amiri', serif; }
-#emblem.show .emblem-initials { animation: initialsIn 1.2s ease 0.9s forwards, sheen 2.6s ease 2s; }
-@keyframes initialsIn { to { opacity: 1; } }
-@keyframes sheen {
-  0% { background-position: 120% 0; }
-  100% { background-position: -60% 0; }
+#titleCard.on { opacity: 1; }
+.card-grain { opacity: 0.1; }
+.card-inner {
+  position: relative;
+  text-align: center;
+  padding: 0 8vw;
 }
-.emblem-dot {
-  font-size: 0.34em;
-  color: var(--gold-fx);
-  -webkit-text-fill-color: var(--gold-fx);
-  opacity: 0.9;
+.card-presents,
+.card-names span,
+.card-rule,
+.card-date {
+  opacity: 0;
+  transform: translateY(10px);
 }
+#titleCard.on .card-presents { animation: creditIn 1.4s ease 0.5s forwards; }
+#titleCard.on .card-names span:nth-child(1) { animation: creditIn 1.4s ease 1.3s forwards; }
+#titleCard.on .card-names span:nth-child(2) { animation: creditIn 1.4s ease 1.7s forwards; }
+#titleCard.on .card-names span:nth-child(3) { animation: creditIn 1.4s ease 2.0s forwards; }
+#titleCard.on .card-rule { animation: creditIn 1.4s ease 2.7s forwards; }
+#titleCard.on .card-date { animation: creditIn 1.4s ease 3.1s forwards; }
+@keyframes creditIn { to { opacity: 1; transform: translateY(0); } }
 
-/* --- gold dust --- */
+.card-presents {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.72rem, 3vw, 0.9rem);
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: rgba(214,178,102,0.75);
+  margin: 0 0 clamp(16px, 4vh, 30px);
+}
+body.lang-ar .card-presents {
+  font-family: 'Amiri', serif;
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: clamp(0.9rem, 3.6vw, 1.05rem);
+}
+.card-names {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.28em;
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  font-weight: 500;
+  font-size: clamp(2rem, 11vw, 4.2rem);
+  line-height: 1.15;
+  letter-spacing: 0.06em;
+  color: #f2e6cf;
+  text-shadow: 0 0 34px rgba(214,178,102,0.28);
+}
+body.lang-ar .card-names { font-family: 'Aref Ruqaa', 'Amiri', serif; letter-spacing: 0; }
+.card-amp { color: rgba(214,178,102,0.9); font-size: 0.6em; }
+.card-rule {
+  width: min(210px, 54%);
+  height: 1px;
+  margin: clamp(20px, 5vh, 38px) auto;
+  background: linear-gradient(90deg, transparent, rgba(214,178,102,0.75), transparent);
+}
+.card-date {
+  margin: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.95rem, 4vw, 1.25rem);
+  letter-spacing: 0.3em;
+  color: rgba(232,213,181,0.85);
+}
+body.lang-ar .card-date { font-family: 'Amiri', serif; letter-spacing: 0.14em; }
+
+/* --- dust motes drifting through the projector beam --- */
 #fx-canvas {
   position: absolute;
   inset: 0;
-  z-index: 30;
+  z-index: 4;
   width: 100%;
   height: 100%;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 1.1s ease;
+  transition: opacity 2s ease;
 }
 #fx-canvas.on { opacity: 1; }
 
-/* --- story text --- */
-#text-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 10%;
-  text-align: center;
-  pointer-events: none;
-}
-.cine-line {
-  position: absolute;
-  margin: 0;
-  color: #fdfbf6;
-  font-family: 'Playfair Display', serif;
-  font-style: italic;
-  font-weight: 600;
-  font-size: clamp(1.3rem, 6.5vw, 2rem);
-  text-shadow: 0 2px 8px rgba(0,0,0,0.9), 0 0 26px rgba(0,0,0,0.75), 0 0 10px rgba(246,200,105,0.4);
-  opacity: 0;
-  transform: translateY(14px) scale(0.96);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-.cine-line.show { opacity: 1; transform: translateY(0) scale(1); }
-
-/* --- start button --- */
-#startBtn {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 60;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.05rem;
-  letter-spacing: 0.06em;
-  color: #fdfbf6;
-  background: rgba(0,0,0,0.22);
-  border: 1px solid rgba(246,200,105,0.5);
-  padding: 20px 34px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  backdrop-filter: blur(4px);
-  transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
-  animation: breatheBtn 2.5s ease-in-out infinite;
-}
-#startBtn:hover {
-  transform: translate(-50%, -50%) scale(1.02);
-  border-color: rgba(246,200,105,0.85);
-  background: rgba(0,0,0,0.32);
-}
-.start-label { font-size: 1.05rem; white-space: nowrap; }
-.start-mark { font-size: 0.7rem; color: var(--gold-fx); letter-spacing: 0; }
-@keyframes breatheBtn {
-  0%, 100% { border-color: rgba(246,200,105,0.32); box-shadow: 0 0 16px rgba(246,200,105,0.08); }
-  50% { border-color: rgba(246,200,105,0.7); box-shadow: 0 0 24px rgba(246,200,105,0.22); }
-}
-
-/* --- skip link: visible and accessible, only on cinematic --- */
-/* Sits at the bottom: centred at the top it ran into the sound and
-   language buttons once the label was long enough (Arabic especially). */
+/* --- skip link --- */
 .sr-skip-link {
   position: fixed;
   left: 50%;
@@ -351,33 +513,29 @@ body.lang-ar .emblem-initials { font-family: 'Aref Ruqaa', 'Amiri', serif; }
   transform: translateX(-50%);
   z-index: 100;
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.9rem;
-  color: #fff;
-  background: #000;
-  border: 2px solid var(--gold-fx);
-  padding: 12px 24px;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(232,213,181,0.55);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(214,178,102,0.32);
+  padding: 6px 2px;
   cursor: pointer;
-  font-weight: 600;
-  border-radius: 4px;
-  transition: transform 0.2s ease;
-  pointer-events: auto;
+  transition: color 0.3s ease, border-color 0.3s ease;
 }
+body.lang-ar .sr-skip-link { letter-spacing: 0; text-transform: none; font-size: 0.92rem; }
+.sr-skip-link:hover { color: #f0e2c6; border-color: rgba(214,178,102,0.75); }
 #invitation ~ * .sr-skip-link,
-#invitation .sr-skip-link {
-  display: none;
-}
-.sr-skip-link:focus {
-  outline: 2px solid var(--gold-fx);
-  outline-offset: 3px;
-  transform: translateX(-50%) scale(1.05);
+#invitation .sr-skip-link { display: none; }
+.sr-skip-link:focus-visible {
+  outline: 1px solid rgba(214,178,102,0.8);
+  outline-offset: 5px;
 }
 
-/* --- consistent keyboard focus across every interactive element --- */
-#startBtn:focus-visible {
-  outline: 2px solid var(--gold-fx);
-  outline-offset: 3px;
-}
-#soundToggle:focus-visible {
+/* --- consistent keyboard focus --- */
+#soundToggle:focus-visible,
+#langToggle:focus-visible {
   outline: 2px solid var(--gold-fx);
   outline-offset: 3px;
 }
@@ -388,13 +546,12 @@ body.lang-ar .emblem-initials { font-family: 'Aref Ruqaa', 'Amiri', serif; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  #startBtn { animation: none !important; }
-  #emblem, #emblem.show, #cinematic.lit #cineGlow { transition: none; }
-  #emblem.show .ring-outer, #emblem.show .ring-inner,
-  #emblem.show .ring-flourish, #emblem.show .emblem-initials { animation: none !important; }
-  .emblem-ring .ring-outer, .emblem-ring .ring-inner { stroke-dashoffset: 0; }
-  .emblem-ring .ring-flourish { opacity: 0.95; }
-  .emblem-initials { opacity: 1; background-position: 50% 0; }
+  .proj-beam, .screen-glow, .film-grain, .card-grain { animation: none !important; }
+  .seat, .seating, .screen-curtain, #film, #titleCard { transition-duration: 0.2s !important; }
+  #titleCard.on .card-presents, #titleCard.on .card-names span,
+  #titleCard.on .card-rule, #titleCard.on .card-date {
+    animation: none !important; opacity: 1; transform: none;
+  }
   .reveal-on-scroll { opacity: 1; transform: none; transition: none; }
 }
 
@@ -405,12 +562,25 @@ body.lang-ar .emblem-initials { font-family: 'Aref Ruqaa', 'Amiri', serif; }
   margin: 0 auto;
   padding: 0 26px 60px;
   background:
-    radial-gradient(ellipse 900px 480px at 10% 0%, rgba(212,165,74,0.12) 0%, transparent 55%),
-    radial-gradient(ellipse 700px 460px at 95% 25%, rgba(139,111,45,0.09) 0%, transparent 55%),
-    radial-gradient(ellipse 820px 620px at 15% 90%, rgba(212,165,74,0.08) 0%, transparent 60%),
-    linear-gradient(165deg, rgba(139,111,45,0.06) 0%, transparent 16%, transparent 84%, rgba(139,111,45,0.06) 100%),
+    radial-gradient(ellipse 900px 480px at 10% 0%, rgba(156,124,51,0.13) 0%, transparent 55%),
+    radial-gradient(ellipse 700px 460px at 95% 25%, rgba(92,26,36,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse 820px 620px at 15% 90%, rgba(156,124,51,0.09) 0%, transparent 60%),
+    linear-gradient(165deg, rgba(92,26,36,0.05) 0%, transparent 16%, transparent 84%, rgba(92,26,36,0.05) 100%),
     var(--ivory);
   animation: fadeUp 1s ease both;
+}
+
+/* The film's grain carries onto the card, so the invitation reads as printed
+   stock from the same world rather than a clean web page. */
+#invitation::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/></filter><rect width='160' height='160' filter='url(%23p)'/></svg>");
 }
 
 /* --- dimensional gold-leaf & white paper-flower bouquets, corner-anchored --- */
@@ -575,11 +745,11 @@ body.lang-ar .emblem-initials { font-family: 'Aref Ruqaa', 'Amiri', serif; }
   text-align: center;
 }
 .detail-row h2 {
+  color: var(--burgundy);
   font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.34em;
-  color: var(--ink-soft);
   margin-bottom: 14px;
 }
 .detail-main {
@@ -597,7 +767,7 @@ body.lang-ar .emblem-initials { font-family: 'Aref Ruqaa', 'Amiri', serif; }
   font-family: 'Playfair Display', serif;
   font-weight: 500;
   font-size: 1.35rem;
-  color: var(--ink);
+  color: var(--burgundy);
   margin-bottom: 22px;
 }
 
@@ -631,7 +801,7 @@ body.lang-ar .countdown { direction: ltr; }
   font-family: 'Playfair Display', serif;
   font-size: 2.4rem;
   font-weight: 700;
-  color: var(--gold-dark);
+  color: var(--burgundy);
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.02em;
   line-height: 1.2;
@@ -701,7 +871,7 @@ body.lang-ar .countdown { direction: ltr; }
 .signature {
   font-family: 'Great Vibes', cursive;
   font-size: 2.1rem;
-  color: var(--gold-dark);
+  color: var(--burgundy);
   margin-top: 16px;
 }
 
@@ -722,7 +892,6 @@ body.lang-ar .countdown { direction: ltr; }
 }
 
 @media (max-width: 767px) {
-  #cinematic { aspect-ratio: 9 / 16; }
   #invitation { padding: 0 22px 40px; }
   .invite-content { padding-top: 32px; }
   .names { font-size: clamp(1.8rem, 6vw, 2.4rem); }

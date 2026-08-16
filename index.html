@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#faf8f2">
+<meta name="theme-color" content="#140a0d">
 <title>دعوة حفل عقد قران عمر ومريم</title>
 <meta name="description" content="يسعدنا دعوتكم لحضور حفل عقد قران عمر ومريم يوم الجمعة ١١ سبتمبر ٢٠٢٦ بقاعة النور، مسجد حسن الشربتلي.">
 <meta property="og:type" content="website">
@@ -30,6 +30,22 @@
   <source src="assets/background-music.mp3" type="audio/mpeg">
 </audio>
 
+<!-- Shared gradients for the seat artwork, referenced by every seat instance -->
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <defs>
+    <linearGradient id="seatVelvet" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#7d2733"/>
+      <stop offset="45%" stop-color="#5c1a24"/>
+      <stop offset="100%" stop-color="#3a0f16"/>
+    </linearGradient>
+    <radialGradient id="seatHalo" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="rgba(233,199,132,0.55)"/>
+      <stop offset="55%" stop-color="rgba(233,199,132,0.16)"/>
+      <stop offset="100%" stop-color="rgba(233,199,132,0)"/>
+    </radialGradient>
+  </defs>
+</svg>
+
 <div id="frame" class="frame">
 
   <button id="skipToInvitation" class="sr-skip-link" type="button"
@@ -49,53 +65,55 @@
     </svg>
   </button>
 
-  <!-- ===== CINEMATIC OPENING ===== -->
-  <section id="cinematic" aria-label="Opening sequence, leading into our marriage ceremony invitation">
+  <!-- ===== ACT I — THE CINEMA ===== -->
+  <section id="cinema" aria-label="An old cinema. Choose a seat to begin the film.">
 
-    <!-- Warm light behind the emblem, so the gold has something to sit in -->
-    <div id="cineGlow" aria-hidden="true"></div>
-
-    <!-- Slow-drifting gold dust -->
+    <div class="house-light" aria-hidden="true"></div>
+    <div class="proj-beam" aria-hidden="true"></div>
     <canvas id="fx-canvas" aria-hidden="true"></canvas>
 
-    <!-- Gilded monogram: draws itself in, catches the light, then gives way -->
-    <div id="emblem" aria-hidden="true">
-      <svg class="emblem-ring" viewBox="0 0 240 240" fill="none">
-        <defs>
-          <linearGradient id="ringGold" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#f7e3a8"/>
-            <stop offset="45%" stop-color="#d4a54a"/>
-            <stop offset="100%" stop-color="#8b6f2d"/>
-          </linearGradient>
-        </defs>
-        <circle class="ring-outer" cx="120" cy="120" r="96" stroke="url(#ringGold)" stroke-width="1.1"/>
-        <circle class="ring-inner" cx="120" cy="120" r="87" stroke="url(#ringGold)" stroke-width="0.6" opacity="0.65"/>
-        <path class="ring-flourish" d="M120 12 l7 12 -7 12 -7-12z" fill="url(#ringGold)"/>
-        <path class="ring-flourish" d="M120 204 l7 12 -7 12 -7-12z" fill="url(#ringGold)"/>
-      </svg>
-      <div class="emblem-initials">
-        <span data-en="O" data-ar="ع">ع</span>
-        <span class="emblem-dot">✦</span>
-        <span data-en="M" data-ar="م">م</span>
-      </div>
+    <!-- The screen at the far end of the room -->
+    <div class="silver-screen" aria-hidden="true">
+      <div class="screen-glow"></div>
+      <div class="screen-curtain left"></div>
+      <div class="screen-curtain right"></div>
     </div>
 
-    <!-- Story text -->
-    <div id="text-overlay" aria-hidden="true">
-      <p class="cine-line" id="line1"
-         data-en="Well… that escalated quickly."
-         data-ar="تصاعدٌ غير مبرر!">تصاعدٌ غير مبرر!</p>
-      <p class="cine-line" id="line2"
-         data-en="Anyway, you’re invited to our marriage ceremony!"
-         data-ar="المهم، إنتوا معزومين على كتب كتابنا">المهم، إنتوا معزومين على كتب كتابنا</p>
+    <p class="cinema-invite" id="cinemaInvite"
+       data-en="Please take your seat"
+       data-ar="تفضّلوا بالجلوس">تفضّلوا بالجلوس</p>
+
+    <!-- Rows are generated so the seat count can adapt to the viewport -->
+    <div id="seating" class="seating" role="group"
+         aria-label="Cinema seats. Choose any seat to begin."></div>
+
+  </section>
+
+  <!-- ===== ACT II — THE FILM ===== -->
+  <section id="film" class="hidden" aria-label="Our film">
+    <video id="filmVideo" playsinline preload="none" aria-hidden="true">
+      <source src="assets/film.mp4" type="video/mp4">
+      <source src="assets/film.webm" type="video/webm">
+    </video>
+    <div class="film-vignette" aria-hidden="true"></div>
+    <div class="film-grain" aria-hidden="true"></div>
+    <button id="skipFilm" class="film-skip" type="button"
+            data-en="Skip" data-ar="تخطّي">تخطّي</button>
+  </section>
+
+  <!-- ===== ACT III — TITLE CARD ===== -->
+  <section id="titleCard" class="hidden" aria-hidden="true">
+    <div class="card-grain" aria-hidden="true"></div>
+    <div class="card-inner">
+      <p class="card-presents" data-en="Two families present" data-ar="بمشيئة الله وبحضور عائلتيهما">بمشيئة الله وبحضور عائلتيهما</p>
+      <h1 class="card-names">
+        <span data-en="Omar" data-ar="عمر">عمر</span>
+        <span class="card-amp" data-en="&amp;" data-ar="و">و</span>
+        <span data-en="Maryam" data-ar="مريم">مريم</span>
+      </h1>
+      <div class="card-rule" aria-hidden="true"></div>
+      <p class="card-date" data-en="11 . 09 . 2026" data-ar="١١ . ٠٩ . ٢٠٢٦">١١ . ٠٩ . ٢٠٢٦</p>
     </div>
-
-    <button id="startBtn" type="button">
-      <span class="start-mark">✦</span>
-      <span class="start-label" data-en="Tap to Begin" data-ar="اضغط للبدء">اضغط للبدء</span>
-      <span class="start-mark">✦</span>
-    </button>
-
   </section>
 
   <!-- ===== MAIN INVITATION ===== -->

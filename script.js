@@ -1,11 +1,12 @@
 (function () {
-  var cinematic = document.getElementById('cinematic');
+  var cinema = document.getElementById('cinema');
+  var seating = document.getElementById('seating');
+  var filmScene = document.getElementById('film');
+  var filmVideo = document.getElementById('filmVideo');
+  var skipFilm = document.getElementById('skipFilm');
+  var titleCard = document.getElementById('titleCard');
   var backgroundMusic = document.getElementById('backgroundMusic');
   var fxCanvas = document.getElementById('fx-canvas');
-  var emblem = document.getElementById('emblem');
-  var line1 = document.getElementById('line1');
-  var line2 = document.getElementById('line2');
-  var startBtn = document.getElementById('startBtn');
   var skipToInvitation = document.getElementById('skipToInvitation');
   var invitation = document.getElementById('invitation');
   var soundToggle = document.getElementById('soundToggle');
@@ -29,7 +30,7 @@
   try { seenBefore = localStorage.getItem(INTRO_SEEN_KEY) === '1'; } catch (e) {}
   if (seenBefore) {
     revealed = true;
-    cinematic.classList.add('hidden');
+    cinema.classList.add('hidden');
     skipToInvitation.classList.add('hidden');
     invitation.classList.remove('hidden');
     soundToggle.classList.add('on-parchment');
@@ -195,9 +196,113 @@
 
   var fx = new FX(fxCanvas);
 
-  /* ---------------- timeline ---------------- */
-  function showLine(el) { el.classList.add('show'); }
-  function hideLine(el) { el.classList.remove('show'); }
+  /* ---------------- the seating ---------------- */
+  // Rows recede toward the screen, so the back row is widest. Seat counts are
+  // chosen for the viewport rather than scaled down from a desktop layout.
+  var SEAT_SVG =
+    '<svg viewBox="0 0 40 45" aria-hidden="true">' +
+      '<ellipse class="seat-halo" cx="20" cy="24" rx="21" ry="23" fill="url(#seatHalo)"/>' +
+      '<rect class="seat-base" x="5" y="27" width="30" height="8" rx="2.5" fill="url(#seatVelvet)"/>' +
+      '<rect class="seat-back" x="7" y="4" width="26" height="24" rx="7" fill="url(#seatVelvet)"/>' +
+      '<rect x="7" y="4" width="26" height="24" rx="7" fill="none" stroke="rgba(214,178,102,0.30)" stroke-width="0.7"/>' +
+      '<path d="M20 6 L20 26" stroke="rgba(0,0,0,0.28)" stroke-width="0.8"/>' +
+      '<rect x="2.5" y="22" width="5" height="13" rx="2.2" fill="#2b1116"/>' +
+      '<rect x="32.5" y="22" width="5" height="13" rx="2.2" fill="#2b1116"/>' +
+      '<rect x="8" y="35" width="24" height="3" rx="1.2" fill="#1d0b0f"/>' +
+    '</svg>';
+
+  function seatsPerRow() {
+    var w = window.innerWidth;
+    if (w < 360) return [4, 5, 6, 7, 8];
+    if (w < 520) return [5, 6, 7, 8, 9];
+    if (w < 900) return [7, 8, 9, 10, 11];
+    return [9, 10, 11, 12, 13];
+  }
+
+  function buildSeating() {
+    if (!seating) return;
+    seating.innerHTML = '';
+    var rows = seatsPerRow();
+    var labelEn = ['Row A', 'Row B', 'Row C', 'Row D', 'Row E'];
+    rows.forEach(function (count, r) {
+      var row = document.createElement('div');
+      row.className = 'seat-row';
+      row.setAttribute('data-row', String(r));
+      for (var i = 0; i < count; i++) {
+        var seat = document.createElement('button');
+        seat.type = 'button';
+        seat.className = 'seat';
+        seat.innerHTML = SEAT_SVG;
+        seat.setAttribute('aria-label', labelEn[r] + ', seat ' + (i + 1) + ' — begin the film');
+        seat.addEventListener('click', function () { chooseSeat(this); });
+        row.appendChild(seat);
+      }
+      seating.appendChild(row);
+    });
+  }
+
+  var rebuildTimer = null;
+  window.addEventListener('resize', function () {
+    if (chosen || revealed) return;
+    clearTimeout(rebuildTimer);
+    rebuildTimer = setTimeout(buildSeating, 220);
+  });
+
+  /* ---------------- act I -> II -> III ---------------- */
+  var chosen = false;
+
+  function chooseSeat(seat) {
+    if (chosen || revealed) return;
+    chosen = true;
+    ensureAudio();
+    // the tap is a real gesture, so both the music and the film may start here
+    playBackgroundMusic();
+
+    seat.classList.add('chosen');
+    cinema.classList.add('dimming');
+
+    // let the curtains part and the room fall away before the film takes over
+    schedule(startFilm, reduceMotion ? 200 : 1900);
+  }
+
+  function startFilm() {
+    if (revealed) return;
+    fx.stop();
+    filmScene.classList.remove('hidden');
+    // reflow so the opacity transition actually runs
+    void filmScene.offsetWidth;
+    filmScene.classList.add('on');
+    cinema.style.opacity = '0';
+
+    filmVideo.addEventListener('ended', rollCredits);
+    filmVideo.addEventListener('error', rollCredits);
+
+    var p = filmVideo.play();
+    if (p && p.catch) p.catch(function () { rollCredits(); });
+
+    // never strand a guest on a film that will not play
+    schedule(function () {
+      if (!creditsRolling && filmVideo.currentTime === 0) rollCredits();
+    }, 6000);
+    schedule(function () {
+      if (!creditsRolling && filmVideo.readyState === 0) rollCredits();
+    }, 3500);
+  }
+
+  var creditsRolling = false;
+  function rollCredits() {
+    if (creditsRolling || revealed) return;
+    creditsRolling = true;
+    clearTimers();
+    try { filmVideo.pause(); } catch (e) {}
+    skipFilm.style.opacity = '0';   // its job is done; don't let it sit over the credits
+
+    titleCard.classList.remove('hidden');
+    void titleCard.offsetWidth;
+    titleCard.classList.add('on');
+    schedule(function () { filmScene.classList.add('hidden'); }, 1500);
+    schedule(revealInvitation, reduceMotion ? 400 : 5600);
+  }
 
   function revealInvitation() {
     if (revealed) return;
@@ -206,53 +311,35 @@
     clearTimers();
     fx.stop();
     playBackgroundMusic();
+    try { filmVideo.pause(); } catch (e) {}
     skipToInvitation.classList.add('hidden');
-    cinematic.style.transition = 'opacity 0.9s ease';
-    cinematic.style.opacity = '0';
+
+    invitation.classList.remove('hidden');
+    soundToggle.classList.add('on-parchment');
+    document.body.classList.add('invitation-active');
+
+    titleCard.style.transition = 'opacity 1.1s ease';
+    titleCard.style.opacity = '0';
+    cinema.style.opacity = '0';
     setTimeout(function () {
-      cinematic.classList.add('hidden');
-      invitation.classList.remove('hidden');
-      soundToggle.classList.add('on-parchment');
-      document.body.classList.add('invitation-active');
-    }, reduceMotion ? 0 : 900);
+      cinema.classList.add('hidden');
+      filmScene.classList.add('hidden');
+      titleCard.classList.add('hidden');
+    }, reduceMotion ? 0 : 1100);
   }
 
-  // The opening is a timed sequence now: warm light, then the monogram draws
-  // itself in and catches a sheen, then the two lines, then the invitation.
-  function runIntro() {
-    fx.resize();
-    window.addEventListener('resize', function () { if (fx.w) fx.resize(); });
-    fx.goldDust(110);
-    fx.start();
-    fxCanvas.classList.add('on');
-    cinematic.classList.add('lit');
+  buildSeating();
+  fx.resize();
+  window.addEventListener('resize', function () { if (fx.w) fx.resize(); });
+  fx.goldDust(90);
+  fx.start();
+  fxCanvas.classList.add('on');
 
-    schedule(function () { emblem.classList.add('show'); }, 250);
-    schedule(function () { emblem.classList.add('fade'); }, 5200);
-    schedule(function () { showLine(line1); }, 6100);
-    schedule(function () { hideLine(line1); }, 8400);
-    schedule(function () { showLine(line2); }, 8900);
-    schedule(function () { hideLine(line2); }, 11400);
-    schedule(function () { revealInvitation(); }, 11900);
-  }
-
-  startBtn.addEventListener('click', function () {
-    if (started) return;
-    started = true;
-    ensureAudio();
-    // starting here means play() always has a user gesture behind it
-    playBackgroundMusic();
-    startBtn.classList.add('hidden');
-
-    if (reduceMotion) {
-      revealInvitation();
-      return;
-    }
-    runIntro();
+  skipFilm.addEventListener('click', function () {
+    if (creditsRolling) revealInvitation();
+    else rollCredits();
   });
 
-  // Skip reveals the invitation synchronously inside this click, so play() has
-  // user activation on its own and needs no priming.
   skipToInvitation.addEventListener('click', function () {
     ensureAudio();
     revealInvitation();
