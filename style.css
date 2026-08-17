@@ -99,9 +99,19 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
   -webkit-overflow-scrolling: touch;
 }
 
-/* The gilt corners own both ends of the top edge, so the controls sit in the
-   gap between them. Being centred, they need no RTL mirroring — one position
-   in both languages, and the same one through all three acts. */
+/* --- the controls -------------------------------------------------------
+   Two separate floating circles in the middle of the top edge read as browser
+   chrome dropped onto the card. One small pill with a hairline down the
+   middle reads as a single object that belongs to it, so that is what this
+   is: the buttons keep their own hit areas but give up their own borders and
+   backgrounds to the pill around them.
+
+   It also holds back. After a few seconds without input it settles to a
+   whisper — still there, still legible, no longer competing with the names —
+   and comes back the moment the visitor touches, scrolls or types. It never
+   disappears outright: a control nobody can find is worse than one that sits
+   quietly at the edge of the eye.
+   ---------------------------------------------------------------------- */
 .controls {
   position: absolute;
   top: max(14px, env(safe-area-inset-top));
@@ -110,77 +120,68 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
   z-index: 80;
   display: flex;
   direction: ltr;   /* keep the two in a fixed order regardless of page dir */
-  gap: 10px;
+  align-items: stretch;
+  padding: 2px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(0,0,0,0.30);
+  backdrop-filter: var(--material-blur);
+  -webkit-backdrop-filter: var(--material-blur);
+  transition: opacity var(--t-move) var(--ease-settle),
+              background var(--t-move) var(--ease-settle),
+              border-color var(--t-move) var(--ease-settle);
+}
+/* on the card it takes the invitation's own gold rather than plain white */
+body.invitation-active .controls {
+  border-color: var(--hairline);
+  background: rgba(20,9,12,0.62);
 }
 
-#soundToggle {
+/* idle: present but quiet. Focus or a hovering cursor always overrides it. */
+.controls.idle { opacity: 0.34; }
+.controls:hover,
+.controls:focus-within { opacity: 1; }
+
+#soundToggle,
+#langToggle {
   position: relative;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.35);
-  background: rgba(0,0,0,0.4);
-  color: #fff;
+  width: 42px;
+  height: 38px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255,255,255,0.92);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
-  backdrop-filter: var(--material-blur);
-  -webkit-backdrop-filter: var(--material-blur);
   transition: background var(--t-quick) var(--ease-settle),
               transform var(--t-quick) var(--ease-spring),
-              border-color var(--t-quick) var(--ease-settle),
               color var(--t-quick) var(--ease-settle);
 }
-#soundToggle.on-parchment {
-  color: var(--gold);
-  border-color: var(--hairline);
-  background: rgba(32,15,19,0.86);
+body.invitation-active #soundToggle,
+body.invitation-active #langToggle { color: var(--gold-dark); }
+
+/* the hairline that makes the pair read as one object with two halves */
+.controls > * + * { box-shadow: inset 1px 0 0 rgba(255,255,255,0.14); }
+body.invitation-active .controls > * + * { box-shadow: inset 1px 0 0 var(--hairline); }
+
+#soundToggle:hover,
+#langToggle:hover { background: rgba(255,255,255,0.10); }
+
+#langToggle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.86rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
 }
-#soundToggle:hover { transform: scale(1.08); }
-#soundToggle svg { width: 18px; height: 18px; }
+#soundToggle svg { width: 17px; height: 17px; }
 #soundToggle .icon-off { display: none; }
 #soundToggle.muted .icon-on { display: none; }
 #soundToggle.muted .icon-off { display: block; }
-
-/* --- language toggle: sits beside the sound button, mirrors in RTL --- */
-#langToggle {
-  position: relative;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.35);
-  background: rgba(0,0,0,0.4);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-  backdrop-filter: var(--material-blur);
-  -webkit-backdrop-filter: var(--material-blur);
-  transition: background var(--t-quick) var(--ease-settle),
-              transform var(--t-quick) var(--ease-spring),
-              border-color var(--t-quick) var(--ease-settle),
-              color var(--t-quick) var(--ease-settle);
-}
-#langToggle:hover { transform: scale(1.08); }
-#langToggle:focus-visible {
-  outline: 2px solid var(--gold-fx);
-  outline-offset: 3px;
-}
-body.invitation-active #langToggle {
-  color: var(--gold);
-  border-color: var(--hairline);
-  background: rgba(32,15,19,0.86);
-}
 
 /* --- Arabic typography --- */
 /* Amiri is a revival of the classic Bulaq Press Naskh: the closest Arabic
@@ -664,7 +665,8 @@ body.lang-ar .sr-skip-link { letter-spacing: 0; text-transform: none; font-size:
    animation playing. --- */
 #soundToggle.pressing,
 #langToggle.pressing {
-  transform: scale(0.9);
+  background: rgba(255,255,255,0.18);
+  transform: scale(0.94);
   transition-duration: var(--t-press);
   transition-timing-function: var(--ease-settle);
 }
@@ -731,11 +733,11 @@ body.lang-ar .sr-skip-link { letter-spacing: 0; text-transform: none; font-size:
 /* Frosted glass is the first thing to go for anyone who finds it hard to
    read against; the controls fall back to solid ground of the same colour. */
 @media (prefers-reduced-transparency: reduce) {
-  #soundToggle, #langToggle, .film-skip {
+  .controls, .film-skip {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
-  #soundToggle, #langToggle { background: #14090c; }
+  .controls { background: #14090c; }
   .film-skip { background: #0d0608; }
   .card-texture, .film-grain, .card-grain { opacity: 0.02; }
 }
@@ -747,7 +749,9 @@ body.lang-ar .sr-skip-link { letter-spacing: 0; text-transform: none; font-size:
     --hairline: rgba(201,162,74,0.75);
     --ink-soft: #dcc9a8;
   }
-  #soundToggle, #langToggle { border-color: #f0dcae; color: #fff; background: #000; }
+  .controls { border-color: #f0dcae; background: #000; }
+  #soundToggle, #langToggle { color: #fff; }
+  .controls.idle { opacity: 1; }   /* never dim a control that must stay legible */
   .film-skip, .sr-skip-link { color: #f4e7cc; border-color: rgba(240,220,174,0.9); }
   .cnr { opacity: 1; }
   .card-corners::before, .card-corners::after { display: none; }
@@ -1081,10 +1085,9 @@ body.lang-ar .countdown { direction: ltr; }
 /* Below ~380px the two corners leave barely more than the group's own width
    between them, so it gives up a little size rather than sliding under them. */
 @media (max-width: 400px) {
-  .controls { gap: 6px; }
-  #soundToggle, #langToggle { width: 38px; height: 38px; }
+  #soundToggle, #langToggle { width: 38px; height: 34px; }
   #soundToggle svg { width: 16px; height: 16px; }
-  #langToggle { font-size: 0.85rem; }
+  #langToggle { font-size: 0.8rem; }
 }
 
 @media (max-width: 380px) {

@@ -212,6 +212,34 @@
     setMuted(!muted);
   });
 
+  /* ---------------- let the controls recede ------------------------------
+     They sit over the names, so once the visitor has stopped touching
+     anything they settle back to a whisper rather than holding full weight
+     on the card. Any input at all brings them straight back, and they are
+     never hidden outright — a control nobody can find is worse than one
+     sitting quietly at the edge of the eye. CSS keeps them at full strength
+     whenever they hold focus or the cursor, so this cannot strand anyone.
+     --------------------------------------------------------------------- */
+  var controls = document.querySelector('.controls');
+  if (controls) {
+    var idleTimer = null, lastWake = 0;
+    var wake = function () {
+      // pointermove and scroll arrive every frame; re-arming a timer 60 times
+      // a second during a scroll is work the scroll cannot afford
+      var now = Date.now();
+      if (now - lastWake < 200 && !controls.classList.contains('idle')) return;
+      lastWake = now;
+      controls.classList.remove('idle');
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(function () { controls.classList.add('idle'); }, 3200);
+    };
+    ['pointerdown', 'pointermove', 'keydown', 'wheel', 'touchstart'].forEach(function (t) {
+      document.addEventListener(t, wake, { passive: true });
+    });
+    document.addEventListener('scroll', wake, { passive: true, capture: true });
+    wake();
+  }
+
   /* ---------------- golden particle bridge (canvas) ---------------- */
   var GOLD_COLORS = ['#f6c869', '#c8a04e', '#ffe9b0'];
   var WHITE = '#fffaf0';
