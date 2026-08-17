@@ -31,6 +31,11 @@
      Controls float over the film and over the card, so they take their
      colour from whatever is behind them rather than carrying their own. */
   --material-blur: blur(20px) saturate(180%);
+
+  /* One width for all four gilt corners. The controls read it too, so they
+     can park themselves just clear of the one above them. */
+  --cnr-w: clamp(116px, 30vw, 208px);
+  --cnr-h: calc(var(--cnr-w) * 0.803);   /* the plain corner is 726 x 583 */
 }
 
 * { box-sizing: border-box; }
@@ -115,8 +120,7 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
 .controls {
   position: absolute;
   top: max(14px, env(safe-area-inset-top));
-  left: 50%;
-  transform: translateX(-50%);
+  right: 10px;
   z-index: 80;
   display: flex;
   direction: ltr;   /* keep the two in a fixed order regardless of page dir */
@@ -131,8 +135,12 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
               background var(--t-move) var(--ease-settle),
               border-color var(--t-move) var(--ease-settle);
 }
-/* on the card it takes the invitation's own gold rather than plain white */
+/* On the card the corner ornament owns the top of both side edges, so the
+   controls drop to just below it — measured from the corner's own width so
+   the two cannot drift apart when it resizes. In the cinema there is no
+   ornament and they stay tucked into the top edge. */
 body.invitation-active .controls {
+  top: calc(var(--cnr-h) + 16px);
   border-color: var(--hairline);
   background: rgba(20,9,12,0.62);
 }
@@ -792,7 +800,6 @@ body.lang-ar .sr-skip-link { letter-spacing: 0; text-transform: none; font-size:
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  --cnr-w: clamp(116px, 30vw, 208px);
 }
 .cnr {
   position: absolute;
