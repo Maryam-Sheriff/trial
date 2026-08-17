@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - claude/cinematic-wedding-invitation-hwnqa9
+  # Deploys fail for reasons that have nothing to do with the site — Pages
+  # answering 503 is the usual one. Recover by dispatching a NEW run from
+  # here, never by re-running the failed one: "Upload site" would run a
+  # second time and leave the run holding two artifacts named github-pages,
+  # which deploy-pages refuses outright. A failed deploy is best left failed.
   workflow_dispatch:
 
 # Allow GITHUB_TOKEN to publish to Pages
