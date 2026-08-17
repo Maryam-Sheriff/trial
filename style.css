@@ -99,11 +99,22 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
   -webkit-overflow-scrolling: touch;
 }
 
-#soundToggle {
+/* The gilt corners own both ends of the top edge, so the controls sit in the
+   gap between them. Being centred, they need no RTL mirroring — one position
+   in both languages, and the same one through all three acts. */
+.controls {
   position: absolute;
   top: max(14px, env(safe-area-inset-top));
-  right: 14px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 80;
+  display: flex;
+  direction: ltr;   /* keep the two in a fixed order regardless of page dir */
+  gap: 10px;
+}
+
+#soundToggle {
+  position: relative;
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -136,10 +147,7 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
 
 /* --- language toggle: sits beside the sound button, mirrors in RTL --- */
 #langToggle {
-  position: absolute;
-  top: max(14px, env(safe-area-inset-top));
-  right: 66px;
-  z-index: 80;
+  position: relative;
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -173,8 +181,6 @@ body.invitation-active #langToggle {
   border-color: var(--hairline);
   background: rgba(32,15,19,0.86);
 }
-[dir="rtl"] #soundToggle { right: auto; left: 14px; }
-[dir="rtl"] #langToggle { right: auto; left: 66px; }
 
 /* --- Arabic typography --- */
 /* Amiri is a revival of the classic Bulaq Press Naskh: the closest Arabic
@@ -1070,6 +1076,15 @@ body.lang-ar .countdown { direction: ltr; }
 .reveal-on-scroll.in-view {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Below ~380px the two corners leave barely more than the group's own width
+   between them, so it gives up a little size rather than sliding under them. */
+@media (max-width: 400px) {
+  .controls { gap: 6px; }
+  #soundToggle, #langToggle { width: 38px; height: 38px; }
+  #soundToggle svg { width: 16px; height: 16px; }
+  #langToggle { font-size: 0.85rem; }
 }
 
 @media (max-width: 380px) {
