@@ -105,61 +105,71 @@ h1, h2 { font-family: 'Playfair Display', serif; margin: 0; }
 }
 
 /* --- the controls -------------------------------------------------------
-   Two separate floating circles in the middle of the top edge read as browser
-   chrome dropped onto the card. One small pill with a hairline down the
-   middle reads as a single object that belongs to it, so that is what this
-   is: the buttons keep their own hit areas but give up their own borders and
-   backgrounds to the pill around them.
+   A vertical rail hugging the right edge, clear of the gilt corners at both
+   ends of it. Stacked rather than side by side so it occupies one narrow
+   column of margin instead of cutting across the card beside the names.
 
-   It also holds back. After a few seconds without input it settles to a
-   whisper — still there, still legible, no longer competing with the names —
-   and comes back the moment the visitor touches, scrolls or types. It never
-   disappears outright: a control nobody can find is worse than one that sits
-   quietly at the edge of the eye.
+   It carries no chrome of its own at rest — no border, no fill, just two
+   small gold glyphs sitting on the card — and only gathers a frosted capsule
+   under a cursor or a keyboard focus, when the visitor has shown they are
+   reaching for it. Left alone for a few seconds it fades most of the way out.
+   It never disappears outright: a control nobody can find is worse than one
+   sitting quietly at the edge of the eye.
    ---------------------------------------------------------------------- */
 .controls {
-  position: absolute;
-  top: max(14px, env(safe-area-inset-top));
-  right: 10px;
+  /* fixed, not absolute: the frame is as tall as the whole invitation, so a
+     percentage from its top would park the rail halfway down the document
+     and off the first screen entirely. Pinned to the viewport it stays put
+     while the card scrolls under it, and mid-height keeps it clear of the
+     gilt corners at both ends no matter where the reader is. */
+  position: fixed;
+  top: 50%;
+  /* hug the card's right edge, not the window's — past 900px the card stops
+     widening and a window-anchored rail would drift off on its own */
+  right: calc((100vw - min(100vw, 900px)) / 2 + max(6px, env(safe-area-inset-right)));
+  transform: translateY(-50%);
   z-index: 80;
   display: flex;
+  flex-direction: column;
   direction: ltr;   /* keep the two in a fixed order regardless of page dir */
   align-items: stretch;
-  padding: 2px;
+  padding: 3px;
   border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.16);
-  background: rgba(0,0,0,0.30);
-  backdrop-filter: var(--material-blur);
-  -webkit-backdrop-filter: var(--material-blur);
+  border: 1px solid transparent;
+  background: transparent;
   transition: opacity var(--t-move) var(--ease-settle),
               background var(--t-move) var(--ease-settle),
               border-color var(--t-move) var(--ease-settle);
 }
-/* On the card the corner ornament owns the top of both side edges, so the
-   controls drop to just below it — measured from the corner's own width so
-   the two cannot drift apart when it resizes. In the cinema there is no
-   ornament and they stay tucked into the top edge. */
-body.invitation-active .controls {
-  top: calc(var(--cnr-h) + 16px);
+
+/* idle: barely there. Focus or a hovering cursor always overrides it. */
+.controls.idle { opacity: 0.22; }
+
+/* Reaching for it is what earns the capsule. */
+.controls:hover,
+.controls:focus-within {
+  opacity: 1;
+  border-color: rgba(255,255,255,0.14);
+  background: rgba(0,0,0,0.34);
+  backdrop-filter: var(--material-blur);
+  -webkit-backdrop-filter: var(--material-blur);
+}
+body.invitation-active .controls:hover,
+body.invitation-active .controls:focus-within {
   border-color: var(--hairline);
   background: rgba(20,9,12,0.62);
 }
 
-/* idle: present but quiet. Focus or a hovering cursor always overrides it. */
-.controls.idle { opacity: 0.34; }
-.controls:hover,
-.controls:focus-within { opacity: 1; }
-
 #soundToggle,
 #langToggle {
   position: relative;
-  width: 42px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   padding: 0;
   border: 0;
   border-radius: 999px;
   background: transparent;
-  color: rgba(255,255,255,0.92);
+  color: rgba(255,255,255,0.78);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -171,22 +181,36 @@ body.invitation-active .controls {
               color var(--t-quick) var(--ease-settle);
 }
 body.invitation-active #soundToggle,
-body.invitation-active #langToggle { color: var(--gold-dark); }
+body.invitation-active #langToggle { color: var(--gold); }
 
-/* the hairline that makes the pair read as one object with two halves */
-.controls > * + * { box-shadow: inset 1px 0 0 rgba(255,255,255,0.14); }
-body.invitation-active .controls > * + * { box-shadow: inset 1px 0 0 var(--hairline); }
+/* stacked now, so the hairline between them runs across rather than down,
+   and only shows once the capsule behind it does */
+.controls > * + * { box-shadow: inset 0 1px 0 transparent; }
+.controls:hover > * + *,
+.controls:focus-within > * + * { box-shadow: inset 0 1px 0 rgba(255,255,255,0.13); }
+body.invitation-active .controls:hover > * + *,
+body.invitation-active .controls:focus-within > * + * { box-shadow: inset 0 1px 0 var(--hairline); }
 
 #soundToggle:hover,
-#langToggle:hover { background: rgba(255,255,255,0.10); }
+#langToggle:hover { background: rgba(255,255,255,0.10); color: #fff6e2; }
 
 #langToggle {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.86rem;
+  font-size: 0.76rem;
   font-weight: 600;
   letter-spacing: 0.04em;
 }
-#soundToggle svg { width: 17px; height: 17px; }
+/* The glyphs stay small so the rail keeps out of the way, but a finger needs
+   more than that to land on. This widens the target past the visible mark
+   without changing anything you can see. */
+#soundToggle::after,
+#langToggle::after {
+  content: "";
+  position: absolute;
+  inset: -2px -10px;
+}
+
+#soundToggle svg { width: 15px; height: 15px; }
 #soundToggle .icon-off { display: none; }
 #soundToggle.muted .icon-on { display: none; }
 #soundToggle.muted .icon-off { display: block; }
@@ -1092,9 +1116,7 @@ body.lang-ar .countdown { direction: ltr; }
 /* Below ~380px the two corners leave barely more than the group's own width
    between them, so it gives up a little size rather than sliding under them. */
 @media (max-width: 400px) {
-  #soundToggle, #langToggle { width: 38px; height: 34px; }
-  #soundToggle svg { width: 16px; height: 16px; }
-  #langToggle { font-size: 0.8rem; }
+  #soundToggle, #langToggle { width: 38px; height: 38px; }
 }
 
 @media (max-width: 380px) {
