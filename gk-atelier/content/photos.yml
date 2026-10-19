@@ -10,7 +10,8 @@
 # ─────────────────────────────────────────────────────────────────────────────
 
 # The large photograph at the top of the homepage. A portrait (tall) photo of
-# a finished piece or a beautiful detail works best.
+# a finished piece or a beautiful detail works best. While this is empty, the
+# homepage opens with the logo instead.
 hero:
   src: ""
   alt:

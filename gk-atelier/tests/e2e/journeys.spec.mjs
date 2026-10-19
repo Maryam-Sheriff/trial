@@ -11,16 +11,16 @@ test.beforeEach(async ({ context }) => {
 const waText = (url) => new URL(url).searchParams.get('text');
 
 test('browse a collection, open a product and start a WhatsApp enquiry', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/en/');
   await page.getByRole('link', { name: 'Explore Our Creations' }).click();
-  await expect(page).toHaveURL(/\/collections\/$/);
+  await expect(page).toHaveURL(/\/en\/collections\/$/);
 
   await page.getByRole('link', { name: 'Embroidery & Textile Art' }).click();
-  await expect(page).toHaveURL(/\/collections\/embroidery-textile-art\/$/);
+  await expect(page).toHaveURL(/\/en\/collections\/embroidery-textile-art\/$/);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Embroidery & Textile Art');
 
   await page.getByRole('link', { name: 'Test Hoop & "Name"' }).first().click();
-  await expect(page).toHaveURL(/\/products\/test-embroidered-hoop\/$/);
+  await expect(page).toHaveURL(/\/en\/products\/test-embroidered-hoop\/$/);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Test Hoop & "Name"');
 
   const cta = page.locator('[data-product-cta] a');
@@ -30,42 +30,57 @@ test('browse a collection, open a product and start a WhatsApp enquiry', async (
   expect(popup.url().startsWith(`https://wa.me/${NUMBER}?text=`)).toBe(true);
   const text = waText(popup.url());
   expect(text).toContain("I'm interested in Test Hoop & \"Name\"");
-  expect(text).toContain('Product link: https://www.example.com/products/test-embroidered-hoop/');
+  expect(text).toContain('Product link: https://www.example.com/en/products/test-embroidered-hoop/');
   // The visitor stays on the product page; nothing claims an order was placed.
-  await expect(page).toHaveURL(/\/products\/test-embroidered-hoop\/$/);
+  await expect(page).toHaveURL(/\/en\/products\/test-embroidered-hoop\/$/);
   await expect(page.getByText(/order (has been )?(placed|confirmed)/i)).toHaveCount(0);
 });
 
+test('Arabic is the default language at the main address', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'ar');
+  await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('إبداعات يدوية للحظات لها معنى.');
+  // The language switch is always visible at the top, on phones too.
+  const top = page.locator('.site-header__actions .lang-switch');
+  await expect(top).toBeVisible();
+  await expect(top).toHaveText('English');
+  await expect(top.locator('svg')).toBeVisible();
+  await top.click();
+  await expect(page).toHaveURL('http://localhost:4310/en/');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+});
+
 test('switching language keeps the page, mirrors the layout and is remembered', async ({ page }) => {
-  await page.goto('/products/test-embroidered-hoop/');
+  await page.goto('/en/products/test-embroidered-hoop/');
   await page.locator('.lang-switch--footer').click();
-  await expect(page).toHaveURL(/\/ar\/products\/test-embroidered-hoop\/$/);
+  await expect(page).toHaveURL('http://localhost:4310/products/test-embroidered-hoop/');
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
   await expect(page.locator('html')).toHaveAttribute('lang', 'ar');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('طارة اختبار');
   await expect(page.locator('[data-product-cta] a')).toHaveText('اطلبوا هذه القطعة عبر واتساب');
   const arText = waText(await page.locator('[data-product-cta] a').getAttribute('href'));
   expect(arText).toMatch(/^مرحبًا غادة!/);
-  expect(arText).toContain('https://www.example.com/ar/products/test-embroidered-hoop/');
+  expect(arText).toContain('https://www.example.com/products/test-embroidered-hoop/');
 
   // Moving around keeps Arabic.
   await page.locator('.site-footer__nav').getByRole('link', { name: 'المجموعات' }).click();
-  await expect(page).toHaveURL(/\/ar\/collections\/$/);
+  await expect(page).toHaveURL('http://localhost:4310/collections/');
 
   // A later visit straight to an English address opens the Arabic version.
-  await page.goto('/about/');
-  await expect(page).toHaveURL(/\/ar\/about\/$/);
+  await page.goto('/en/about/');
+  await expect(page).toHaveURL('http://localhost:4310/about/');
 
-  // Choosing English again sticks.
+  // Choosing English sticks: the main address then opens in English.
   await page.locator('.lang-switch--footer').click();
-  await expect(page).toHaveURL(/\/about\/$/);
+  await expect(page).toHaveURL('http://localhost:4310/en/about/');
   await expect(page.locator('html')).toHaveAttribute('dir', 'ltr');
   await page.goto('/contact/');
-  await expect(page).toHaveURL(/\/contact\/$/);
+  await expect(page).toHaveURL('http://localhost:4310/en/contact/');
 });
 
 test('custom order enquiry validates, then opens WhatsApp with the details', async ({ page }) => {
-  await page.goto('/custom-orders/?type=silk-painting');
+  await page.goto('/en/custom-orders/?type=silk-painting');
   await expect(page.locator('#f-type')).toHaveValue('silk-painting');
 
   const submit = page.getByRole('button', { name: 'Continue to WhatsApp' });
@@ -123,7 +138,7 @@ test('custom order enquiry validates, then opens WhatsApp with the details', asy
 });
 
 test('Arabic enquiry messages are written in Arabic', async ({ page }) => {
-  await page.goto('/ar/custom-orders/');
+  await page.goto('/custom-orders/');
   await page.fill('#f-name', 'عميل اختبار');
   await page.selectOption('#f-occasion', { label: 'مولود جديد' });
   await page.selectOption('#f-type', 'baby-newborn');
@@ -137,7 +152,7 @@ test('Arabic enquiry messages are written in Arabic', async ({ page }) => {
 });
 
 test('product gallery thumbnails and enlarged view work', async ({ page, isMobile }) => {
-  await page.goto('/products/test-embroidered-hoop/');
+  await page.goto('/en/products/test-embroidered-hoop/');
   const thumbs = page.locator('[data-gallery-thumb]');
   await expect(thumbs).toHaveCount(3);
   await thumbs.nth(1).click();
@@ -159,7 +174,7 @@ test('product gallery thumbnails and enlarged view work', async ({ page, isMobil
 
 test('the order bar appears on phones once the main button scrolls away', async ({ page, isMobile }) => {
   test.skip(!isMobile, 'phones only');
-  await page.goto('/products/test-embroidered-hoop/');
+  await page.goto('/en/products/test-embroidered-hoop/');
   const bar = page.locator('[data-sticky-cta]');
   await expect(bar).not.toHaveClass(/is-visible/);
   await page.locator('.site-footer').scrollIntoViewIfNeeded();
@@ -175,7 +190,7 @@ test('the order bar appears on phones once the main button scrolls away', async 
 
 test('the floating WhatsApp button never covers the footer', async ({ page, isMobile }) => {
   test.skip(!isMobile, 'phones only');
-  await page.goto('/about/');
+  await page.goto('/en/about/');
   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
   const float = await page.locator('[data-float]').boundingBox();
   const footer = await page.locator('.site-footer__bottom').boundingBox();
@@ -186,7 +201,7 @@ test('the floating WhatsApp button never covers the footer', async ({ page, isMo
 
 test('mobile menu opens, can be closed with Escape and navigates', async ({ page, isMobile }) => {
   test.skip(!isMobile, 'phones only');
-  await page.goto('/');
+  await page.goto('/en/');
   const toggle = page.locator('.nav-toggle');
   await expect(toggle).toHaveAttribute('aria-expanded', 'false');
   await toggle.click();
@@ -201,12 +216,12 @@ test('mobile menu opens, can be closed with Escape and navigates', async ({ page
 
   await toggle.click();
   await page.locator('#site-nav').getByRole('link', { name: 'About Ghada' }).click();
-  await expect(page).toHaveURL(/\/about\/$/);
+  await expect(page).toHaveURL(/\/en\/about\/$/);
 });
 
 test('keyboard users can skip straight to the content', async ({ page, isMobile }) => {
   test.skip(isMobile, 'keyboard');
-  await page.goto('/');
+  await page.goto('/en/');
   await page.keyboard.press('Tab');
   const skip = page.getByRole('link', { name: 'Skip to content' });
   await expect(skip).toBeFocused();
@@ -217,7 +232,7 @@ test('keyboard users can skip straight to the content', async ({ page, isMobile 
 
 test.describe('preview without a WhatsApp number', () => {
   test('buttons explain the missing number and show the prepared message', async ({ page }) => {
-    await page.goto(`${PREVIEW}/products/sample-bridal-keepsake/`);
+    await page.goto(`${PREVIEW}/en/products/sample-bridal-keepsake/`);
     await expect(page.locator('a[href*="wa.me"]')).toHaveCount(0);
     await expect(page.locator('.preview-bar')).toBeVisible();
     await expect(page.locator('.sample-notice')).toBeVisible();
@@ -226,13 +241,13 @@ test.describe('preview without a WhatsApp number', () => {
     await expect(dialog).toBeVisible();
     const message = dialog.locator('[data-wa-setup-message]');
     await expect(message).toContainText("I'm interested in Bridal Keepsake");
-    await expect(message).toContainText(`Product link: ${PREVIEW}/products/sample-bridal-keepsake/`);
+    await expect(message).toContainText(`Product link: ${PREVIEW}/en/products/sample-bridal-keepsake/`);
     await dialog.getByRole('button', { name: 'Close' }).click();
     await expect(dialog).toBeHidden();
   });
 
   test('the custom form still validates and previews the message', async ({ page }) => {
-    await page.goto(`${PREVIEW}/custom-orders/`);
+    await page.goto(`${PREVIEW}/en/custom-orders/`);
     await page.fill('#f-name', 'Preview Visitor');
     await page.selectOption('#f-occasion', { label: 'Birthday' });
     await page.selectOption('#f-type', 'unsure');
@@ -245,9 +260,9 @@ test.describe('preview without a WhatsApp number', () => {
   });
 
   test('collections with sample listings mark them clearly', async ({ page }) => {
-    await page.goto(`${PREVIEW}/collections/wedding-bridal/`);
+    await page.goto(`${PREVIEW}/en/collections/wedding-bridal/`);
     await expect(page.locator('.card--product .badge')).toHaveText(['Sample listing', 'Sample listing']);
-    await page.goto(`${PREVIEW}/ar/collections/wedding-bridal/`);
+    await page.goto(`${PREVIEW}/collections/wedding-bridal/`);
     await expect(page.locator('.card--product .badge').first()).toHaveText('نموذج توضيحي');
   });
 });

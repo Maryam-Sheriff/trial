@@ -452,7 +452,7 @@ main:focus {
 
 .brand__logo {
   width: auto;
-  height: 42px;
+  height: 46px;
 }
 
 .brand__name {
@@ -486,15 +486,22 @@ main:focus {
 .lang-switch {
   display: inline-flex;
   align-items: center;
+  gap: 6px;
   min-height: 44px;
-  padding-inline: 10px;
+  padding-inline: 8px;
   font-family: var(--font-body);
   font-size: 0.9375rem;
   color: var(--espresso);
   text-decoration: none;
 }
 
-.lang-switch:hover {
+.lang-switch .icon {
+  width: 18px;
+  height: 18px;
+  color: var(--gold-text);
+}
+
+.lang-switch:hover span {
   text-decoration: underline;
 }
 
@@ -578,15 +585,6 @@ main:focus {
     gap: 12px;
   }
 
-  .lang-switch--menu {
-    justify-content: center;
-    border: 1px solid var(--line);
-  }
-
-  .site-header__actions > .lang-switch {
-    display: none;
-  }
-
   /* Without JavaScript the links simply sit under the logo. */
   .no-js .site-header__inner {
     flex-wrap: wrap;
@@ -619,7 +617,7 @@ main:focus {
 
 @media (min-width: 960px) {
   .brand__logo {
-    height: 54px;
+    height: 62px;
   }
 
   .brand__name {
@@ -869,6 +867,44 @@ picture img {
   .hero__actions .btn {
     flex: 1 1 100%;
   }
+}
+
+/* Until a hero photograph is added, the logo leads the homepage. */
+.hero--brand {
+  padding-block: clamp(28px, 5vw, 64px) clamp(64px, 9vw, 120px);
+  text-align: center;
+}
+
+.hero__brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero__logo {
+  width: min(420px, 76vw);
+  margin-bottom: clamp(20px, 3vw, 36px);
+}
+
+.hero__logo img {
+  height: auto;
+}
+
+.hero--brand .hero__title {
+  max-width: 22ch;
+  font-size: clamp(2.1rem, 4.8vw, 3.75rem);
+}
+
+[lang='ar'] .hero--brand .hero__title {
+  font-size: clamp(2rem, 4.4vw, 3.4rem);
+}
+
+.hero--brand .hero__text {
+  margin-inline: auto;
+}
+
+.hero--brand .hero__actions {
+  justify-content: center;
 }
 
 .hero__media {
@@ -2514,7 +2550,20 @@ blockquote.story__text {
   min-width: 44px;
   margin-top: 0.75rem;
   padding-inline: 0;
+}
+
+.lang-switch--footer span {
   text-decoration: underline;
+}
+
+.brand-lockup {
+  display: block;
+  width: 220px;
+  max-width: 100%;
+}
+
+.brand-lockup img {
+  height: auto;
 }
 
 .site-footer__bottom {

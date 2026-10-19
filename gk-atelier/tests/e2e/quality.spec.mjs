@@ -22,7 +22,7 @@ async function allPages(request) {
 for (const lang of ['en', 'ar']) {
   test(`no accessibility violations on key pages (${lang})`, async ({ page }) => {
     for (const path of KEY_PAGES) {
-      await page.goto(lang === 'ar' ? `/ar${path}` : path);
+      await page.goto(lang === 'en' ? `/en${path}` : path);
       const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice']).analyze();
       const summary = results.violations.map((v) => `${path}: ${v.id} — ${v.help} (${v.nodes.map((n) => n.target.join(' ')).slice(0, 3).join(', ')})`);
       expect(summary, summary.join('\n')).toEqual([]);
@@ -31,7 +31,7 @@ for (const lang of ['en', 'ar']) {
 }
 
 test('custom order form errors are accessible', async ({ page }) => {
-  await page.goto('/custom-orders/');
+  await page.goto('/en/custom-orders/');
   await page.getByRole('button', { name: 'Continue to WhatsApp' }).click();
   const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze();
   expect(results.violations.map((v) => v.id)).toEqual([]);
@@ -67,7 +67,7 @@ test('every page has one main heading and localized metadata', async ({ page, re
 
 test('buttons and links are large enough to tap', async ({ page, isMobile }) => {
   test.skip(!isMobile, 'phones only');
-  for (const path of ['/', '/products/test-embroidered-hoop/', '/custom-orders/', '/ar/contact/']) {
+  for (const path of ['/', '/en/', '/en/products/test-embroidered-hoop/', '/en/custom-orders/', '/contact/']) {
     await page.goto(path);
     const small = await page.evaluate(() =>
       [...document.querySelectorAll('.btn, .nav-toggle, .lang-switch, .pill, .gallery__thumb, input, select, textarea')]

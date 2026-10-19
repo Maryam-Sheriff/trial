@@ -77,7 +77,7 @@ function imageRef(root, value, where, report, { required = false } = {}) {
 function loadSettings(root, report) {
   const file = 'content/settings.yml';
   const data = readYaml(root, file, report) ?? {};
-  const settings = { whatsapp: null, siteUrl: '', basePath: '', brand: {}, social: {}, launch: {} };
+  const settings = { whatsapp: null, siteUrl: '', basePath: '', defaultLanguage: 'ar', brand: {}, social: {}, launch: {} };
 
   const rawNumber = data.whatsapp?.number;
   const normalized = normalizeWhatsAppNumber(rawNumber == null ? '' : String(rawNumber));
@@ -96,7 +96,11 @@ function loadSettings(root, report) {
     }
   }
 
-  for (const key of ['logo', 'icon', 'share_image']) {
+  const language = data.site?.default_language;
+  if (language === 'ar' || language === 'en') settings.defaultLanguage = language;
+  else if (language != null && language !== '') report.error(file, `site → default_language must be ar or en (not "${language}").`);
+
+  for (const key of ['logo', 'logo_monogram', 'logo_without_tagline', 'icon', 'share_image']) {
     const value = data.brand?.[key];
     settings.brand[key] = isText(value)
       ? imageRef(root, value, { file, label: `brand → ${key}`, allowSvg: key !== 'share_image' }, report)

@@ -21,18 +21,24 @@ site:
   # e.g. https://www.example.com — used for product links inside WhatsApp
   # messages, search engines and social sharing. No trailing slash needed.
   url: ""
+  # The language visitors see first, at the main address: ar or en.
+  # The other language lives under /en/ (or /ar/).
+  default_language: ar
 
 brand:
-  # Put the supplied logo file in the images/brand folder and write its path
-  # here, e.g. images/brand/gk-atelier-logo.svg (SVG or a large PNG).
-  # The logo is shown exactly as supplied — never stretched or re-typed.
-  logo: ""
-  # Optional square version of the GK monogram for browser tabs and phone
-  # home screens (at least 512 × 512 pixels), e.g. images/brand/gk-monogram.png
-  icon: ""
-  # Optional 1200 × 630 photograph shown when a page is shared on WhatsApp,
-  # Instagram, Facebook, etc. If empty, the homepage photograph is used.
-  share_image: ""
+  # The GK Atelier logo exactly as supplied (transparent PNG or SVG).
+  logo: images/brand/gk-atelier-logo.png
+  # Smaller versions cut from the same logo, never redrawn or stretched:
+  #   logo_monogram         the GK monogram, used in the header
+  #   logo_without_tagline  monogram + name, used on the homepage and footer
+  #                         (the tagline is already written right next to it)
+  logo_monogram: images/brand/gk-atelier-monogram.png
+  logo_without_tagline: images/brand/gk-atelier-logo-without-tagline.png
+  # Square GK monogram for browser tabs and phone home screens.
+  icon: images/brand/gk-atelier-icon.png
+  # 1200 × 630 image shown when a page is shared on WhatsApp, Instagram,
+  # Facebook, etc. Product pages use the product's own photo instead.
+  share_image: images/brand/gk-atelier-share.jpg
 
 social:
   # Full links to Ghada's real accounts. Leave empty ("") to hide an icon.

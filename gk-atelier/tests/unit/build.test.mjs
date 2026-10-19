@@ -44,7 +44,7 @@ test('preview: every page is built in both languages with correct direction', ()
   assert.equal(files.length, preview.pages.length);
   for (const file of files) {
     const page = read(preview.outDir, file);
-    const ar = file.startsWith('ar/');
+    const ar = !file.startsWith('en/');
     assert.match(page, ar ? /<html lang="ar" dir="rtl"/ : /<html lang="en" dir="ltr"/, file);
     assert.match(page, /<title>[^<]{10,}<\/title>/, file);
     assert.match(page, /<meta name="description" content="[^"]{20,}">/, file);
@@ -54,7 +54,7 @@ test('preview: every page is built in both languages with correct direction', ()
 
 test('preview: page titles and descriptions are unique per language', () => {
   for (const lang of ['en', 'ar']) {
-    const pages = htmlFiles(preview.outDir).filter((f) => (lang === 'ar') === f.startsWith('ar/') && f !== '404.html');
+    const pages = htmlFiles(preview.outDir).filter((f) => (lang === 'en') === f.startsWith('en/') && f !== '404.html');
     const titles = pages.map((f) => read(preview.outDir, f).match(/<title>(.*?)<\/title>/)[1]);
     assert.equal(new Set(titles).size, titles.length, `${lang} titles: ${titles.join(' | ')}`);
     const descriptions = pages.map((f) => read(preview.outDir, f).match(/<meta name="description" content="(.*?)">/)[1]);
@@ -70,7 +70,7 @@ test('preview: no WhatsApp link is invented while the number is missing', () => 
     assert.ok(!page.includes('wa.me/'), `${file} links to wa.me without a number`);
     assert.ok(!/\+?20\s?1\d{2}/.test(page.replace(/<script[\s\S]*?<\/script>/g, '')), `${file} shows something that looks like a phone number`);
   }
-  const home = read(preview.outDir, 'index.html');
+  const home = read(preview.outDir, 'en/index.html');
   assert.match(home, /id="whatsapp-setup"/);
   assert.match(home, /data-wa-setup="" data-wa-message="Hello Ghada! I found your GK Atelier website/);
 });
@@ -89,8 +89,8 @@ test('preview: kept out of search engines and clearly marked', () => {
 });
 
 test('preview: product messages carry a placeholder origin the browser fills in', () => {
-  const page = read(preview.outDir, 'products/sample-bridal-keepsake/index.html');
-  assert.ok(page.includes('Product link: __ORIGIN__/products/sample-bridal-keepsake/'));
+  const page = read(preview.outDir, 'en/products/sample-bridal-keepsake/index.html');
+  assert.ok(page.includes('Product link: __ORIGIN__/en/products/sample-bridal-keepsake/'));
 });
 
 test('preview: all internal links and anchors resolve', () => {
@@ -114,21 +114,24 @@ test('configured: no preview markers, indexable, with sitemap and hreflang', () 
     if (file === '404.html') assert.match(page, /noindex/);
     else assert.ok(!page.includes('noindex'), file);
   }
-  const about = read(configured.outDir, 'ar/about/index.html');
-  assert.match(about, /<link rel="canonical" href="https:\/\/www\.example\.com\/ar\/about\/">/);
-  assert.match(about, /<link rel="alternate" hreflang="en" href="https:\/\/www\.example\.com\/about\/">/);
+  // Arabic is the default language: it lives at the root, English under /en/.
+  const about = read(configured.outDir, 'about/index.html');
+  assert.match(about, /<html lang="ar" dir="rtl"/);
+  assert.match(about, /<link rel="canonical" href="https:\/\/www\.example\.com\/about\/">/);
+  assert.match(about, /<link rel="alternate" hreflang="en" href="https:\/\/www\.example\.com\/en\/about\/">/);
   assert.match(about, /<link rel="alternate" hreflang="x-default" href="https:\/\/www\.example\.com\/about\/">/);
 
   const sitemap = read(configured.outDir, 'sitemap.xml');
   assert.match(sitemap, /<loc>https:\/\/www\.example\.com\/products\/test-embroidered-hoop\/<\/loc>/);
-  assert.match(sitemap, /hreflang="ar" href="https:\/\/www\.example\.com\/ar\/products\/test-embroidered-hoop\/"/);
+  assert.match(sitemap, /hreflang="en" href="https:\/\/www\.example\.com\/en\/products\/test-embroidered-hoop\/"/);
+  assert.match(sitemap, /hreflang="x-default" href="https:\/\/www\.example\.com\/products\/test-embroidered-hoop\/"/);
   assert.ok(!sitemap.includes('404'));
   assert.equal((sitemap.match(/<url>/g) ?? []).length, configured.pages.filter((p) => p.index).length);
   assert.match(read(configured.outDir, 'robots.txt'), /Sitemap: https:\/\/www\.example\.com\/sitemap\.xml/);
 });
 
 test('configured: product WhatsApp links name the product and link to its page', () => {
-  const page = read(configured.outDir, 'products/test-embroidered-hoop/index.html');
+  const page = read(configured.outDir, 'en/products/test-embroidered-hoop/index.html');
   const links = attrValues(page, 'href').filter((h) => h.startsWith('https://wa.me/'));
   assert.ok(links.length >= 3);
   const productLinks = links.filter((h) => new URL(h).searchParams.get('text').includes('Test Hoop'));
@@ -136,19 +139,19 @@ test('configured: product WhatsApp links name the product and link to its page',
   const text = new URL(productLinks[0]).searchParams.get('text');
   assert.equal(
     text,
-    `Hello Ghada! I found your GK Atelier website and I'm interested in Test Hoop & "Name". Could you please share the price, availability, customization options, and delivery details? Product link: ${TEST_URL}/products/test-embroidered-hoop/`,
+    `Hello Ghada! I found your GK Atelier website and I'm interested in Test Hoop & "Name". Could you please share the price, availability, customization options, and delivery details? Product link: ${TEST_URL}/en/products/test-embroidered-hoop/`,
   );
   assert.ok(productLinks[0].startsWith(`https://wa.me/${TEST_NUMBER}?text=`));
   assert.match(page, /target="_blank" rel="noopener" data-wa=""><svg[^>]*>.*?<\/svg><span>Order This via WhatsApp<\/span>/);
 
-  const ar = read(configured.outDir, 'ar/products/test-embroidered-hoop/index.html');
+  const ar = read(configured.outDir, 'products/test-embroidered-hoop/index.html');
   const arText = new URL(attrValues(ar, 'href').find((h) => h.includes('wa.me') && decodeURIComponent(h).includes('طارة اختبار'))).searchParams.get('text');
   assert.match(arText, /^مرحبًا غادة!/);
-  assert.ok(arText.endsWith(`${TEST_URL}/ar/products/test-embroidered-hoop/`));
+  assert.ok(arText.endsWith(`${TEST_URL}/products/test-embroidered-hoop/`));
 });
 
 test('configured: confirmed details, price and structured data are shown', () => {
-  const page = read(configured.outDir, 'products/test-embroidered-hoop/index.html');
+  const page = read(configured.outDir, 'en/products/test-embroidered-hoop/index.html');
   for (const label of ['Materials', 'Techniques', 'Dimensions', 'Colours', 'Sizes', 'Personalization', 'Production time', 'Availability', 'Made to order']) {
     assert.ok(page.includes(label), label);
   }
@@ -161,7 +164,7 @@ test('configured: confirmed details, price and structured data are shown', () =>
   assert.ok(product.image.every((u) => u.startsWith(`${TEST_URL}/img/`)));
   assert.ok(!('aggregateRating' in product) && !('review' in product));
 
-  const from = read(configured.outDir, 'products/test-from-price/index.html');
+  const from = read(configured.outDir, 'en/products/test-from-price/index.html');
   assert.match(from, /From SAR\s900/);
   assert.ok(!jsonLd(from).some((d) => d['@type'] === 'Product'), 'a "from" price is not published as an exact offer');
   assert.match(from, /Prices and details, personally/);
@@ -169,7 +172,7 @@ test('configured: confirmed details, price and structured data are shown', () =>
 });
 
 test('configured: images are responsive, sized and stripped of metadata', async () => {
-  const page = read(configured.outDir, 'products/test-embroidered-hoop/index.html');
+  const page = read(configured.outDir, 'en/products/test-embroidered-hoop/index.html');
   const img = page.match(/<source type="image\/webp" srcset="([^"]+)"[^>]*>\s*<img src="([^"]+)" alt="([^"]+)" width="(\d+)" height="(\d+)"/);
   assert.ok(img, 'picture with webp srcset and dimensions');
   assert.ok(img[1].split(',').length >= 3);
@@ -182,15 +185,15 @@ test('configured: images are responsive, sized and stripped of metadata', async 
 });
 
 test('configured: collections without real pieces show a helpful empty state', () => {
-  const page = read(configured.outDir, 'collections/silk-painting/index.html');
+  const page = read(configured.outDir, 'en/collections/silk-painting/index.html');
   assert.match(page, /New pieces are on their way/);
-  assert.match(page, /href="\/custom-orders\/\?type=silk-painting"/);
+  assert.match(page, /href="\/en\/custom-orders\/\?type=silk-painting"/);
   const wa = attrValues(page, 'href').find((h) => h.includes('wa.me') && decodeURIComponent(h).includes('Silk Painting collection'));
   assert.ok(wa, 'empty state offers a collection enquiry');
 });
 
 test('configured: custom order page carries the enquiry settings', () => {
-  const page = read(configured.outDir, 'custom-orders/index.html');
+  const page = read(configured.outDir, 'en/custom-orders/index.html');
   const config = JSON.parse(page.match(/<script type="application\/json" id="enquiry-config">(.*?)<\/script>/)[1]);
   assert.equal(config.number, TEST_NUMBER);
   assert.equal(config.lang, 'en');
@@ -200,13 +203,36 @@ test('configured: custom order page carries the enquiry settings', () => {
 });
 
 test('configured: logo, social links and organisation data use supplied values only', () => {
-  const home = read(configured.outDir, 'index.html');
-  assert.match(home, /<img class="brand__logo" src="\/img\/test-logo-[0-9a-f]+\.svg" width="240" height="80" alt="GK Atelier by Ghada Khalil">/);
+  const home = read(configured.outDir, 'en/index.html');
+  // Header: the monogram cut from the supplied logo, in proportion.
+  const mark = home.match(/<img class="brand__logo" src="(\/img\/gk-atelier-monogram-[0-9a-f]+-192\.webp)" width="(\d+)" height="192" alt="GK Atelier by Ghada Khalil">/);
+  assert.ok(mark, 'header monogram');
+  assert.equal(Number(mark[2]), Math.round((780 / 584) * 192));
+  assert.ok(fs.existsSync(path.join(configured.outDir, mark[1])));
+  // Footer: the logo without its tagline.
+  assert.match(home, /<a class="brand-lockup" href="\/en\/">/);
+  assert.match(home, /gk-atelier-logo-without-tagline-[0-9a-f]+-\d+\.webp/);
+  assert.match(read(configured.outDir, 'index.html'), /alt="GK Atelier — غادة خليل"/);
   assert.match(home, /href="https:\/\/www\.instagram\.com\/example"/);
   const org = jsonLd(home).find((d) => d['@type'] === 'Organization');
   assert.deepEqual(org.sameAs, ['https://www.instagram.com/example']);
+  assert.match(org.logo, /^https:\/\/www\.example\.com\/img\/gk-atelier-logo-[0-9a-f]+-1200\.jpg$/);
   assert.ok(!('address' in org) && !('telephone' in org) && !('openingHours' in org));
-  assert.match(home, /<meta property="og:image" content="https:\/\/www\.example\.com\/img\/test-hero-[0-9a-f]+-share\.jpg">/);
+  assert.match(home, /<meta property="og:image" content="https:\/\/www\.example\.com\/img\/gk-atelier-share-[0-9a-f]+-share\.jpg">/);
+  assert.match(home, /<link rel="icon" href="\/img\/gk-atelier-icon-[0-9a-f]+-32\.png" sizes="32x32">/);
+});
+
+test('configured: a hero photograph replaces the logo-led homepage', () => {
+  const home = read(configured.outDir, 'en/index.html');
+  assert.match(home, /<section class="hero">/);
+  assert.match(home, /alt="Test hero photo"/);
+});
+
+test('preview: without a hero photograph the logo leads the homepage', () => {
+  const home = read(preview.outDir, 'index.html');
+  assert.match(home, /<section class="hero hero--brand">/);
+  assert.match(home, /<div class="hero__logo">\s*<picture>/);
+  assert.match(home, /fetchpriority="high"/);
 });
 
 test('configured: all internal links and anchors resolve', () => {

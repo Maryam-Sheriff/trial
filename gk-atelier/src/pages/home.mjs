@@ -20,17 +20,20 @@ export function homePage(ctx) {
   const featured = products.filter((p) => p.featured).slice(0, 4);
   const glimpse = photos.glimpse.length ? photos.glimpse : GLIMPSE_ICONS.map(() => ({ image: null }));
 
-  const body = html`
-<section class="hero">
+  const heroActions = html`<div class="hero__actions">
+        ${button(ctx.url('/collections/'), t('home.hero_primary'))}
+        ${whatsappButton(ctx, t('whatsapp.messages.general'), { label: t('home.hero_secondary'), variant: 'secondary' })}
+      </div>`;
+  // With a hero photograph: text beside the photo. Until one is added, the
+  // logo leads the page instead of an empty photo frame.
+  const hero = photos.hero || !ctx.brand.lockup
+    ? html`<section class="hero">
   <div class="container hero__grid">
     <div class="hero__content">
       <p class="eyebrow">${t('home.hero_eyebrow')}</p>
       <h1 class="hero__title">${t('home.hero_title')}</h1>
       <p class="hero__text">${t('home.hero_text')}</p>
-      <div class="hero__actions">
-        ${button(ctx.url('/collections/'), t('home.hero_primary'))}
-        ${whatsappButton(ctx, t('whatsapp.messages.general'), { label: t('home.hero_secondary'), variant: 'secondary' })}
-      </div>
+      ${heroActions}
     </div>
     <div class="hero__media">
       ${picture(ctx, photos.hero, {
@@ -41,7 +44,20 @@ export function homePage(ctx) {
       })}
     </div>
   </div>
-</section>
+</section>`
+    : html`<section class="hero hero--brand">
+  <div class="container hero__brand">
+    <div class="hero__logo">
+      ${picture(ctx, ctx.brand.lockup, { eager: true, sizes: '(min-width: 700px) 420px, 72vw', alt: t('meta.site_name') })}
+    </div>
+    <h1 class="hero__title">${t('home.hero_title')}</h1>
+    <p class="hero__text">${t('home.hero_text')}</p>
+    ${heroActions}
+  </div>
+</section>`;
+
+  const body = html`
+${hero}
 
 <section class="section" aria-labelledby="collections-title">
   <div class="container">
@@ -135,7 +151,7 @@ ${featured.length
   const organization = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    '@id': `${ctx.absoluteUrl(ctx.urlFor('en', '/'))}#organization`,
+    '@id': `${ctx.absoluteUrl(ctx.urlFor(ctx.defaultLang, '/'))}#organization`,
     name: ctx.copyFor('en', 'meta.site_name'),
     alternateName: 'GK Atelier',
     url: homeUrl,
@@ -143,7 +159,7 @@ ${featured.length
     founder: { '@type': 'Person', name: 'Ghada Khalil' },
     areaServed: ['Egypt', 'Gulf region'],
   };
-  if (ctx.brand.logo) organization.logo = ctx.absoluteUrl(ctx.brand.logo.url);
+  if (ctx.brand.logo) organization.logo = ctx.absoluteUrl(ctx.image(ctx.brand.logo.src).fallback);
   const sameAs = Object.values(ctx.settings.social);
   if (sameAs.length) organization.sameAs = sameAs;
   const contact = ctx.whatsapp(t('whatsapp.messages.general'));

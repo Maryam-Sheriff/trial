@@ -3,11 +3,12 @@ import { button } from '../components/ui.mjs';
 
 // Hosts serve one 404 page for every missing address, so it speaks both languages.
 export function notFoundPage(ctx) {
-  const block = (lang) => {
+  const languages = [ctx.defaultLang, ctx.defaultLang === 'ar' ? 'en' : 'ar'];
+  const block = (lang, primary) => {
     const t = (key) => ctx.copyFor(lang, key);
     return html`<div class="notfound__block" lang="${lang}" dir="${lang === 'ar' ? 'rtl' : 'ltr'}">
       <p class="eyebrow">404</p>
-      <h${lang === 'en' ? '1' : '2'} class="page-title">${t('notfound.heading')}</h${lang === 'en' ? '1' : '2'}>
+      <h${primary ? '1' : '2'} class="page-title">${t('notfound.heading')}</h${primary ? '1' : '2'}>
       <p class="lead">${t('notfound.text')}</p>
       <div class="page-hero__actions">
         ${button(ctx.urlFor(lang, '/'), t('notfound.home'))}
@@ -24,12 +25,12 @@ export function notFoundPage(ctx) {
     alternates: false,
     index: false,
     section: null,
-    title: `${ctx.copyFor('en', 'notfound.title')} · ${ctx.copyFor('ar', 'notfound.title')} | GK Atelier`,
-    description: ctx.copyFor('en', 'notfound.text'),
+    title: `${languages.map((l) => ctx.copyFor(l, 'notfound.title')).join(' · ')} | GK Atelier`,
+    description: ctx.t('notfound.text'),
     body: html`<section class="section notfound">
   <div class="container notfound__grid">
-    ${block('en')}
-    ${block('ar')}
+    ${block(languages[0], true)}
+    ${block(languages[1], false)}
   </div>
 </section>`,
   };

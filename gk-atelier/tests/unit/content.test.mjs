@@ -35,7 +35,7 @@ test('the shipped content is a preview: nothing invented is presented as real', 
   assert.ok(content.allProducts.every((p) => !p.price && !p.availability && Object.keys(p.details).length === 0), 'samples carry no prices or specifications');
   assert.deepEqual(
     launchBlockers(content).map((b) => b.key),
-    ['whatsapp', 'url', 'logo', 'arabic', 'samples'],
+    ['whatsapp', 'url', 'arabic', 'samples'],
   );
 });
 

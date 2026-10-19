@@ -43,15 +43,10 @@ export async function makeConfiguredSite(name = 'configured') {
   editYaml(root, 'content/settings.yml', (s) => {
     s.whatsapp.number = TEST_NUMBER;
     s.site.url = TEST_URL;
-    s.brand.logo = 'images/brand/test-logo.svg';
     s.social.instagram = 'https://www.instagram.com/example';
     s.launch.arabic_reviewed = true;
     s.launch.show_sample_products = false;
   });
-  fs.writeFileSync(
-    path.join(root, 'images/brand/test-logo.svg'),
-    '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="80" viewBox="0 0 240 80"><rect width="240" height="80" fill="#e9ded1"/><text x="120" y="48" font-size="20" text-anchor="middle" fill="#342a25">TEST LOGO</text></svg>',
-  );
   await testImage(path.join(root, 'images/atelier/test-hero.jpg'), { width: 1600, height: 2000, color: '#c9b79f' });
   editYaml(root, 'content/photos.yml', (p) => {
     p.hero = { src: 'images/atelier/test-hero.jpg', alt: { en: 'Test hero photo', ar: 'صورة اختبار' } };

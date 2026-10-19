@@ -38,21 +38,29 @@ Every WhatsApp button on the site uses this one number. If it is ever written
 in the wrong format, the website explains what to fix instead of publishing a
 broken link.
 
-## 2. Add the logo
+## 2. The logo
 
-1. Upload the supplied logo file to `images/brand/`. An SVG file is best; a
-   large PNG with a transparent background also works.
-2. In `content/settings.yml`, write its path:
+The supplied logo is already in place (`images/brand/gk-atelier-logo.png`).
+The site uses a few versions of it, all cut from that same file and never
+redrawn or stretched:
 
-   ```yaml
-   brand:
-     logo: images/brand/gk-atelier-logo.svg
-   ```
+| File | Where it appears |
+| --- | --- |
+| `gk-atelier-logo.png` | the original, used by Google |
+| `gk-atelier-monogram.png` | the GK monogram in the header |
+| `gk-atelier-logo-without-tagline.png` | the homepage (until a hero photo is added) and the footer |
+| `gk-atelier-icon.png` | browser tabs and phone home screens |
+| `gk-atelier-share.jpg` | the preview card when a link is shared on WhatsApp or Instagram |
 
-The logo is always shown exactly as supplied, keeping its proportions. If you
-have a square version of the GK monogram (at least 512 × 512 pixels), add it as
-`icon:` too. It becomes the little picture in browser tabs and on phone home
-screens.
+If the logo ever changes, replace these files (same names) or point to the new
+ones in `content/settings.yml` under `brand:`. An SVG version from the
+designer would make the header monogram even sharper.
+
+## Language
+
+Arabic is the main language: the site opens in Arabic, and English lives
+under `/en/`. To make English the main language instead, change
+`default_language: ar` to `default_language: en` in `content/settings.yml`.
 
 ## 3. Add a product
 

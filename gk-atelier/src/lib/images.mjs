@@ -76,7 +76,10 @@ export function createImagePipeline({ root, outDir, base, cacheDir }) {
     });
   }
 
-  /** The logo exactly as supplied: SVG copied as-is, raster logos resized only. */
+  /**
+   * A logo for the header: SVG copied as-is; a raster logo scaled down in
+   * proportion (sharp enough for 3× screens) with its transparency kept.
+   */
   function logo(src) {
     return once(`logo:${src}`, async () => {
       const { buffer, stem } = sourceInfo(src);
@@ -85,9 +88,9 @@ export function createImagePipeline({ root, outDir, base, cacheDir }) {
         const url = await variant(`${stem}.svg`, async () => buffer);
         return { url, width: meta.width, height: meta.height, svg: true };
       }
-      const height = Math.min(meta.height, 240);
+      const height = Math.min(meta.height, 192);
       const width = Math.round((meta.width / meta.height) * height);
-      const url = await variant(`${stem}-${height}.png`, () => sharp(buffer).resize({ height }).png().toBuffer());
+      const url = await variant(`${stem}-${height}.webp`, () => sharp(buffer).resize({ height }).webp({ quality: 90, alphaQuality: 100 }).toBuffer());
       return { url, width, height, svg: false };
     });
   }

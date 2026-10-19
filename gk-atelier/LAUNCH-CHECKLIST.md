@@ -18,8 +18,8 @@ at any time.
 - [ ] **Website address:** `content/settings.yml` → `site.url` (for example
       `https://www.gkatelier.com`). It is used for product links inside
       WhatsApp messages, Google and social previews.
-- [ ] **Logo:** add the supplied GK Atelier logo file to `images/brand/` and
-      set `brand.logo`.
+- [x] **Logo:** added (`images/brand/`), with the header monogram, homepage
+      and footer versions, browser icon and sharing image cut from it.
 - [ ] **Real products:** add Ghada's pieces (see EDITING-GUIDE.md), then delete
       the `sample-*.yml` files or set `launch.show_sample_products: false`.
 - [ ] **Arabic review:** a fluent Arabic speaker, ideally someone familiar with
@@ -54,9 +54,8 @@ at any time.
       process photos. Until then, tidy "Photograph coming soon" panels are
       shown.
 - [ ] Instagram (and any other) account links in `content/settings.yml`.
-- [ ] Square monogram for browser and phone icons (`brand.icon`).
-- [ ] A 1200 × 630 sharing image (`brand.share_image`) for link previews on
-      WhatsApp and Instagram. Otherwise the homepage photo is used.
+- [ ] Optional: an SVG version of the logo from the designer, for an even
+      sharper header monogram.
 
 ## Going live
 

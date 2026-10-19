@@ -1,11 +1,16 @@
 import { fill } from './html.mjs';
 
 export const LANGS = {
-  en: { code: 'en', dir: 'ltr', prefix: '', intl: 'en-GB', other: 'ar' },
-  ar: { code: 'ar', dir: 'rtl', prefix: '/ar', intl: 'ar-EG-u-nu-latn', other: 'en' },
+  ar: { code: 'ar', dir: 'rtl', intl: 'ar-EG-u-nu-latn', other: 'en' },
+  en: { code: 'en', dir: 'ltr', intl: 'en-GB', other: 'ar' },
 };
 
 export const LANG_CODES = Object.keys(LANGS);
+
+/** The default language lives at the site root; the other under /<code>/. */
+export function langPrefix(lang, defaultLang) {
+  return lang === defaultLang ? '' : `/${lang}`;
+}
 
 function lookup(tree, key) {
   return key.split('.').reduce((node, part) => (node == null ? undefined : node[part]), tree);

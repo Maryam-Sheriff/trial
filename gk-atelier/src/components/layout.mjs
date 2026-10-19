@@ -1,6 +1,7 @@
 import { attrs, html, raw } from '../lib/html.mjs';
 import { LANGS } from '../lib/i18n.mjs';
 import { icon } from './icons.mjs';
+import { picture } from './media.mjs';
 import { whatsappButton } from './ui.mjs';
 
 const NAV = [
@@ -24,7 +25,7 @@ function head(ctx, page) {
   const alternates = page.alternates === false ? [] : [
     { hreflang: 'en', href: ctx.absoluteUrl(ctx.urlFor('en', page.route)) },
     { hreflang: 'ar', href: ctx.absoluteUrl(ctx.urlFor('ar', page.route)) },
-    { hreflang: 'x-default', href: ctx.absoluteUrl(ctx.urlFor('en', page.route)) },
+    { hreflang: 'x-default', href: ctx.absoluteUrl(ctx.urlFor(ctx.defaultLang, page.route)) },
   ];
   const share = page.shareImage ?? ctx.defaultShareImage;
   const fonts = assets.fontPreloads[lang];
@@ -68,9 +69,9 @@ ${(page.jsonLd ?? []).map(jsonLd)}
 
 function brandMark(ctx, { className = 'brand' } = {}) {
   const { brand, t } = ctx;
-  if (brand.logo) {
+  if (brand.mark) {
     return html`<a class="${className}" href="${ctx.url('/')}">
-      <img class="brand__logo" src="${brand.logo.url}" width="${brand.logo.width}" height="${brand.logo.height}" alt="${ctx.copyFor('en', 'meta.site_name')}">
+      <img class="brand__logo" src="${brand.mark.url}" width="${brand.mark.width}" height="${brand.mark.height}" alt="${t('meta.site_name')}">
     </a>`;
   }
   // Until the supplied logo file is added, show the name as plain text rather
@@ -87,10 +88,9 @@ function languageSwitch(ctx, page, className = 'lang-switch') {
     class: className,
     href: ctx.urlFor(other, page.switchRoute ?? page.route),
     hreflang: other,
-    lang: other,
     'data-lang-switch': other,
     title: ctx.t('nav.switch_hint'),
-  })}>${ctx.t('nav.switch_label')}</a>`;
+  })}>${icon('globe')}<span lang="${other}">${ctx.t('nav.switch_label')}</span></a>`;
 }
 
 function header(ctx, page) {
@@ -110,7 +110,6 @@ function header(ctx, page) {
         )}
       </ul>
       <div class="site-nav__extra">
-        ${languageSwitch(ctx, page, 'lang-switch lang-switch--menu')}
         ${whatsappButton(ctx, generalMessage, { label: t('whatsapp.order'), variant: 'primary', className: 'btn--block' })}
       </div>
     </nav>
@@ -128,13 +127,15 @@ function header(ctx, page) {
 }
 
 function footer(ctx, page, floating = '') {
-  const { t, settings } = ctx;
+  const { t, settings, brand } = ctx;
   const year = new Date().getFullYear();
   const social = Object.entries(settings.social);
   return html`<footer class="site-footer">
   <div class="container site-footer__grid">
     <div class="site-footer__brand">
-      ${brandMark(ctx, { className: 'brand brand--footer' })}
+      ${brand.lockup
+        ? html`<a class="brand-lockup" href="${ctx.url('/')}">${picture(ctx, brand.lockup, { sizes: '240px', alt: t('meta.site_name') })}</a>`
+        : brandMark(ctx, { className: 'brand brand--footer' })}
       <p class="site-footer__tagline">${t('footer.tagline')}</p>
       <p class="site-footer__service">${t('footer.service')}</p>
     </div>

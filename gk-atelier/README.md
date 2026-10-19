@@ -26,10 +26,10 @@ Requires Node 20.9+. The output is a plain static site in `dist/`.
 
 ## What's included
 
-| Page | URL (English · Arabic) |
+| Page | URL (Arabic · English) |
 | --- | --- |
-| Home | `/` · `/ar/` |
-| Collections | `/collections/` |
+| Home | `/` · `/en/` |
+| Collections | `/collections/` · `/en/collections/` |
 | Collection (×7) | `/collections/wedding-bridal/` … |
 | Product (one per file in `content/products/`) | `/products/<slug>/` |
 | About Ghada | `/about/` |
@@ -38,9 +38,13 @@ Requires Node 20.9+. The output is a plain static site in `dist/`.
 | Privacy notice | `/privacy/` |
 | Not found (both languages) | `/404.html` |
 
-Every page exists in both languages. Arabic lives under `/ar/` with a
-right-to-left layout, Arabic typefaces (Amiri for headings, IBM Plex Sans
-Arabic for text) and its own titles, descriptions and WhatsApp messages.
+Every page exists in both languages. **Arabic is the default**: it lives at
+the main address with a right-to-left layout, Arabic typefaces (Amiri for
+headings, IBM Plex Sans Arabic for text) and its own titles, descriptions and
+WhatsApp messages. English lives under `/en/`. The default is one setting
+(`site.default_language` in `content/settings.yml`), and `x-default`
+`hreflang` follows it. A globe language switch is always visible at the top
+of every page, including on phones.
 
 ### WhatsApp ordering
 
@@ -79,6 +83,11 @@ Once complete, the same build produces the indexable site with `sitemap.xml`
 
 The brief asks for nothing to be invented, so the site ships with:
 
+- **The supplied logo, untouched.** The header uses the GK monogram and the
+  homepage and footer use the monogram and name; both are straight crops of
+  the supplied transparent PNG, never redrawn or stretched. Until a hero
+  photograph is added, the logo leads the homepage. The browser icon and the
+  link-preview image are made from the same file.
 - **No product photographs.** Clearly labelled "Photograph coming soon"
   panels (a linen-weave pattern with a line drawing of the craft) fill every
   photo slot until real photos are added. They are intentionally graphic and
@@ -98,7 +107,7 @@ Everything editable is YAML in `content/` (documented inline):
 
 ```
 content/
-  settings.yml          WhatsApp number, site URL, logo, social links, launch switches
+  settings.yml          WhatsApp number, site URL, default language, logo, social links, launch switches
   photos.yml            homepage hero, Ghada's portrait, "glimpse" gallery, About photos
   collections.yml       the 7 collections (name, short text, intro, cover photo, icon)
   products/*.yml        one file per product; _TEMPLATE.yml documents every field
@@ -150,9 +159,9 @@ tests/e2e/              Playwright — customer journeys, axe accessibility, ove
   per language, `font-display: swap`. No third-party requests.
 - **Assets:** content-hashed file names for long-term caching.
 - **Language:** each page links to its counterpart. An explicit language choice
-  is remembered (`localStorage`), so a returning visitor who chose Arabic and
-  opens an English link from outside the site is sent to the Arabic version.
-  Browsing within the site never redirects.
+  is remembered (`localStorage`), so a returning visitor who chose English and
+  opens an Arabic link from outside the site is sent to the English version
+  (and the other way round). Browsing within the site never redirects.
 - **Without JavaScript** every page and link still works. Navigation shows as a
   simple list, and the enquiry form falls back to opening the WhatsApp chat.
 
@@ -174,7 +183,7 @@ shades of the same hues are used where text must stay readable (WCAG AA).
 
 ## Testing
 
-`npm test` runs 37 unit and build tests, including full preview and
+`npm test` runs 39 unit and build tests, including full preview and
 configured builds with a link checker over every page.
 
 `npm run test:e2e` builds two sites, the shipped content (preview) and a fully
@@ -182,7 +191,8 @@ configured fixture (test-only number `201000000000` and `example.com`), and
 runs on an emulated Pixel 7 and desktop Chrome:
 
 - browse → collection → product → WhatsApp (exact prefilled message and link)
-- language switching, RTL, and the remembered preference
+- Arabic as the default at `/`, the always-visible language switch, RTL,
+  and the remembered preference
 - custom order validation, error summary focus, the WhatsApp message, the
   confirmation panel, and Arabic messages
 - preview behaviour with no number (setup notice, no `wa.me` links)

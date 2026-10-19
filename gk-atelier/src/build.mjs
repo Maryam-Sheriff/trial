@@ -8,7 +8,7 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { buildAssets } from './lib/assets.mjs';
 import { launchBlockers, loadContent } from './lib/content.mjs';
-import { LANG_CODES, LANGS, translator } from './lib/i18n.mjs';
+import { LANG_CODES, langPrefix, translator } from './lib/i18n.mjs';
 import { createImagePipeline } from './lib/images.mjs';
 import { whatsappUrl } from './lib/whatsapp.mjs';
 import { documentPage } from './components/layout.mjs';
@@ -31,7 +31,10 @@ function printIssues(report, log) {
 
 async function processImages(content, pipeline) {
   const { settings, photos, collections, allProducts } = content;
+  const brandRefs = settings.brand;
   const photoRefs = [
+    brandRefs.logo,
+    brandRefs.logo_without_tagline,
     photos.hero,
     photos.ghada,
     ...photos.glimpse.map((g) => g.image),
@@ -53,9 +56,15 @@ async function processImages(content, pipeline) {
   const shares = new Map();
   for (const ref of shareSources) shares.set(ref.src, await pipeline.share(ref.src));
 
+  const markSource = brandRefs.logo_monogram ?? brandRefs.logo;
   const brand = {
-    logo: settings.brand.logo ? await pipeline.logo(settings.brand.logo.src) : null,
-    icon: settings.brand.icon ? await pipeline.icon(settings.brand.icon.src) : null,
+    // The full logo as supplied (used for search engines).
+    logo: brandRefs.logo,
+    // Compact version for the header.
+    mark: markSource ? await pipeline.logo(markSource.src) : null,
+    // Larger version for the homepage and footer.
+    lockup: brandRefs.logo_without_tagline ?? brandRefs.logo,
+    icon: brandRefs.icon ? await pipeline.icon(brandRefs.icon.src) : null,
   };
   const defaultShare = settings.brand.share_image ?? photos.hero ?? null;
   return { images, shares, brand, defaultShareImage: defaultShare ? shares.get(defaultShare.src) : null };
@@ -64,9 +73,11 @@ async function processImages(content, pipeline) {
 function createContext({ content, lang, assets, media, blockers, indexable, base }) {
   const { settings } = content;
   const t = translator(content.copy, lang);
-  const urlFor = (l, route) => `${base}${LANGS[l].prefix}${route}`;
+  const defaultLang = settings.defaultLanguage;
+  const urlFor = (l, route) => `${base}${langPrefix(l, defaultLang)}${route}`;
   return {
     lang,
+    defaultLang,
     t,
     content,
     settings,
@@ -96,7 +107,7 @@ function outputFile(outDir, base, url) {
   return path.join(outDir, relative.endsWith('/') ? `${relative}index.html` : relative);
 }
 
-function sitemap(pages, siteUrl) {
+function sitemap(pages, siteUrl, defaultLang) {
   const byRoute = new Map();
   for (const page of pages) {
     if (page.index === false) continue;
@@ -107,7 +118,7 @@ function sitemap(pages, siteUrl) {
   for (const urls of byRoute.values()) {
     const links = Object.entries(urls)
       .map(([lang, url]) => `    <xhtml:link rel="alternate" hreflang="${lang}" href="${siteUrl}${url}"/>`)
-      .concat(urls.en ? [`    <xhtml:link rel="alternate" hreflang="x-default" href="${siteUrl}${urls.en}"/>`] : []);
+      .concat(urls[defaultLang] ? [`    <xhtml:link rel="alternate" hreflang="x-default" href="${siteUrl}${urls[defaultLang]}"/>`] : []);
     for (const url of Object.values(urls)) {
       entries.push(`  <url>\n    <loc>${siteUrl}${url}</loc>\n${links.join('\n')}\n  </url>`);
     }
@@ -161,7 +172,7 @@ export async function build({
       contactPage(ctx),
       privacyPage(ctx),
     ];
-    if (lang === 'en') pages.push(notFoundPage(ctx));
+    if (lang === settings.defaultLanguage) pages.push(notFoundPage(ctx));
     for (const page of pages) {
       const url = page.name === 'notfound' ? `${base}${page.route}` : ctx.url(page.route);
       const file = outputFile(outDir, base, url);
@@ -172,7 +183,7 @@ export async function build({
   }
 
   if (indexable) {
-    fs.writeFileSync(path.join(outDir, 'sitemap.xml'), sitemap(written, settings.siteUrl));
+    fs.writeFileSync(path.join(outDir, 'sitemap.xml'), sitemap(written, settings.siteUrl, settings.defaultLanguage));
     fs.writeFileSync(path.join(outDir, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${settings.siteUrl}${base}/sitemap.xml\n`);
   } else {
     // Previews stay out of search engines until everything is ready.
