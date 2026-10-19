@@ -1,0 +1,50 @@
+# ─────────────────────────────────────────────────────────────────────────────
+#  GK Atelier — website settings
+#
+#  This is the one place for contact details and launch switches.
+#  Change only the text after the colon (:) and keep the spaces at the start
+#  of each line exactly as they are. Text in quotes "like this" is fine.
+#  Lines starting with # are notes and are ignored by the website.
+# ─────────────────────────────────────────────────────────────────────────────
+
+whatsapp:
+  # Ghada's WhatsApp number in international format, DIGITS ONLY:
+  # country code + number, with no "+", no spaces and no leading zero.
+  #   Egypt: 20 followed by the mobile number without its first 0
+  #          (a number written locally as 01XX XXX XXXX becomes 201XXXXXXXXX)
+  # Until this is filled in, every WhatsApp button shows a "not set up yet"
+  # notice instead of a link, and the release build refuses to run.
+  number: ""
+
+site:
+  # The website's full address once a domain is chosen,
+  # e.g. https://www.example.com — used for product links inside WhatsApp
+  # messages, search engines and social sharing. No trailing slash needed.
+  url: ""
+
+brand:
+  # Put the supplied logo file in the images/brand folder and write its path
+  # here, e.g. images/brand/gk-atelier-logo.svg (SVG or a large PNG).
+  # The logo is shown exactly as supplied — never stretched or re-typed.
+  logo: ""
+  # Optional square version of the GK monogram for browser tabs and phone
+  # home screens (at least 512 × 512 pixels), e.g. images/brand/gk-monogram.png
+  icon: ""
+  # Optional 1200 × 630 photograph shown when a page is shared on WhatsApp,
+  # Instagram, Facebook, etc. If empty, the homepage photograph is used.
+  share_image: ""
+
+social:
+  # Full links to Ghada's real accounts. Leave empty ("") to hide an icon.
+  instagram: ""
+  facebook: ""
+  tiktok: ""
+  pinterest: ""
+
+launch:
+  # Set to true only after a fluent Arabic speaker has reviewed every Arabic
+  # text on the site (content/copy/ar.yml, collections.yml and the products).
+  arabic_reviewed: false
+  # The products marked "sample: true" only demonstrate the product pages.
+  # Set this to false (or delete the sample files) before the site goes live.
+  show_sample_products: true

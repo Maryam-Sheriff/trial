@@ -1,0 +1,19 @@
+# SAMPLE LISTING — demonstrates the product page layout only.
+# This is not one of Ghada's real pieces: replace it with a real product
+# (see _TEMPLATE.yml) or delete this file before the website goes live.
+id: SAMPLE-02
+slug: sample-ring-cushion
+collection: wedding-bridal
+sample: true
+featured: false
+name:
+  en: Wedding Ring Cushion
+  ar: وسادة خواتم الزفاف
+description:
+  en: >-
+    A small handmade cushion to hold the rings until the moment they are
+    exchanged — a quiet detail that becomes a keepsake.
+  ar: >-
+    وسادة صغيرة مصنوعة يدويًا تحتضن الخواتم حتى لحظة تبادلها — تفصيلة هادئة
+    تصبح تذكارًا جميلًا.
+images: []

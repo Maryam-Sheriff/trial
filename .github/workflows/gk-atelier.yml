@@ -1,0 +1,40 @@
+name: GK Atelier website
+
+on:
+  pull_request:
+    paths:
+      - 'gk-atelier/**'
+      - '.github/workflows/gk-atelier.yml'
+  push:
+    paths:
+      - 'gk-atelier/**'
+      - '.github/workflows/gk-atelier.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: gk-atelier
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: gk-atelier/package-lock.json
+      - run: npm ci
+      - name: Check content
+        run: npm run check
+      - name: Unit and build tests
+        run: npm test
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+      - name: Browser tests (phone + desktop)
+        run: npm run test:e2e
+      - name: Preview build
+        run: npm run build

@@ -1,0 +1,19 @@
+# SAMPLE LISTING — demonstrates the product page layout only.
+# This is not one of Ghada's real pieces: replace it with a real product
+# (see _TEMPLATE.yml) or delete this file before the website goes live.
+id: SAMPLE-03
+slug: sample-embroidered-name-hoop
+collection: embroidery-textile-art
+sample: true
+featured: true
+name:
+  en: Embroidered Name Hoop
+  ar: طارة تطريز بالاسم
+description:
+  en: >-
+    A name stitched by hand and framed in an embroidery hoop — a personal
+    piece for a nursery, a bedroom or a gift.
+  ar: >-
+    اسم مطرّز يدويًا داخل طارة تطريز — قطعة شخصية لغرفة طفل أو غرفة نوم أو
+    كهدية.
+images: []

@@ -1,0 +1,19 @@
+# SAMPLE LISTING — demonstrates the product page layout only.
+# This is not one of Ghada's real pieces: replace it with a real product
+# (see _TEMPLATE.yml) or delete this file before the website goes live.
+id: SAMPLE-05
+slug: sample-newborn-welcome-set
+collection: baby-newborn
+sample: true
+featured: true
+name:
+  en: Newborn Welcome Set
+  ar: طقم استقبال المولود
+description:
+  en: >-
+    A gentle set of handmade pieces to welcome a new baby home — a thoughtful
+    gift for new parents.
+  ar: >-
+    طقم رقيق من القطع المصنوعة يدويًا لاستقبال المولود في بيته — هدية مدروسة
+    للوالدين الجديدين.
+images: []

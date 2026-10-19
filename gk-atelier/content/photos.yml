@@ -1,0 +1,54 @@
+# ─────────────────────────────────────────────────────────────────────────────
+#  Photographs for the homepage and the About page
+#
+#  1. Copy the photo into the images/atelier folder (JPG, PNG or WebP —
+#     large originals are fine, the website makes smaller copies itself).
+#  2. Write its path after "src:" and describe what it shows after "en:" and
+#     "ar:" (this description is read aloud to blind visitors and helps Google).
+#  Only real photographs of Ghada's own work belong here. Any slot left empty
+#  shows a clearly labelled "photograph coming soon" placeholder.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# The large photograph at the top of the homepage. A portrait (tall) photo of
+# a finished piece or a beautiful detail works best.
+hero:
+  src: ""
+  alt:
+    en: ""
+    ar: ""
+
+# A photograph of Ghada, ideally at work. Used on the homepage and About page.
+ghada:
+  src: ""
+  alt:
+    en: ""
+    ar: ""
+
+# "A glimpse into the atelier" on the homepage — 6 photographs work best:
+# a mix of finished pieces and close-ups of stitching, threads and textures.
+glimpse:
+  - src: ""
+    alt: { en: "", ar: "" }
+  - src: ""
+    alt: { en: "", ar: "" }
+  - src: ""
+    alt: { en: "", ar: "" }
+  - src: ""
+    alt: { en: "", ar: "" }
+  - src: ""
+    alt: { en: "", ar: "" }
+  - src: ""
+    alt: { en: "", ar: "" }
+
+# About page — Ghada's workspace, tools and creative process.
+# Write a short caption for each in both languages.
+process:
+  - src: ""
+    alt: { en: "", ar: "" }
+    caption: { en: "The workspace", ar: "مساحة العمل" }
+  - src: ""
+    alt: { en: "", ar: "" }
+    caption: { en: "Tools and materials", ar: "الأدوات والخامات" }
+  - src: ""
+    alt: { en: "", ar: "" }
+    caption: { en: "A piece in progress", ar: "قطعة قيد الإنجاز" }

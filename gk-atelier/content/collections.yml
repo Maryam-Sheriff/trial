@@ -1,0 +1,155 @@
+# ─────────────────────────────────────────────────────────────────────────────
+#  Collections (product categories)
+#
+#  Each collection has:
+#    slug:   the web address part, e.g. /collections/wedding-bridal/
+#            (lowercase letters, numbers and dashes only; don't change it after
+#            launch, or old links shared on Instagram will stop working)
+#    name:   the collection name in English and Arabic
+#    short:  one sentence for the collection cards
+#    intro:  a short introduction for the collection's own page
+#    image:  cover photograph (put it in images/collections), and its
+#            description in both languages
+#    icon:   the small drawing used while there is no photograph
+#            (rings, hoop, knot, baby, brush, yarn or gift)
+#  The order here is the order on the website.
+# ─────────────────────────────────────────────────────────────────────────────
+
+- slug: wedding-bridal
+  icon: rings
+  name:
+    en: Wedding & Bridal Creations
+    ar: إبداعات الزفاف والعروس
+  short:
+    en: Handmade keepsakes and finishing touches for the day you will always remember.
+    ar: تفاصيل وتذكارات مصنوعة يدويًا ليومٍ سيبقى في الذاكرة دائمًا.
+  intro:
+    en: >-
+      A wedding is made of small, meaningful details. These pieces are made by
+      hand to suit your celebration — created to be used on the day and kept
+      long after it.
+    ar: >-
+      يتكوّن يوم الزفاف من تفاصيل صغيرة تحمل الكثير من المعاني. تُصنع هذه القطع
+      يدويًا لتليق باحتفالكم، لتُستخدم في ذلك اليوم وتبقى ذكرى جميلة بعده.
+  image:
+    src: ""
+    alt: { en: "", ar: "" }
+
+- slug: embroidery-textile-art
+  icon: hoop
+  name:
+    en: Embroidery & Textile Art
+    ar: التطريز وفنون النسيج
+  short:
+    en: Patient needlework on fabric — names, motifs and designs stitched by hand.
+    ar: تطريز يدوي بصبرٍ على القماش — أسماء ونقوش وتصاميم بالإبرة والخيط.
+  intro:
+    en: >-
+      Embroidery is slow, careful work: thread chosen colour by colour and
+      stitched one stitch at a time. Each piece carries the quiet texture that
+      only handwork can give.
+    ar: >-
+      التطريز عمل هادئ ودقيق: تُختار الخيوط لونًا لونًا وتُطرَّز غرزةً بعد غرزة.
+      وتحمل كل قطعة ذلك الملمس الخاص الذي لا يمنحه إلا العمل اليدوي.
+  image:
+    src: ""
+    alt: { en: "", ar: "" }
+
+- slug: macrame-home-decor
+  icon: knot
+  name:
+    en: Macramé & Home Décor
+    ar: المكرمية وديكور المنزل
+  short:
+    en: Hand-knotted macramé and decorative pieces that bring warmth to a home.
+    ar: مكرمية معقودة يدويًا وقطع ديكور تضيف دفئًا إلى المنزل.
+  intro:
+    en: >-
+      Knotted by hand from soft cord, macramé brings natural texture and calm
+      to a room. Alongside it you will find decorative pieces made to give a
+      home a personal, handmade touch.
+    ar: >-
+      تُعقد المكرمية يدويًا من الحبال الناعمة، فتمنح المكان ملمسًا طبيعيًا وهدوءًا.
+      وإلى جانبها قطع ديكور تضيف إلى البيت لمسة شخصية مصنوعة باليد.
+  image:
+    src: ""
+    alt: { en: "", ar: "" }
+
+- slug: baby-newborn
+  icon: baby
+  name:
+    en: Baby Sets & Newborn Gifts
+    ar: أطقم وهدايا المواليد
+  short:
+    en: Gentle handmade sets and gifts to welcome a new little one.
+    ar: أطقم وهدايا رقيقة مصنوعة يدويًا لاستقبال المولود الجديد.
+  intro:
+    en: >-
+      Few moments are as tender as welcoming a new baby. These handmade sets
+      and gifts are made with softness and care — for new parents, and for
+      the people celebrating with them.
+    ar: >-
+      قليلة هي اللحظات الرقيقة مثل استقبال مولود جديد. تُصنع هذه الأطقم والهدايا
+      يدويًا بنعومة وعناية — للوالدين الجديدين، ولكل من يشاركهم الفرحة.
+  image:
+    src: ""
+    alt: { en: "", ar: "" }
+
+- slug: silk-painting
+  icon: brush
+  name:
+    en: Silk Painting
+    ar: الرسم على الحرير
+  short:
+    en: Colour painted by hand onto silk — every piece one of a kind.
+    ar: ألوان تُرسم يدويًا على الحرير — فلا تتشابه قطعتان.
+  intro:
+    en: >-
+      Painting on silk is a delicate art: colours flow into the fabric and
+      settle in their own way, so no two pieces are ever quite the same.
+    ar: >-
+      الرسم على الحرير فنّ رقيق: تنساب الألوان في القماش وتستقر بطريقتها الخاصة،
+      لذلك لا تتشابه قطعتان أبدًا.
+  image:
+    src: ""
+    alt: { en: "", ar: "" }
+
+- slug: crochet-teriko
+  icon: yarn
+  name:
+    en: Crochet & Teriko
+    ar: الكروشيه والتريكو
+  short:
+    en: Crochet and hand-knitted teriko pieces, made loop by loop.
+    ar: قطع كروشيه وتريكو مصنوعة يدويًا، عُقدةً بعد عُقدة.
+  intro:
+    en: >-
+      Crochet and teriko (hand knitting) turn simple yarn into something warm
+      and lasting. Every row is worked by hand, giving each piece its soft,
+      familiar texture.
+    ar: >-
+      يحوّل الكروشيه والتريكو الخيط البسيط إلى قطعة دافئة تدوم طويلًا. يُشغل كل صف
+      باليد، فتكتسب كل قطعة ملمسها الناعم المألوف.
+  image:
+    src: ""
+    alt: { en: "", ar: "" }
+
+- slug: personalized-gifts
+  icon: gift
+  name:
+    en: Personalized Gifts
+    ar: هدايا مخصّصة
+  short:
+    en: Thoughtful gifts made around a name, a date or a moment worth remembering.
+    ar: هدايا مدروسة تُصنع حول اسم أو تاريخ أو لحظة تستحق أن تُذكر.
+  intro:
+    en: >-
+      The most meaningful gifts are the ones made for one person. Talk to
+      Ghada about a name, a date or a detail that matters, and the piece can
+      be made around it.
+    ar: >-
+      أجمل الهدايا هي تلك التي تُصنع لشخص واحد بعينه. حدّثوا غادة عن اسم أو تاريخ
+      أو تفصيلة تعني لكم الكثير، لتُصنع القطعة من حولها.
+  image:
+    src: ""
+    alt: { en: "", ar: "" }

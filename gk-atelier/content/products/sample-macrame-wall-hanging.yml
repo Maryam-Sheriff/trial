@@ -1,0 +1,17 @@
+# SAMPLE LISTING — demonstrates the product page layout only.
+# This is not one of Ghada's real pieces: replace it with a real product
+# (see _TEMPLATE.yml) or delete this file before the website goes live.
+id: SAMPLE-04
+slug: sample-macrame-wall-hanging
+collection: macrame-home-decor
+sample: true
+featured: true
+name:
+  en: Macramé Wall Hanging
+  ar: معلّقة مكرمية جدارية
+description:
+  en: >-
+    Knotted by hand, row by row, to bring soft texture and warmth to a wall.
+  ar: >-
+    معقودة يدويًا صفًا بعد صف، لتضيف ملمسًا ناعمًا ودفئًا إلى الجدار.
+images: []
