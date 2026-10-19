@@ -45,6 +45,9 @@ images:
     alt:
       en: Describe what the photo shows
       ar: صف ما تُظهره الصورة
+    # OPTIONAL — which part to keep when the photo is cropped into a tall
+    # frame: left, right, top or bottom (the centre is kept otherwise).
+    # focus: left
 
 # OPTIONAL — only if Ghada wants to show a price.
 # from: true shows "From EGP 1,250" (useful when the price depends on options).

@@ -52,8 +52,10 @@
       التطريز عمل هادئ ودقيق: تُختار الخيوط لونًا لونًا وتُطرَّز غرزةً بعد غرزة.
       وتحمل كل قطعة ذلك الملمس الخاص الذي لا يمنحه إلا العمل اليدوي.
   image:
-    src: ""
-    alt: { en: "", ar: "" }
+    src: images/products/embroidered-name-bodysuit/1.jpg
+    alt:
+      en: Hand embroidery of a name and a teddy bear framed by leaves and blue flowers
+      ar: تطريز يدوي لاسم ودبدوب يحيط به إكليل من الأوراق والزهور الزرقاء
 
 - slug: macrame-home-decor
   icon: knot
@@ -72,8 +74,11 @@
       تُعقد المكرمية يدويًا من الحبال الناعمة، فتمنح المكان ملمسًا طبيعيًا وهدوءًا.
       وإلى جانبها قطع ديكور تضيف إلى البيت لمسة شخصية مصنوعة باليد.
   image:
-    src: ""
-    alt: { en: "", ar: "" }
+    src: images/products/macrame-doorway-curtain/1.jpg
+    focus: left
+    alt:
+      en: Ivory macramé curtain with diamond patterns hanging in a sunlit doorway
+      ar: ستارة مكرمية عاجية بنقوش معيّنة معلّقة عند مدخل مشمس
 
 - slug: baby-newborn
   icon: baby
@@ -92,8 +97,10 @@
       قليلة هي اللحظات الرقيقة مثل استقبال مولود جديد. تُصنع هذه الأطقم والهدايا
       يدويًا بنعومة وعناية — للوالدين الجديدين، ولكل من يشاركهم الفرحة.
   image:
-    src: ""
-    alt: { en: "", ar: "" }
+    src: images/products/personalized-newborn-set/1.jpg
+    alt:
+      en: Ivory newborn set embroidered with a baby's name, roses and pearls
+      ar: طقم مواليد عاجي مطرّز باسم الطفل مع ورود ولآلئ
 
 - slug: silk-painting
   icon: brush

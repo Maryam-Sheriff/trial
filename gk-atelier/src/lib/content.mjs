@@ -11,6 +11,8 @@ export const CURRENCIES = ['EGP', 'SAR', 'AED', 'KWD', 'QAR', 'BHD', 'OMR', 'USD
 export const AVAILABILITY = ['made-to-order', 'available', 'unavailable'];
 export const DETAIL_FIELDS = ['materials', 'techniques', 'dimensions', 'colours', 'sizes', 'customization', 'production_time'];
 export const COLLECTION_ICONS = ['rings', 'hoop', 'knot', 'baby', 'brush', 'yarn', 'gift'];
+// Which part of a photo to keep when it is cropped into a frame.
+export const IMAGE_FOCUS = ['center', 'left', 'right', 'top', 'bottom'];
 const PRODUCT_KEYS = new Set(['id', 'slug', 'collection', 'sample', 'featured', 'name', 'description', 'images', 'price', 'availability', ...DETAIL_FIELDS]);
 const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.avif', '.tif', '.tiff'];
 
@@ -71,7 +73,12 @@ function imageRef(root, value, where, report, { required = false } = {}) {
     report.error(where.file, `${where.label}: the photo "${clean}" was not found. Check the folder and file name (capital letters matter).`);
     return null;
   }
-  return { src: clean, alt: bilingual(value?.alt), caption: bilingual(value?.caption) };
+  let focus = 'center';
+  if (value?.focus != null && value.focus !== '') {
+    if (IMAGE_FOCUS.includes(value.focus)) focus = value.focus;
+    else report.warn(where.file, `${where.label}: focus "${value.focus}" is not one of ${IMAGE_FOCUS.join(', ')}; the centre is kept.`);
+  }
+  return { src: clean, alt: bilingual(value?.alt), caption: bilingual(value?.caption), focus };
 }
 
 function loadSettings(root, report) {

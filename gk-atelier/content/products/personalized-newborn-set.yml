@@ -1,0 +1,29 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, sizes, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0002
+slug: personalized-newborn-set
+collection: baby-newborn
+featured: true
+name:
+  en: Personalized Newborn Set
+  ar: طقم مواليد مخصّص بالاسم
+description:
+  en: >-
+    A complete welcome set for a new baby, embroidered with the baby's name and
+    finished with embroidered roses, pearls and lace. The set shown includes a
+    hooded wrap, a sleepsuit, a hat, a bib, booties and mittens.
+  ar: >-
+    طقم متكامل لاستقبال المولود، مطرّز باسم الطفل ومزيّن بورود مطرّزة ولآلئ
+    ودانتيل. يضم الطقم الظاهر في الصورة: لفّة بغطاء للرأس، وأفرول، وطاقية،
+    ومريلة، وحذاءً، وقفازين.
+images:
+  - src: images/products/personalized-newborn-set/1.jpg
+    alt:
+      en: Ivory newborn set embroidered with the name Talina in pink, with roses, pearls and lace — hooded wrap, sleepsuit, hat, bib, booties and mittens
+      ar: طقم مواليد عاجي مطرّز باسم تالينا باللون الوردي مع ورود ولآلئ ودانتيل — لفّة وأفرول وطاقية ومريلة وحذاء وقفازان
+colours:
+  en: "As shown: ivory with blush-pink roses and pearls"
+  ar: "كما في الصورة: عاجي مع ورود وردية ولآلئ"
+customization:
+  en: Embroidered with your baby's name
+  ar: مطرّز باسم طفلكم

@@ -91,12 +91,18 @@ Some things to know:
 **To hide one temporarily**, move its file into a folder named `_hidden`, or
 rename it so it starts with `_`.
 
-### Removing the sample listings
+### The sample listings
 
-The site ships with eight **sample listings** (files starting with `sample-`).
-They exist only to show how product pages look, and are clearly labelled
-"Sample listing" on the site. Delete them once real products are added, or set
-`show_sample_products: false` in `content/settings.yml`.
+The files starting with `sample-` were placeholders that showed how product
+pages look before Ghada's real pieces arrived. They are now switched off
+(`show_sample_products: false` in `content/settings.yml`) and can be deleted.
+
+### Photos with a lot of background
+
+Product photos are shown in tall frames. For a wide photo, add `focus: left`
+(or `right`, `top`, `bottom`) under its `src:` line to choose which part stays
+in view. The macramé curtain uses this. The enlarged view always shows the
+whole photo.
 
 ## 4. Photographs for the homepage, collections and About page
 

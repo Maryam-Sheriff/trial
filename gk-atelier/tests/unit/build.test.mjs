@@ -83,14 +83,43 @@ test('preview: kept out of search engines and clearly marked', () => {
     assert.match(page, /<meta name="robots" content="noindex, nofollow">/, file);
     assert.match(page, /class="preview-bar"/, file);
   }
-  const product = read(preview.outDir, 'products/sample-bridal-keepsake/index.html');
-  assert.match(product, /class="sample-notice"/);
-  assert.ok(!product.includes('"@type":"Product"'), 'samples never get Product structured data');
+  const product = read(preview.outDir, 'products/macrame-mirror-wall-shelf/index.html');
+  assert.ok(!product.includes('class="sample-notice"'));
+  assert.ok(!product.includes('"@type":"Product"'), 'no Product data without a confirmed price');
+});
+
+test('preview: real products use the supplied photographs, described in both languages', () => {
+  const ar = read(preview.outDir, 'products/personalized-newborn-set/index.html');
+  assert.match(ar, /<source type="image\/webp" srcset="\/img\/1-[0-9a-f]+-480\.webp 480w, \/img\/1-[0-9a-f]+-800\.webp 800w, \/img\/1-[0-9a-f]+-941\.webp 941w"/);
+  assert.match(ar, /alt="طقم مواليد عاجي مطرّز باسم تالينا/);
+  const en = read(preview.outDir, 'en/products/macrame-doorway-curtain/index.html');
+  assert.match(en, /alt="Long ivory macramé curtain[^"]*" width="1536" height="1024"[^>]*style="object-position: 25% 50%"/);
+  assert.match(en, /<p class="product__price">Price on request<\/p>/);
+  const home = read(preview.outDir, 'en/index.html');
+  assert.equal((home.match(/class="card card--product"/g) ?? []).length, 4, 'four featured pieces on the homepage');
+  assert.ok(!home.includes('Sample listing'));
+  const macrame = read(preview.outDir, 'en/collections/macrame-home-decor/index.html');
+  assert.equal((macrame.match(/class="card card--product"/g) ?? []).length, 2);
+  assert.match(macrame, /2 pieces/);
+});
+
+test('sample listings, when switched on, are clearly marked and kept out of search', async () => {
+  const root = copySite('samples');
+  editYaml(root, 'content/settings.yml', (s) => {
+    s.launch.show_sample_products = true;
+  });
+  const outDir = path.join(root, 'dist');
+  const result = await build({ root, outDir, log: () => {} });
+  assert.ok(result.blockers.some((b) => b.key === 'samples'));
+  const page = read(outDir, 'en/products/sample-bridal-keepsake/index.html');
+  assert.match(page, /class="sample-notice"/);
+  assert.ok(!page.includes('"@type":"Product"'));
+  assert.match(read(outDir, 'en/collections/wedding-bridal/index.html'), /<span class="badge">Sample listing<\/span>/);
 });
 
 test('preview: product messages carry a placeholder origin the browser fills in', () => {
-  const page = read(preview.outDir, 'en/products/sample-bridal-keepsake/index.html');
-  assert.ok(page.includes('Product link: __ORIGIN__/en/products/sample-bridal-keepsake/'));
+  const page = read(preview.outDir, 'en/products/macrame-mirror-wall-shelf/index.html');
+  assert.ok(page.includes('Product link: __ORIGIN__/en/products/macrame-mirror-wall-shelf/'));
 });
 
 test('preview: all internal links and anchors resolve', () => {

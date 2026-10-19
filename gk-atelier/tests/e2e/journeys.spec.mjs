@@ -232,16 +232,15 @@ test('keyboard users can skip straight to the content', async ({ page, isMobile 
 
 test.describe('preview without a WhatsApp number', () => {
   test('buttons explain the missing number and show the prepared message', async ({ page }) => {
-    await page.goto(`${PREVIEW}/en/products/sample-bridal-keepsake/`);
+    await page.goto(`${PREVIEW}/en/products/macrame-mirror-wall-shelf/`);
     await expect(page.locator('a[href*="wa.me"]')).toHaveCount(0);
     await expect(page.locator('.preview-bar')).toBeVisible();
-    await expect(page.locator('.sample-notice')).toBeVisible();
     await page.locator('[data-product-cta] a').click();
     const dialog = page.locator('#whatsapp-setup');
     await expect(dialog).toBeVisible();
     const message = dialog.locator('[data-wa-setup-message]');
-    await expect(message).toContainText("I'm interested in Bridal Keepsake");
-    await expect(message).toContainText(`Product link: ${PREVIEW}/en/products/sample-bridal-keepsake/`);
+    await expect(message).toContainText("I'm interested in Macramé Mirror with Shelf");
+    await expect(message).toContainText(`Product link: ${PREVIEW}/en/products/macrame-mirror-wall-shelf/`);
     await dialog.getByRole('button', { name: 'Close' }).click();
     await expect(dialog).toBeHidden();
   });
@@ -259,10 +258,19 @@ test.describe('preview without a WhatsApp number', () => {
     await expect(page.locator('[data-enquiry-success]')).toBeHidden();
   });
 
-  test('collections with sample listings mark them clearly', async ({ page }) => {
-    await page.goto(`${PREVIEW}/en/collections/wedding-bridal/`);
-    await expect(page.locator('.card--product .badge')).toHaveText(['Sample listing', 'Sample listing']);
-    await page.goto(`${PREVIEW}/collections/wedding-bridal/`);
-    await expect(page.locator('.card--product .badge').first()).toHaveText('نموذج توضيحي');
+  test("Ghada's pieces appear in their collections with their photographs", async ({ page }) => {
+    await page.goto(`${PREVIEW}/en/collections/macrame-home-decor/`);
+    const cards = page.locator('.card--product');
+    await expect(cards).toHaveCount(2);
+    await expect(page.locator('.card--product .badge')).toHaveCount(0);
+    for (const img of await cards.locator('img').all()) {
+      await img.scrollIntoViewIfNeeded();
+      await expect.poll(() => img.evaluate((i) => i.complete && i.naturalWidth > 0)).toBe(true);
+    }
+    await page.goto(`${PREVIEW}/collections/baby-newborn/`);
+    await expect(page.locator('.card--product .card__title')).toHaveText(['طقم مواليد مخصّص بالاسم']);
+    // Collections still waiting for photographs explain themselves.
+    await page.goto(`${PREVIEW}/en/collections/silk-painting/`);
+    await expect(page.getByRole('heading', { name: 'New pieces are on their way' })).toBeVisible();
   });
 });

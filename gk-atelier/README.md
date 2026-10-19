@@ -92,9 +92,17 @@ The brief asks for nothing to be invented, so the site ships with:
   panels (a linen-weave pattern with a line drawing of the craft) fill every
   photo slot until real photos are added. They are intentionally graphic and
   can't be mistaken for products.
-- **Eight sample listings** that only demonstrate the product page. Each is
-  labelled "Sample listing", carries no price or specifications, is excluded
-  from search and structured data, and is switched off with one setting.
+- **Real pieces described only from their photographs.** The first four
+  products (macramé mirror shelf, macramé doorway curtain, personalized
+  newborn set, embroidered name bodysuit) use Ghada's photos (re-saved
+  without their metadata), with names, descriptions and alt text in both
+  languages. They carry no prices, sizes, materials, timings or availability
+  until Ghada confirms them, so each product page invites an enquiry instead.
+- **Sample listings switched off.** The eight `sample-*` files that
+  demonstrated the product page before real pieces existed are disabled with
+  `show_sample_products: false`. If switched back on, they are labelled
+  "Sample listing", excluded from search and structured data, and block a
+  release build.
 - **No biography, testimonials, address, opening hours or phone numbers.**
 - **Structured data only where accurate:** `Organization` (with logo,
   social links and WhatsApp only once supplied), `BreadcrumbList`, and

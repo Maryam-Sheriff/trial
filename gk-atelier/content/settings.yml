@@ -51,6 +51,7 @@ launch:
   # Set to true only after a fluent Arabic speaker has reviewed every Arabic
   # text on the site (content/copy/ar.yml, collections.yml and the products).
   arabic_reviewed: false
-  # The products marked "sample: true" only demonstrate the product pages.
-  # Set this to false (or delete the sample files) before the site goes live.
-  show_sample_products: true
+  # The products marked "sample: true" only demonstrated the product pages
+  # before Ghada's real pieces were added. Keep this false (or delete the
+  # sample-*.yml files); set it to true only to see the samples again.
+  show_sample_products: false

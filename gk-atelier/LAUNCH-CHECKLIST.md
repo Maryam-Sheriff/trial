@@ -20,8 +20,9 @@ at any time.
       WhatsApp messages, Google and social previews.
 - [x] **Logo:** added (`images/brand/`), with the header monogram, homepage
       and footer versions, browser icon and sharing image cut from it.
-- [ ] **Real products:** add Ghada's pieces (see EDITING-GUIDE.md), then delete
-      the `sample-*.yml` files or set `launch.show_sample_products: false`.
+- [x] **Real products:** the first four pieces are on the site and the sample
+      listings are switched off. Keep adding pieces (see EDITING-GUIDE.md), and
+      add prices, sizes and timings to each piece once Ghada confirms them.
 - [ ] **Arabic review:** a fluent Arabic speaker, ideally someone familiar with
       both Egyptian and Gulf customers, reads all of `content/copy/ar.yml`, the
       Arabic in `content/collections.yml` and every product, then sets
@@ -49,10 +50,11 @@ at any time.
 
 ## Strongly recommended
 
-- [ ] Homepage photo (`content/photos.yml` → `hero`), a cover photo for each
-      collection, six "glimpse" photos, Ghada's portrait and three
-      process photos. Until then, tidy "Photograph coming soon" panels are
-      shown.
+- [ ] Homepage photo (`content/photos.yml` → `hero`), cover photos for the
+      four collections that don't have one yet (wedding, silk painting,
+      crochet & teriko, personalized gifts), six "glimpse" photos, Ghada's
+      portrait and three process photos. Until then, tidy "Photograph coming
+      soon" panels are shown.
 - [ ] Instagram (and any other) account links in `content/settings.yml`.
 - [ ] Optional: an SVG version of the logo from the designer, for an even
       sharper header monogram.

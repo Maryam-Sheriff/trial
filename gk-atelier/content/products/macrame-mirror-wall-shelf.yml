@@ -1,0 +1,27 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, size, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0001
+slug: macrame-mirror-wall-shelf
+collection: macrame-home-decor
+featured: true
+name:
+  en: Macramé Mirror with Shelf
+  ar: مرآة مكرمية مع رف
+description:
+  en: >-
+    A round mirror set in a hand-knotted macramé frame, hung from a wooden rod
+    with knotted leaves, tassels and long braided cords that carry a wooden
+    shelf below. A warm, textured piece for an entrance, a bedroom or a quiet
+    corner of the home.
+  ar: >-
+    مرآة دائرية داخل إطار من المكرمية المعقودة يدويًا، معلّقة على عصا خشبية مع
+    أوراق معقودة وشراشيب وحبال مجدولة طويلة تحمل رفًا خشبيًا في الأسفل. قطعة
+    دافئة غنية بالملمس تناسب المدخل أو غرفة النوم أو ركنًا هادئًا في البيت.
+images:
+  - src: images/products/macrame-mirror-wall-shelf/1.jpg
+    alt:
+      en: Round mirror in a hand-knotted macramé frame with knotted leaves and tassels, above a wooden shelf hung on braided cords
+      ar: مرآة دائرية في إطار من المكرمية مع أوراق وشراشيب معقودة فوق رف خشبي معلّق بحبال مجدولة
+techniques:
+  en: Hand-knotted macramé
+  ar: مكرمية معقودة يدويًا

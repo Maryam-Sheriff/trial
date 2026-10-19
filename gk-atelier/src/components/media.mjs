@@ -2,6 +2,8 @@ import { attrs, html } from '../lib/html.mjs';
 import { pick } from '../lib/i18n.mjs';
 import { craftIcon } from './icons.mjs';
 
+const FOCUS = { left: '25% 50%', right: '75% 50%', top: '50% 25%', bottom: '50% 75%' };
+
 /**
  * A clearly labelled stand-in shown wherever a real photograph hasn't been
  * supplied yet. It is deliberately graphic, never photographic, so it can't
@@ -34,6 +36,7 @@ export function picture(ctx, image, { sizes = '100vw', eager = false, alt = '', 
       loading: eager ? 'eager' : 'lazy',
       fetchpriority: eager ? 'high' : null,
       decoding: eager ? null : 'async',
+      style: FOCUS[image.focus] ? `object-position: ${FOCUS[image.focus]}` : null,
     })}>
   </picture>`;
 }
