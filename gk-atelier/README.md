@@ -93,7 +93,7 @@ The brief asks for nothing to be invented, so the site ships with:
   photo slots that are still empty (Ghada's portrait, the About page and the
   Silk Painting cover). They are intentionally graphic and can't be mistaken
   for products.
-- **Real pieces described only from their photographs.** Twenty-seven of
+- **Real pieces described only from their photographs.** Twenty-eight of
   Ghada's pieces across six collections (katb el-ketab cushions, ring trays and
   bridal pieces; macramé home and Ramadan décor; embroidery and embellished
   textiles; crochet; newborn sets; personalized gifts) use her photos, re-saved without their
