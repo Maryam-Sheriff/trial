@@ -20,7 +20,7 @@ at any time.
       WhatsApp messages, Google and social previews.
 - [x] **Logo:** added (`images/brand/`), with the header monogram, homepage
       and footer versions, browser icon and sharing image cut from it.
-- [x] **Real products:** twenty-three pieces are on the site and the sample
+- [x] **Real products:** twenty-seven pieces are on the site and the sample
       listings are switched off. Keep adding pieces (see EDITING-GUIDE.md), and
       add prices, sizes and timings to each piece once Ghada confirms them.
 - [ ] **Arabic review:** a fluent Arabic speaker, ideally someone familiar with
@@ -40,7 +40,11 @@ at any time.
       from its photo only. Ghada should check the names, especially the
       katb el-ketab cushions and ring trays, and the collection each piece
       sits in. The abstract gold painting is under Macramé & Home Décor
-      because it isn't silk painting.
+      because it isn't silk painting, and the jewelled black dress and the
+      fabric flowers are under Embroidery & Textile Art.
+- [ ] **Bridal gown photo:** unlike the others, it carries no GK Atelier
+      logo. Confirm that it shows Ghada's own work (or say which part of it
+      is hers, such as the embroidery) before launch.
 - [ ] **"You're welcome to ask about"** (`custom_options` in both copy files)
       lists personalized pieces, custom colours, names, embroidery, gift sets
       and designs for special occasions, as in the brief. Remove anything Ghada

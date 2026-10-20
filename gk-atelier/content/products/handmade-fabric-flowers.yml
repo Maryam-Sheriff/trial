@@ -1,0 +1,24 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, size, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0026
+slug: handmade-fabric-flowers
+collection: embroidery-textile-art
+name:
+  en: Handmade Fabric Flowers
+  ar: زهور قماش مصنوعة يدويًا
+description:
+  en: >-
+    Layered fabric flowers shaped petal by petal: an ivory bloom with soft,
+    ruffled petals, and two roses in red and deep navy with a fine glittering
+    finish.
+  ar: >-
+    زهور من القماش متعددة الطبقات تُشكَّل بتلةً بتلة: زهرة عاجية ببتلات ناعمة
+    متموّجة، ووردتان بالأحمر والكحلي بلمسة لامعة رقيقة.
+images:
+  - src: images/products/handmade-fabric-flowers/1.jpg
+    alt:
+      en: Three layered fabric flowers — ivory, glittering red and glittering navy — on cream lace
+      ar: ثلاث زهور قماش متعددة الطبقات — عاجية وحمراء لامعة وكحلية لامعة — على دانتيل كريمي
+colours:
+  en: "As shown: ivory, red and navy"
+  ar: "كما في الصورة: عاجي وأحمر وكحلي"

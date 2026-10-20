@@ -1,0 +1,21 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, size, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0025
+slug: jewel-embellished-black-dress
+collection: embroidery-textile-art
+name:
+  en: Jewel-Embellished Black Dress
+  ar: فستان أسود مزيّن بالأحجار الملوّنة
+description:
+  en: >-
+    A simple black shift dress with a high neck and cut-in shoulders, scattered
+    with jewelled motifs — starbursts, drops and small squares — in clear,
+    sapphire-blue, amber and ruby-red stones.
+  ar: >-
+    فستان أسود بقصّة مستقيمة بسيطة وياقة عالية، تتناثر عليه تصاميم مزيّنة
+    بالأحجار — نجوم وقطرات ومربعات صغيرة — بألوان شفافة وزرقاء وعنبرية وحمراء.
+images:
+  - src: images/products/jewel-embellished-black-dress/1.jpg
+    alt:
+      en: Black high-neck shift dress on a dress form, scattered with jewelled motifs in clear, blue, amber and red stones
+      ar: فستان أسود بياقة عالية على مانيكان، تتناثر عليه تصاميم مزيّنة بأحجار شفافة وزرقاء وعنبرية وحمراء

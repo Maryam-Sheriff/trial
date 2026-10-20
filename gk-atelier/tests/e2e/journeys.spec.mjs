@@ -272,6 +272,7 @@ test.describe('preview without a WhatsApp number', () => {
       'طقم مواليد مخصّص بالاسم',
       'طقم مواليد بتطريز الطائرة',
       'طقم مواليد بالدانتيل والفراشات',
+      'مجموعة هدايا مواليد بقوس قزح',
     ]);
     // Collections still waiting for photographs explain themselves.
     await page.goto(`${PREVIEW}/en/collections/silk-painting/`);
