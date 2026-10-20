@@ -20,7 +20,7 @@ at any time.
       WhatsApp messages, Google and social previews.
 - [x] **Logo:** added (`images/brand/`), with the header monogram, homepage
       and footer versions, browser icon and sharing image cut from it.
-- [x] **Real products:** twenty-one pieces are on the site and the sample
+- [x] **Real products:** twenty-three pieces are on the site and the sample
       listings are switched off. Keep adding pieces (see EDITING-GUIDE.md), and
       add prices, sizes and timings to each piece once Ghada confirms them.
 - [ ] **Arabic review:** a fluent Arabic speaker, ideally someone familiar with
@@ -59,10 +59,9 @@ at any time.
 
 ## Strongly recommended
 
-- [ ] Pieces and cover photos for Silk Painting and Crochet & Teriko (they
-      show "New pieces are on their way" until then), Ghada's portrait and
-      three process photos. Until then, tidy "Photograph coming soon" panels
-      are shown.
+- [ ] Pieces and a cover photo for Silk Painting (it shows "New pieces are
+      on their way" until then), Ghada's portrait and three process photos.
+      Until then, tidy "Photograph coming soon" panels are shown.
 - [ ] Optional: a homepage photo (`content/photos.yml` → `hero`; the logo
       leads the homepage until then), and close-ups of stitching, knots and
       tools for the "glimpse" gallery, which currently uses six product

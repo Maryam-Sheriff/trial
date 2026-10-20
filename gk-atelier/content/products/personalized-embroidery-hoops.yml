@@ -1,0 +1,33 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, size, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0023
+slug: personalized-embroidery-hoops
+collection: embroidery-textile-art
+name:
+  en: Personalized Embroidery Hoops
+  ar: طارات تطريز مخصّصة
+description:
+  en: >-
+    Hand-embroidered hoops made around a name, a prayer or a milestone, each
+    finished with a ribbon bow at the top. Six designs are shown: a name inside
+    a wreath of flowers and butterflies, the blessing "O Allah, bless this
+    home", a birthday girl with a unicorn, a newborn asleep on a cloud with the
+    baby's name and a date, a graduate in her cap with a line of Arabic, and a
+    baby girl's name with "God bless you".
+  ar: >-
+    طارات مطرّزة يدويًا تُصنع حول اسم أو دعاء أو مناسبة مميزة، وتُزيَّن كلٌّ منها
+    بفيونكة من الشريط في أعلاها. تظهر في الصورة ستة تصاميم: اسم داخل إكليل من
+    الزهور والفراشات، ودعاء «اللهم بارك هذا البيت»، وطفلة تحتفل بعيد ميلادها مع
+    يونيكورن، ومولود نائم على غيمة مع اسمه وتاريخ، وخرّيجة بقبعة التخرج مع عبارة
+    بالعربية، واسم طفلة صغيرة مع عبارة دعاء بالإنجليزية.
+images:
+  - src: images/products/personalized-embroidery-hoops/1.jpg
+    alt:
+      en: Six embroidered hoops with ribbon bows — a name in a floral wreath, an Arabic blessing for the home, a birthday girl with a unicorn, a baby on a cloud, a graduate in her cap, and a baby girl with her name
+      ar: ست طارات مطرّزة بفيونكات من الشريط — اسم داخل إكليل زهور، ودعاء للبيت بالعربية، وطفلة مع يونيكورن في عيد ميلادها، ومولود على غيمة، وخرّيجة بقبعة التخرج، وطفلة صغيرة مع اسمها
+techniques:
+  en: Hand embroidery
+  ar: تطريز يدوي
+customization:
+  en: Made around the name, date or words you choose
+  ar: تُصنع حول الاسم أو التاريخ أو الكلمات التي تختارونها

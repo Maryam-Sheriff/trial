@@ -54,10 +54,10 @@
       التطريز عمل هادئ ودقيق: تُختار الخيوط لونًا لونًا وتُطرَّز غرزةً بعد غرزة.
       وتحمل كل قطعة ذلك الملمس الخاص الذي لا يمنحه إلا العمل اليدوي.
   image:
-    src: images/products/embroidered-name-bodysuit/1.jpg
+    src: images/products/personalized-embroidery-hoops/1.jpg
     alt:
-      en: Hand embroidery of a name and a teddy bear framed by leaves and blue flowers
-      ar: تطريز يدوي لاسم ودبدوب يحيط به إكليل من الأوراق والزهور الزرقاء
+      en: Embroidered hoops with ribbon bows, showing names, flowers and little illustrations stitched by hand
+      ar: طارات مطرّزة بفيونكات من الشريط، عليها أسماء وزهور ورسومات صغيرة مطرّزة يدويًا
 
 - slug: macrame-home-decor
   icon: knot
@@ -140,8 +140,11 @@
       يحوّل الكروشيه والتريكو الخيط البسيط إلى قطعة دافئة تدوم طويلًا. يُشغل كل صف
       باليد، فتكتسب كل قطعة ملمسها الناعم المألوف.
   image:
-    src: ""
-    alt: { en: "", ar: "" }
+    src: images/products/crochet-pouf-and-round-rug/1.jpg
+    focus: left
+    alt:
+      en: Round taupe crochet floor pouf and a round crochet rug with a lacy mandala pattern
+      ar: بوف أرضي دائري من الكروشيه بلون بيج رمادي وسجادة كروشيه دائرية بنقش ماندالا مخرّم
 
 - slug: personalized-gifts
   icon: gift
