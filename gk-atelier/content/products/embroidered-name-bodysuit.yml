@@ -1,0 +1,31 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, sizes, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0003
+slug: embroidered-name-bodysuit
+collection: embroidery-textile-art
+featured: false
+name:
+  en: Embroidered Name Bodysuit
+  ar: بودي مطرّز بالاسم
+description:
+  en: >-
+    A soft baby bodysuit embroidered by hand with a little teddy bear in a
+    basket, framed by a wreath of leaves and blue flowers, with the baby's name
+    stitched above.
+  ar: >-
+    بودي ناعم للأطفال مطرّز يدويًا بدبدوب صغير داخل سلة، يحيط به إكليل من
+    الأوراق والزهور الزرقاء، واسم الطفل مطرّز في الأعلى.
+images:
+  - src: images/products/embroidered-name-bodysuit/1.jpg
+    alt:
+      en: Ivory baby bodysuit embroidered with the name Omar in Arabic above a teddy bear in a basket, framed by brown leaves and blue flowers
+      ar: بودي أطفال عاجي مطرّز باسم عمر فوق دبدوب في سلة، يحيط به أوراق بنية وزهور زرقاء
+techniques:
+  en: Hand embroidery
+  ar: تطريز يدوي
+colours:
+  en: "As shown: ivory with caramel, brown and soft blue"
+  ar: "كما في الصورة: عاجي مع درجات الكراميل والبني والأزرق الهادئ"
+customization:
+  en: Embroidered with your baby's name
+  ar: مطرّز باسم طفلكم

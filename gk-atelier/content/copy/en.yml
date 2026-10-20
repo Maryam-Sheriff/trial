@@ -1,0 +1,428 @@
+# ─────────────────────────────────────────────────────────────────────────────
+#  English website text
+#
+#  Edit the words after the colon. Keep {curly} words exactly as they are —
+#  the website fills them in (for example {product} becomes the product name).
+#  The Arabic version of every line is in ar.yml under the same name.
+# ─────────────────────────────────────────────────────────────────────────────
+
+meta:
+  site_name: GK Atelier by Ghada Khalil
+  title_suffix: GK Atelier
+  brand_by: by Ghada Khalil
+  locale: en_US
+
+nav:
+  skip: Skip to content
+  label: Main
+  home: Home
+  collections: Collections
+  custom: Custom Orders
+  about: About Ghada
+  contact: Contact
+  menu: Menu
+  close_menu: Close menu
+  switch_label: العربية
+  switch_hint: Switch to Arabic
+  breadcrumb: Breadcrumb
+
+whatsapp:
+  order: Order via WhatsApp
+  order_product: Order This via WhatsApp
+  start_enquiry: Start a WhatsApp Enquiry
+  ask: Ask Ghada on WhatsApp
+  ask_collection: Ask about this collection
+  floating_label: Chat with Ghada on WhatsApp
+  opens_note: >-
+    Opens WhatsApp with a message you can review before sending.
+    Nothing is ordered until you confirm the details with Ghada.
+  messages:
+    general: >-
+      Hello Ghada! I found your GK Atelier website and I'd love to ask about
+      your handmade creations.
+    product: >-
+      Hello Ghada! I found your GK Atelier website and I'm interested in
+      {product}. Could you please share the price, availability,
+      customization options, and delivery details? Product link: {url}
+    collection: >-
+      Hello Ghada! I found your GK Atelier website and I'm interested in your
+      {collection} collection. Could you tell me more about the pieces and
+      options available?
+    custom_intro: Hello Ghada! I'd like to enquire about a custom piece from GK Atelier.
+    custom_outro: I understand this is an enquiry, not a confirmed order.
+  unconfigured:
+    title: WhatsApp isn't connected yet
+    body: >-
+      This is a preview. As soon as Ghada's WhatsApp number is added to
+      content/settings.yml, this button will open a chat with her, with the
+      message below ready to review and send.
+    close: Close
+
+home:
+  title: Handmade Gifts & Keepsakes in Egypt and the Gulf
+  description: >-
+    Handmade wedding keepsakes, embroidery, macramé, baby gifts, silk
+    painting, crochet and personalized gifts by Ghada Khalil. Enquire and
+    order through WhatsApp from Egypt and the Gulf.
+  hero_eyebrow: Handmade in Egypt
+  hero_title: Handmade Creations for Meaningful Moments.
+  hero_text: Thoughtfully handcrafted pieces, made with care, creativity, and a personal touch.
+  hero_primary: Explore Our Creations
+  hero_secondary: Order via WhatsApp
+  collections_eyebrow: The collections
+  collections_title: Made by hand, for the moments that matter
+  collections_text: >-
+    From wedding keepsakes to gifts for a newborn, every collection is made
+    piece by piece in Ghada's atelier.
+  explore_collection: Explore Collection
+  all_collections: View all collections
+  featured_eyebrow: From the atelier
+  featured_title: Selected pieces
+  custom_eyebrow: Made especially for you
+  custom_title: A piece that carries your story
+  custom_text: >-
+    Some of the most meaningful pieces begin with a conversation. You are
+    welcome to ask Ghada about:
+  custom_note: >-
+    Every request is discussed personally, so Ghada can tell you what is
+    possible for your piece.
+  custom_link: Plan a custom piece
+  glimpse_eyebrow: A glimpse into the atelier
+  glimpse_title: Every stitch, knot and brushstroke
+  glimpse_text: >-
+    Handmade work is in the details — the evenness of a stitch, the texture of
+    a knot, the way colour settles into silk.
+  ghada_eyebrow: Meet Ghada
+  ghada_title: The hands behind GK Atelier
+  ghada_text:
+    - >-
+      GK Atelier is the personal studio of Ghada Khalil. Every piece you see
+      here is made by her hand — stitched, knotted, crocheted or painted with
+      patience and close attention to detail.
+    - >-
+      Because the work is personal, so is the conversation: you speak with
+      Ghada directly about your piece, from the first idea to the finished
+      creation.
+  ghada_link: About Ghada & the atelier
+  steps_eyebrow: How ordering works
+  steps_title: Simple, personal, and through WhatsApp
+  final_title: Have Something Special in Mind?
+  final_text: >-
+    Tell us what you're imagining, and let's discuss creating something
+    meaningful for you.
+  final_button: Start a WhatsApp Enquiry
+
+# The three ordering steps (homepage and contact page).
+steps:
+  - title: Discover
+    text: Discover a creation you love.
+  - title: Talk to Ghada
+    text: Contact Ghada through WhatsApp to discuss the details.
+  - title: Confirm
+    text: Confirm the design, price, and delivery arrangements directly with Ghada.
+
+# What customers can ask about. Keep only what Ghada confirms she offers.
+custom_options:
+  - Personalized pieces
+  - Custom colours
+  - Names
+  - Embroidery
+  - Gift sets
+  - Designs for special occasions
+
+collections:
+  title: Collections — Handmade Wedding, Baby & Personalized Gifts
+  description: >-
+    Browse GK Atelier's handmade collections: wedding and bridal creations,
+    embroidery, macramé and home décor, baby sets, silk painting, crochet and
+    teriko, and personalized gifts.
+  eyebrow: The collections
+  heading: Our collections
+  lead: >-
+    Seven collections, one way of working: everything is made by hand, with
+    care and a personal touch. Choose a collection to see the pieces, or ask
+    Ghada about something specific.
+  view: View the pieces
+  band_title: Looking for something you don't see here?
+  band_text: >-
+    Many pieces are made to order. Tell Ghada what you have in mind and she
+    will let you know what's possible.
+
+collection:
+  title: "{collection} — Handmade by Ghada Khalil"
+  description: "{intro}"
+  count:
+    one: 1 piece
+    other: "{count} pieces"
+  empty_title: New pieces are on their way
+  empty_text: >-
+    Photographs of pieces from this collection are being prepared. In the
+    meantime, Ghada is happy to tell you what she can make for you.
+  ask_title: Interested in this collection?
+  ask_text: >-
+    Ask Ghada about pieces, colours and options — she'll reply on WhatsApp.
+  others: Explore other collections
+
+product:
+  title: "{product} — {collection}"
+  details: Details
+  price: Price
+  price_from: From {price}
+  price_on_request: Price on request
+  ask_title: Prices and details, personally
+  ask_text: >-
+    Price, availability and delivery for this piece are confirmed personally
+    by Ghada on WhatsApp.
+  fields:
+    materials: Materials
+    techniques: Techniques
+    dimensions: Dimensions
+    colours: Colours
+    sizes: Sizes
+    customization: Personalization
+    production_time: Production time
+    availability: Availability
+  availability:
+    made-to-order: Made to order
+    available: Available
+    unavailable: Currently unavailable — ask about a similar piece
+  reference: "Reference: {id}"
+  related: More from {collection}
+  back: Back to {collection}
+  sample_badge: Sample listing
+  sample_notice: >-
+    Sample listing — this page shows how a product will appear. It will be
+    replaced with one of Ghada's real pieces before the website launches.
+
+gallery:
+  show: Show photo {n} of {total}
+  enlarge: Enlarge photo
+  close: Close
+  previous: Previous photo
+  next: Next photo
+  label: Product photos
+
+placeholder:
+  photo: Photograph coming soon
+  ghada: Photograph of Ghada coming soon
+  logo_missing: Logo to be added
+
+about:
+  title: About Ghada Khalil — The Artisan Behind GK Atelier
+  description: >-
+    Meet Ghada Khalil, the artisan behind GK Atelier — a personal studio in
+    Egypt creating handmade embroidery, macramé, crochet, silk painting,
+    wedding keepsakes and personalized gifts.
+  eyebrow: About Ghada
+  heading: The hands behind GK Atelier
+  lead: >-
+    GK Atelier is the personal studio of Ghada Khalil — a place where thread,
+    cord, yarn, silk and colour become pieces made for someone in particular.
+  sections:
+    - title: Made slowly, on purpose
+      text:
+        - >-
+          Nothing at GK Atelier is mass-produced. Every piece is stitched,
+          knotted, crocheted or painted by hand, and that takes time. The time
+          is where the care goes: in choosing colours that belong together,
+          in even, patient stitches, and in a finish that does justice to
+          the occasion.
+    - title: Why handmade matters
+      text:
+        - >-
+          A handmade piece carries something a machine can't copy — the small
+          signs that it was made by a person, for a person. That is why
+          handmade gifts are kept, passed on and remembered long after the
+          day itself.
+    - title: Made for your moment
+      text:
+        - >-
+          Many pieces begin with a conversation: an occasion, a name, a
+          colour, a feeling. Ghada talks each request through personally, so
+          the finished piece feels like it was always meant for you.
+  # Ghada's own words. Leave empty ([]) until Ghada has written or approved
+  # them — this section only appears once it has text.
+  story_title: In Ghada's words
+  story: []
+  crafts_title: The crafts of the atelier
+  crafts_text: Ghada works across a range of handmade techniques.
+  process_title: Inside the atelier
+  process_text: The workspace, the tools and the pieces as they take shape.
+  cta_title: Would you like something made for you?
+  cta_text: Tell Ghada about your idea and she'll guide you through what's possible.
+
+custom:
+  title: Custom Orders — Personalized Handmade Gifts
+  description: >-
+    Request a personalized handmade piece from GK Atelier: custom colours,
+    names, embroidery, gift sets and designs for weddings, new babies and
+    special occasions. Enquire through WhatsApp.
+  eyebrow: Custom orders
+  heading: Made especially for you
+  lead: >-
+    Have an idea, an occasion or a name in mind? Share the details below and
+    we'll prepare a WhatsApp message for you to send to Ghada.
+  options_title: You're welcome to ask about
+  how_title: How it works
+  how:
+    - Fill in the form with as much or as little detail as you like.
+    - WhatsApp opens with your enquiry written out. Review it, then press send.
+    - Ghada replies to talk through the design, price and timing with you.
+  enquiry_notice_title: An enquiry, not an order
+  enquiry_notice: >-
+    Sending this enquiry doesn't place an order, reserve a date or confirm
+    availability. Ghada will reply on WhatsApp to discuss what's possible,
+    the price and the timing — nothing is made until you both agree.
+  form:
+    title: Your enquiry
+    required_note: Fields marked * are required.
+    name: Your name
+    occasion: Occasion or purpose
+    occasion_placeholder: Choose an occasion
+    occasions:
+      - Wedding or engagement
+      - New baby
+      - Birthday
+      - Ramadan or Eid
+      - Graduation
+      - A gift for someone special
+      - For my home
+      - Something else
+    type: Type of creation
+    type_placeholder: Choose a type
+    type_unsure: Not sure yet
+    description: Describe the piece you have in mind
+    description_hint: >-
+      Size, style, the feeling you'd like it to have — anything that helps
+      Ghada picture it.
+    personalization: Preferred colours or personalization
+    personalization_hint: e.g. colours, a name or initials, a date, a short message
+    date: Date you need it by
+    date_hint: Ghada will let you know whether the timing is possible.
+    optional: optional
+    reference_title: Have a reference photo?
+    reference_text: >-
+      Once WhatsApp opens, you can attach photos or inspiration directly to
+      your message. Photos are never uploaded to this website.
+    submit: Continue to WhatsApp
+    privacy: >-
+      Your details are not sent to or stored on this website. They are only
+      placed into a WhatsApp message on your own device, which you can review
+      before sending.
+    privacy_link: Privacy notice
+    errors:
+      summary: Please check the following
+      name: Please enter your name.
+      occasion: Please choose an occasion or purpose.
+      type: Please choose a type of creation, or "Not sure yet".
+      description: Please describe the piece in a few words (at least 10 characters).
+      date: Please choose a date that is today or later.
+    labels:
+      name: Name
+      occasion: Occasion
+      type: Type of creation
+      description: Description
+      personalization: Colours / personalization
+      date: Needed by
+    success_title: Your message is ready in WhatsApp
+    success_text: >-
+      WhatsApp should now be open with your enquiry. Please review it and
+      press send — Ghada will reply to discuss the details.
+    success_fallback: Didn't open? Open WhatsApp
+    success_edit: Edit my details
+    preview_title: Your message
+
+contact:
+  title: Contact GK Atelier — Enquire on WhatsApp
+  description: >-
+    Contact Ghada Khalil at GK Atelier through WhatsApp to ask about handmade
+    pieces, custom orders, prices and delivery in Egypt and the Gulf.
+  eyebrow: Contact
+  heading: Let's talk about your piece
+  lead: >-
+    The easiest way to reach Ghada is WhatsApp — for questions about a piece,
+    a custom idea or an enquiry you've already started.
+  whatsapp_title: WhatsApp
+  whatsapp_text: Messages are answered personally by Ghada.
+  number_label: WhatsApp number
+  social_title: Follow the atelier
+  steps_title: How ordering works
+  service_title: Where we work
+  service_text: >-
+    GK Atelier is based in Egypt and serves customers in Egypt and the Gulf.
+    Delivery arrangements are agreed directly with Ghada for each order.
+  expectations_title: Good to know
+  expectations:
+    - Prices, production times, personalization and delivery are always confirmed with Ghada on WhatsApp.
+    - Sending a message is an enquiry — it doesn't confirm availability or place an order.
+
+privacy:
+  title: Privacy Notice
+  description: How the GK Atelier website handles your information.
+  heading: Privacy notice
+  # Change this date whenever the privacy text changes (YYYY-MM-DD).
+  updated_on: "2026-10-19"
+  updated: "Last updated: {date}"
+  sections:
+    - title: In short
+      text:
+        - >-
+          This website does not ask you to create an account, does not take
+          payments and does not use advertising or analytics cookies.
+    - title: Enquiry form and WhatsApp
+      text:
+        - >-
+          When you use the custom order form, your details stay in your
+          browser. Pressing the button places them into a WhatsApp message on
+          your device. Nothing is sent until you choose to send that message
+          yourself.
+        - >-
+          Once you send a message, it is shared with Ghada through WhatsApp
+          and handled under WhatsApp's own terms and privacy policy. Ghada uses
+          your messages only to reply to your enquiry and arrange your order.
+        - >-
+          Reference photos are attached directly in WhatsApp — they are never
+          uploaded to this website.
+    - title: Information stored on your device
+      text:
+        - >-
+          The website remembers your language choice (English or Arabic) in
+          your browser's local storage, so the site opens in your language
+          next time. You can clear it at any time from your browser settings.
+    - title: Hosting
+      text:
+        - >-
+          Like most websites, our hosting provider may keep standard technical
+          logs (such as IP addresses and the pages requested) for security and
+          to keep the website running.
+    - title: Questions
+      text:
+        - >-
+          If you have a question about your information, or would like Ghada
+          to delete your messages, please contact her on WhatsApp.
+
+notfound:
+  title: Page not found
+  heading: This page couldn't be found
+  text: The link may be out of date, or the piece may have moved.
+  home: Back to the homepage
+  collections: Browse the collections
+
+footer:
+  tagline: Handmade Creations for Meaningful Moments.
+  service: Based in Egypt · Serving customers in Egypt and the Gulf
+  note: Every piece is made by hand. Prices and delivery are confirmed with Ghada on WhatsApp.
+  explore: Explore
+  connect: Connect
+  privacy: Privacy
+  copyright: "© {year} GK Atelier by Ghada Khalil"
+
+preview:
+  label: Preview
+  text: "Not yet published. Still to do: {items}."
+  items:
+    whatsapp: add the WhatsApp number
+    url: add the website address
+    logo: add the logo
+    arabic: review the Arabic text
+    samples: replace the sample products

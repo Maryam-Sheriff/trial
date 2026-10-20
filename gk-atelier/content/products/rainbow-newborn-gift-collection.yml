@@ -1,0 +1,36 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, size, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0027
+slug: rainbow-newborn-gift-collection
+collection: baby-newborn
+name:
+  en: Rainbow Newborn Gift Collection
+  ar: مجموعة هدايا مواليد بقوس قزح
+description:
+  en: >-
+    A coordinated welcome collection in ivory and shades of blue, with the
+    baby's name on every piece: a macramé cloud name sign with a rainbow and
+    leaf hangings; a cushion with a macramé rainbow, wooden letters and
+    pompoms; a hoop with a baby asleep on the moon and a prayer; and a gift box
+    holding a bodysuit, a hat, mittens and a wrap embroidered with rainbows.
+    Shown with a crochet teddy bear.
+  ar: >-
+    مجموعة متناسقة لاستقبال المولود بالعاجي ودرجات الأزرق، وكل قطعة فيها تحمل
+    اسم الطفل: لوحة اسم من المكرمية على شكل غيمة مع قوس قزح وأوراق متدلّية،
+    ووسادة بقوس قزح من المكرمية وحروف خشبية وكرات صوف صغيرة، وطارة عليها طفل نائم
+    على الهلال مع دعاء، وعلبة هدية تضم بودي وطاقية وقفازات ولفّة مطرّزة بقوس قزح.
+    تظهر في الصورة مع دبدوب من الكروشيه.
+images:
+  - src: images/products/rainbow-newborn-gift-collection/1.jpg
+    alt:
+      en: Blue and ivory newborn gift collection with a baby's name — macramé cloud sign, rainbow cushion, moon hoop, and a gift box with an embroidered bodysuit, hat, mittens and wrap — beside a crochet teddy bear
+      ar: مجموعة هدايا مواليد بالأزرق والعاجي باسم الطفل — لوحة غيمة من المكرمية، ووسادة بقوس قزح، وطارة بالهلال، وعلبة هدية فيها بودي وطاقية وقفازات ولفّة مطرّزة — بجانب دبدوب من الكروشيه
+techniques:
+  en: Macramé, embroidery and crochet
+  ar: مكرمية وتطريز وكروشيه
+colours:
+  en: "As shown: ivory with shades of blue"
+  ar: "كما في الصورة: عاجي مع درجات الأزرق"
+customization:
+  en: Made with your baby's name
+  ar: تُصنع باسم طفلكم

@@ -1,0 +1,18 @@
+# SAMPLE LISTING — demonstrates the product page layout only.
+# This is not one of Ghada's real pieces: replace it with a real product
+# (see _TEMPLATE.yml) or delete this file before the website goes live.
+id: SAMPLE-07
+slug: sample-crochet-blanket
+collection: crochet-teriko
+sample: true
+featured: false
+name:
+  en: Hand-crocheted Blanket
+  ar: بطانية كروشيه يدوية
+description:
+  en: >-
+    Worked loop by loop into a soft, comforting blanket that is made to be
+    used and loved.
+  ar: >-
+    مشغولة عُقدةً بعد عُقدة لتصبح بطانية ناعمة ودافئة، صُنعت لتُستعمل وتُحَب.
+images: []

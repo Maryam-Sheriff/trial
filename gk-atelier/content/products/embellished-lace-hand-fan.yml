@@ -1,0 +1,21 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, size, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0016
+slug: embellished-lace-hand-fan
+collection: wedding-bridal
+name:
+  en: Embellished Lace Hand Fan
+  ar: مروحة يد مزيّنة بالدانتيل
+description:
+  en: >-
+    A folding hand fan covered in ivory lace, scattered with gold and clear
+    sparkling embellishments and edged in shimmering beads — a finishing touch
+    for a bride or a special evening.
+  ar: >-
+    مروحة يد قابلة للطيّ مكسوّة بالدانتيل العاجي، تتناثر عليها حبات ذهبية وشفافة
+    لامعة، وتحيط بحافتها حبات خرز برّاقة — لمسة أخيرة للعروس أو لأمسية مميزة.
+images:
+  - src: images/products/embellished-lace-hand-fan/1.jpg
+    alt:
+      en: Open ivory lace hand fan with gold and clear embellishments scattered across it and a beaded edge
+      ar: مروحة يد مفتوحة من الدانتيل العاجي تتناثر عليها حبات ذهبية وشفافة وحافتها مزيّنة بالخرز

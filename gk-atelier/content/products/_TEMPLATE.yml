@@ -1,0 +1,84 @@
+# ─────────────────────────────────────────────────────────────────────────────
+#  PRODUCT TEMPLATE — copy this file to add a new product
+#
+#  1. Copy this file and name the copy after the product, e.g.
+#     content/products/embroidered-name-hoop.yml
+#     (files whose name starts with _ like this one are ignored)
+#  2. Put the product's photos in a folder such as
+#     images/products/embroidered-name-hoop/
+#  3. Fill in the fields below. Anything marked OPTIONAL can be deleted or left
+#     empty — the website simply leaves it out and invites customers to ask
+#     Ghada on WhatsApp instead. Never guess a price, material or time frame:
+#     only write what Ghada has confirmed.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# A unique reference, e.g. GK-0012. Ghada can use it to recognise the piece.
+id: GK-0000
+
+# The web address of the product: /products/embroidered-name-hoop/
+# Lowercase letters, numbers and dashes only. Don't change it after launch.
+slug: example-product
+
+# Which collection it belongs to — copy the slug from content/collections.yml:
+# wedding-bridal, embroidery-textile-art, macrame-home-decor, baby-newborn,
+# silk-painting, crochet-teriko, personalized-gifts
+collection: embroidery-textile-art
+
+# true = also show this piece on the homepage and at the top of its collection.
+featured: false
+
+name:
+  en: Product name in English
+  ar: اسم المنتج بالعربية
+
+# Two to four warm, simple sentences about the piece.
+description:
+  en: >-
+    Write the English description here. It can run over several lines as long
+    as each line starts with the same spaces.
+  ar: >-
+    اكتبوا الوصف العربي هنا.
+
+# Photos: the first one is the main photo. Close-ups of details work beautifully.
+images:
+  - src: images/products/example-product/1.jpg
+    alt:
+      en: Describe what the photo shows
+      ar: صف ما تُظهره الصورة
+    # OPTIONAL — which part to keep when the photo is cropped into a tall
+    # frame: left, right, top or bottom (the centre is kept otherwise).
+    # focus: left
+
+# OPTIONAL — only if Ghada wants to show a price.
+# from: true shows "From EGP 1,250" (useful when the price depends on options).
+# Currency codes: EGP, SAR, AED, KWD, QAR, BHD, OMR, USD
+price:
+  amount: 1250
+  currency: EGP
+  from: true
+
+# OPTIONAL details — keep only the ones Ghada has confirmed.
+materials:
+  en: e.g. Cotton fabric, embroidery thread, wooden hoop
+  ar: مثال: قماش قطني، خيوط تطريز، طارة خشبية
+techniques:
+  en: e.g. Hand embroidery
+  ar: مثال: تطريز يدوي
+dimensions:
+  en: e.g. 20 cm diameter
+  ar: مثال: قطر ٢٠ سم
+colours:
+  en: e.g. Ivory, blush and gold thread — other colours on request
+  ar: مثال: خيوط عاجية ووردية وذهبية — وألوان أخرى عند الطلب
+sizes:
+  en: e.g. 15 cm, 20 cm or 25 cm
+  ar: مثال: ١٥ أو ٢٠ أو ٢٥ سم
+customization:
+  en: e.g. Any name and date, in English or Arabic
+  ar: مثال: أي اسم وتاريخ، بالعربية أو الإنجليزية
+production_time:
+  en: e.g. About 7–10 days
+  ar: مثال: حوالي ٧ إلى ١٠ أيام
+
+# OPTIONAL — one of: made-to-order, available, unavailable
+availability: made-to-order

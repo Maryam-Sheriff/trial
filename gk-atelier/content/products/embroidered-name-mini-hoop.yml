@@ -1,0 +1,27 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, size, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0013
+slug: embroidered-name-mini-hoop
+collection: personalized-gifts
+name:
+  en: Embroidered Name Mini Hoop
+  ar: طارة صغيرة مطرّزة بالاسم
+description:
+  en: >-
+    A small embroidery hoop stitched with a name in rose-pink letters between
+    tiny flowers and leaves, hung from a green ribbon and finished with an
+    ivory tassel — a sweet keepsake or gift.
+  ar: >-
+    طارة تطريز صغيرة مطرّز عليها اسم بحروف وردية بين زهور وأوراق صغيرة، معلّقة
+    بشريط أخضر ومزيّنة بشرّابة عاجية — تذكار أو هدية رقيقة.
+images:
+  - src: images/products/embroidered-name-mini-hoop/1.jpg
+    alt:
+      en: Mini embroidery hoop with a name in pink letters and small flowers, hanging from a green ribbon with an ivory tassel
+      ar: طارة تطريز صغيرة عليها اسم بحروف وردية وزهور صغيرة، معلّقة بشريط أخضر مع شرّابة عاجية
+techniques:
+  en: Hand embroidery
+  ar: تطريز يدوي
+customization:
+  en: Embroidered with the name of your choice
+  ar: مطرّزة بالاسم الذي تختارونه

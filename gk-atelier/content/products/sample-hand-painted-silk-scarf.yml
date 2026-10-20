@@ -1,0 +1,18 @@
+# SAMPLE LISTING — demonstrates the product page layout only.
+# This is not one of Ghada's real pieces: replace it with a real product
+# (see _TEMPLATE.yml) or delete this file before the website goes live.
+id: SAMPLE-06
+slug: sample-hand-painted-silk-scarf
+collection: silk-painting
+sample: true
+featured: false
+name:
+  en: Hand-painted Silk Scarf
+  ar: وشاح حرير مرسوم يدويًا
+description:
+  en: >-
+    Colour painted by hand onto silk, so the finished scarf is truly one of a
+    kind.
+  ar: >-
+    ألوان مرسومة يدويًا على الحرير، لتكون كل قطعة فريدة لا تتكرر.
+images: []

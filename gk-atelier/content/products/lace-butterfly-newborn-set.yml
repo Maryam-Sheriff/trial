@@ -1,0 +1,32 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, size, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0020
+slug: lace-butterfly-newborn-set
+collection: baby-newborn
+name:
+  en: Lace Newborn Set with Butterflies
+  ar: طقم مواليد بالدانتيل والفراشات
+description:
+  en: >-
+    An ivory welcome set trimmed with lace and embroidered with the baby's name
+    in deep-red Arabic calligraphy, pink roses and golden butterflies. The set
+    shown includes a hooded wrap, a sleepsuit, a hat with the baby's initial, a
+    bib, booties and mittens.
+  ar: >-
+    طقم عاجي لاستقبال المولود مزيّن بالدانتيل، ومطرّز باسم الطفل بخط عربي باللون
+    الأحمر الداكن، وبورود وردية وفراشات ذهبية. يضم الطقم الظاهر في الصورة: لفّة
+    بغطاء للرأس، وأفرول، وطاقية بالحرف الأول من الاسم، ومريلة، وحذاءً، وقفازين.
+images:
+  - src: images/products/lace-butterfly-newborn-set/1.jpg
+    alt:
+      en: Ivory newborn set with lace trims, a baby's name in red Arabic calligraphy, pink roses and gold butterflies — hooded wrap, sleepsuit, hat, bib, booties and mittens
+      ar: طقم مواليد عاجي بحواف من الدانتيل، عليه اسم الطفل بخط عربي أحمر وورود وردية وفراشات ذهبية — لفّة وأفرول وطاقية ومريلة وحذاء وقفازان
+techniques:
+  en: Hand embroidery
+  ar: تطريز يدوي
+colours:
+  en: "As shown: ivory with deep red, pink roses and gold butterflies"
+  ar: "كما في الصورة: عاجي مع الأحمر الداكن وورود وردية وفراشات ذهبية"
+customization:
+  en: Embroidered with your baby's name
+  ar: مطرّز باسم طفلكم

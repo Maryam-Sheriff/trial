@@ -1,0 +1,33 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, size, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0028
+slug: pearl-ring-tray-and-hand-fan
+collection: wedding-bridal
+name:
+  en: Pearl Ring Tray and Hand Fan Set
+  ar: طقم صينية دبل ومروحة يد باللؤلؤ
+description:
+  en: >-
+    A matching ring tray and hand fan in ivory. The round tray is bordered with
+    tiny pearl beads and white butterflies, carries the Quranic verse "And We
+    created you in pairs" and the couple's names in silver-grey lettering, and
+    has three small frames for the rings edged with golden beads, two round
+    and one heart-shaped. The scalloped fan is trimmed with pearl beads and
+    white flowers, with Arabic calligraphy at its centre.
+  ar: >-
+    طقم متناسق من صينية دبل ومروحة يد باللون العاجي. الصينية دائرية بإطار من
+    حبات اللؤلؤ الصغيرة وفراشات بيضاء، تحمل الآية الكريمة «وخلقناكم أزواجًا»
+    واسمَي العروسين بحروف فضية رمادية، وعليها ثلاثة إطارات صغيرة للدبل محاطة بخرز
+    ذهبي، اثنان دائريان وواحد على شكل قلب. أما المروحة فحوافها متموّجة ومزيّنة
+    باللؤلؤ والزهور البيضاء، ويتوسطها خط عربي.
+images:
+  - src: images/products/pearl-ring-tray-and-hand-fan/1.jpg
+    alt:
+      en: Ivory round ring tray with a pearl-bead border, white butterflies, a Quranic verse and a couple's names in silver-grey, and three gold-edged ring frames, with a matching pearl-trimmed hand fan
+      ar: صينية دبل دائرية عاجية بإطار من حبات اللؤلؤ وفراشات بيضاء، عليها آية قرآنية وأسماء العروسين باللون الفضي الرمادي وثلاثة إطارات ذهبية للدبل، مع مروحة يد متناسقة مزيّنة باللؤلؤ
+colours:
+  en: "As shown: ivory with pearl, silver-grey and gold details"
+  ar: "كما في الصورة: عاجي مع تفاصيل لؤلؤية وفضية رمادية وذهبية"
+customization:
+  en: Personalized with the couple's names
+  ar: مخصّصة باسمَي العروسين

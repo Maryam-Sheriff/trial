@@ -1,0 +1,29 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, size, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0022
+slug: crochet-pouf-and-round-rug
+collection: crochet-teriko
+name:
+  en: Crochet Floor Pouf and Round Rug
+  ar: بوف أرضي وسجادة دائرية من الكروشيه
+description:
+  en: >-
+    A round floor pouf and a round rug, both crocheted by hand from thick cord
+    in a warm taupe. The pouf is worked in close, spiralling rounds, while the
+    rug opens into a lacy mandala pattern of shells and open rings.
+  ar: >-
+    بوف أرضي دائري وسجادة دائرية، مشغولان بالكروشيه يدويًا من حبل سميك بلون بيج
+    رمادي دافئ. يُشغل البوف في دوائر متقاربة متتالية، بينما تتفتّح السجادة في نقش
+    ماندالا مخرّم من الأقواس والحلقات المفتوحة.
+images:
+  - src: images/products/crochet-pouf-and-round-rug/1.jpg
+    focus: left
+    alt:
+      en: Round taupe crochet floor pouf in front of a round crochet rug with a lacy mandala pattern, on a marble floor by a doorway
+      ar: بوف أرضي دائري من الكروشيه بلون بيج رمادي أمام سجادة كروشيه دائرية بنقش ماندالا مخرّم، على أرضية رخامية قرب الباب
+techniques:
+  en: Hand crochet
+  ar: كروشيه يدوي
+colours:
+  en: "As shown: warm taupe"
+  ar: "كما في الصورة: بيج رمادي دافئ"

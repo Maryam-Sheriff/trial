@@ -1,0 +1,24 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, size, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0009
+slug: macrame-ramadan-garland
+collection: macrame-home-decor
+name:
+  en: Macramé Ramadan Garland
+  ar: زينة رمضان من المكرمية
+description:
+  en: >-
+    A long braided macramé garland hung with crescents, stars and lantern
+    shapes, each finished with a tassel. Shown draped along a hallway with warm
+    fairy lights woven through it.
+  ar: >-
+    حبل طويل من المكرمية المجدولة تتدلّى منه أهلّة ونجوم وأشكال فوانيس، تنتهي
+    كلٌّ منها بشرّابة. يظهر في الصورة ممتدًا على جدار الممر وتتخلّله أضواء دافئة.
+images:
+  - src: images/products/macrame-ramadan-garland/1.jpg
+    alt:
+      en: Braided macramé garland with crescents, stars, lantern shapes, tassels and fairy lights, hanging across a hallway
+      ar: حبل زينة من المكرمية المجدولة بأهلّة ونجوم وفوانيس وشرّابات وأضواء صغيرة، معلّق على امتداد ممر
+techniques:
+  en: Hand-knotted macramé
+  ar: مكرمية معقودة يدويًا

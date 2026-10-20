@@ -1,0 +1,20 @@
+# SAMPLE LISTING — demonstrates the product page layout only.
+# This is not one of Ghada's real pieces: replace it with a real product
+# (see _TEMPLATE.yml) or delete this file before the website goes live.
+id: SAMPLE-01
+slug: sample-bridal-keepsake
+collection: wedding-bridal
+sample: true
+featured: true
+name:
+  en: Bridal Keepsake
+  ar: تذكار العروس
+description:
+  en: >-
+    A keepsake made by hand for the bride, to be part of the day and treasured
+    long after it. Each one is made individually, so every detail can be
+    discussed with Ghada.
+  ar: >-
+    تذكار مصنوع يدويًا للعروس، ليكون جزءًا من يومها ويبقى ذكرى عزيزة بعده.
+    تُصنع كل قطعة على حدة، لذا يمكن مناقشة كل تفاصيلها مع غادة.
+images: []

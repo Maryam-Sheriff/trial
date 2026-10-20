@@ -1,0 +1,27 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, size, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0010
+slug: macrame-crescent-star-wall-hangings
+collection: macrame-home-decor
+name:
+  en: Macramé Crescent & Star Wall Hangings
+  ar: معلّقات حائط مكرمية بالهلال والنجمة
+description:
+  en: >-
+    Macramé wall hangings shaped as crescents and stars, with knotted patterns
+    and long fringe. Five designs are shown: a string of stars and a crescent
+    lit with fairy lights, a crescent dreamcatcher with a small gold moon, a
+    star, a diamond, and a crescent of knotted loops.
+  ar: >-
+    معلّقات حائط من المكرمية على شكل أهلّة ونجوم، بنقوش معقودة وأطراف طويلة
+    متدلّية. تظهر في الصورة خمسة تصاميم: سلسلة من النجوم والهلال مضاءة بأضواء
+    صغيرة، وهلال على شكل صائد أحلام مع قمر ذهبي صغير، ونجمة، ومعيّن، وهلال من
+    العُقد الدائرية.
+images:
+  - src: images/products/macrame-crescent-star-wall-hangings/1.jpg
+    alt:
+      en: Five ivory macramé wall hangings — crescents, stars and a diamond with long fringe, one lit with fairy lights — above a sofa
+      ar: خمس معلّقات حائط من المكرمية العاجية — أهلّة ونجوم ومعيّن بأطراف طويلة، إحداها مضاءة بأضواء صغيرة — فوق أريكة
+techniques:
+  en: Hand-knotted macramé
+  ar: مكرمية معقودة يدويًا

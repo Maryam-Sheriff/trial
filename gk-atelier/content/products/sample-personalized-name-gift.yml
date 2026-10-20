@@ -1,0 +1,19 @@
+# SAMPLE LISTING — demonstrates the product page layout only.
+# This is not one of Ghada's real pieces: replace it with a real product
+# (see _TEMPLATE.yml) or delete this file before the website goes live.
+id: SAMPLE-08
+slug: sample-personalized-name-gift
+collection: personalized-gifts
+sample: true
+featured: true
+name:
+  en: Personalized Name Gift
+  ar: هدية مخصّصة بالاسم
+description:
+  en: >-
+    A gift made around a name that matters — for a birthday, a new arrival or
+    simply to say you were thinking of someone.
+  ar: >-
+    هدية تُصنع حول اسم عزيز — لعيد ميلاد، أو لمولود جديد، أو لتقولوا ببساطة إنكم
+    تفكّرون في شخص تحبونه.
+images: []

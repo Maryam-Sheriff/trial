@@ -1,0 +1,23 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, size, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0024
+slug: embroidered-bridal-gown
+collection: wedding-bridal
+name:
+  en: Embroidered Bridal Gown
+  ar: فستان زفاف مطرّز
+description:
+  en: >-
+    An ivory ball gown shown from the back, with a low V back framed by lace
+    straps and a long, sweeping train. The skirt is covered in raised floral
+    embroidery — trailing vines and three-dimensional blossoms — scattered
+    with tiny beads that catch the light.
+  ar: >-
+    فستان زفاف عاجي منفوش يظهر من الخلف، بظهر مفتوح على شكل V تحيط به حمالات من
+    الدانتيل، وذيل طويل منسدل. تغطّي التنورة تطريزات زهور بارزة — أغصان متسلّقة
+    وزهور مجسّمة — تتناثر بينها حبات خرز صغيرة تلمع مع الضوء.
+images:
+  - src: images/products/embroidered-bridal-gown/1.jpg
+    alt:
+      en: Ivory bridal ball gown on a dress form, seen from the back, with a low V back, lace straps and a long train covered in raised floral embroidery
+      ar: فستان زفاف عاجي منفوش على مانيكان من الخلف، بظهر مفتوح على شكل V وحمالات من الدانتيل وذيل طويل مغطّى بتطريز زهور بارز

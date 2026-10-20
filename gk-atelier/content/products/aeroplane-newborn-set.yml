@@ -1,0 +1,32 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, size, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0019
+slug: aeroplane-newborn-set
+collection: baby-newborn
+name:
+  en: Aeroplane Newborn Set
+  ar: طقم مواليد بتطريز الطائرة
+description:
+  en: >-
+    A white welcome set for a new baby, embroidered in dusty blue and caramel
+    with a little aeroplane, balloons and clouds, and the baby's name. The set
+    shown includes a hooded wrap with an Arabic phrase, a sleepsuit, a hat, a
+    bib, mittens and booties.
+  ar: >-
+    طقم أبيض لاستقبال المولود، مطرّز باللونين الأزرق الهادئ والكراميل بطائرة
+    صغيرة وبالونات وغيوم، وباسم الطفل. يضم الطقم الظاهر في الصورة: لفّة بغطاء
+    للرأس عليها عبارة بالعربية، وأفرول، وطاقية، ومريلة، وقفازين، وحذاءً.
+images:
+  - src: images/products/aeroplane-newborn-set/1.jpg
+    alt:
+      en: White newborn set embroidered with an aeroplane, balloons and a baby's name in blue and caramel — hooded wrap, sleepsuit, hat, bib, mittens and booties
+      ar: طقم مواليد أبيض مطرّز بطائرة وبالونات واسم الطفل بالأزرق والكراميل — لفّة وأفرول وطاقية ومريلة وقفازان وحذاء
+techniques:
+  en: Hand embroidery
+  ar: تطريز يدوي
+colours:
+  en: "As shown: white with dusty blue and caramel"
+  ar: "كما في الصورة: أبيض مع الأزرق الهادئ والكراميل"
+customization:
+  en: Embroidered with your baby's name
+  ar: مطرّز باسم طفلكم

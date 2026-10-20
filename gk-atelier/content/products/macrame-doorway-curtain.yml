@@ -1,0 +1,27 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, size, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0004
+slug: macrame-doorway-curtain
+collection: macrame-home-decor
+featured: false
+name:
+  en: Macramé Doorway Curtain
+  ar: ستارة مكرمية للمدخل
+description:
+  en: >-
+    A long macramé curtain in ivory cord, knotted by hand into rows of diamonds
+    and braided columns. Shown here hanging in a doorway, it softens the light
+    and brings a handmade warmth to the space.
+  ar: >-
+    ستارة طويلة من المكرمية بلون عاجي، معقودة يدويًا على شكل معيّنات وأعمدة
+    مجدولة. تظهر هنا معلّقة عند مدخل الباب، فتلطّف الضوء وتضفي على المكان دفئًا
+    ولمسة يدوية.
+images:
+  - src: images/products/macrame-doorway-curtain/1.jpg
+    focus: left
+    alt:
+      en: Long ivory macramé curtain with diamond patterns and braided cords, hanging in a sunlit doorway
+      ar: ستارة مكرمية عاجية طويلة بنقوش معيّنة وحبال مجدولة، معلّقة عند مدخل مشمس
+techniques:
+  en: Hand-knotted macramé
+  ar: مكرمية معقودة يدويًا

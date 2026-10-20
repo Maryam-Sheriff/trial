@@ -1,0 +1,30 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, size, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0005
+slug: wedding-calendar-cushion
+collection: wedding-bridal
+name:
+  en: Embroidered Wedding Calendar Cushion
+  ar: مخدة زفاف مطرّزة بالتقويم
+description:
+  en: >-
+    An ivory cushion embroidered with the couple's names, a month calendar with
+    their special day marked by a red heart, and the Quranic verse "And He placed
+    between you affection and mercy" in Arabic calligraphy. Beside them, a bride
+    and groom stand beneath a rose-covered arch, the bride's gown worked in
+    layers of tulle and lace.
+  ar: >-
+    مخدة عاجية مطرّزة باسمَي العروسين، وبتقويم الشهر مع تمييز اليوم المميّز بقلب
+    أحمر، وبالآية الكريمة «وجعل بينكم مودة ورحمة». وإلى جانبها عروسان يقفان تحت
+    قوس مزيّن بالورود، وقد نُفّذ فستان العروس بطبقات من التول والدانتيل.
+images:
+  - src: images/products/wedding-calendar-cushion/1.jpg
+    alt:
+      en: Ivory embroidered cushion with a couple's names in Arabic calligraphy, a month calendar with one day marked by a red heart, and a bride and groom under a floral arch
+      ar: مخدة عاجية مطرّزة بأسماء العروسين بالخط العربي وتقويم شهر يتميّز فيه يوم بقلب أحمر، مع عروسين تحت قوس من الورود
+techniques:
+  en: Hand embroidery
+  ar: تطريز يدوي
+customization:
+  en: Embroidered with the couple's names and date
+  ar: مطرّزة باسمَي العروسين والتاريخ
