@@ -1,0 +1,27 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, size, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0018
+slug: hexagonal-ring-tray
+collection: wedding-bridal
+name:
+  en: Hexagonal Ring Tray with Gold Handles
+  ar: صينية دبل سداسية بمقابض ذهبية
+description:
+  en: >-
+    A six-sided ring tray with a glossy black surface, gold handles and a
+    border of sparkling clear stones. A short prayer, the couple's names and
+    the date are written in white. It is shown with a glass ring box, a stand
+    for a necklace and a sprig of dried pampas tied with gold ribbon.
+  ar: >-
+    صينية دبل سداسية بسطح أسود لامع ومقابض ذهبية وإطار من الأحجار الشفافة
+    اللامعة. يُكتب عليها دعاء واسما العروسين والتاريخ باللون الأبيض، وتظهر في
+    الصورة مع علبة زجاجية للدبل وحامل للعقد وغصن من البامباس المجفف معقود بشريط
+    ذهبي.
+images:
+  - src: images/products/hexagonal-ring-tray/1.jpg
+    alt:
+      en: Hexagonal black ring tray with gold handles and a sparkling border, a prayer, names and date in white, a glass ring box and a necklace stand
+      ar: صينية دبل سداسية سوداء بمقابض ذهبية وإطار لامع، عليها دعاء والأسماء والتاريخ بالأبيض، مع علبة زجاجية للدبل وحامل للعقد
+customization:
+  en: Personalized with the couple's names and date
+  ar: مخصّصة باسمَي العروسين والتاريخ

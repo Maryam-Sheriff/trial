@@ -28,18 +28,30 @@ ghada:
 # "A glimpse into the atelier" on the homepage — 6 photographs work best:
 # a mix of finished pieces and close-ups of stitching, threads and textures.
 glimpse:
-  - src: ""
-    alt: { en: "", ar: "" }
-  - src: ""
-    alt: { en: "", ar: "" }
-  - src: ""
-    alt: { en: "", ar: "" }
-  - src: ""
-    alt: { en: "", ar: "" }
-  - src: ""
-    alt: { en: "", ar: "" }
-  - src: ""
-    alt: { en: "", ar: "" }
+  - src: images/products/wedding-calendar-cushion/1.jpg
+    alt:
+      en: Embroidered wedding cushion with a bride and groom under a floral arch, the gown in tulle and lace
+      ar: مخدة زفاف مطرّزة بعروسين تحت قوس من الورود، والفستان من التول والدانتيل
+  - src: images/products/embroidered-name-mini-hoop/1.jpg
+    alt:
+      en: Mini embroidery hoop with a name in pink letters and small flowers
+      ar: طارة تطريز صغيرة عليها اسم بحروف وردية وزهور صغيرة
+  - src: images/products/macrame-shoe-rack-with-hooks/1.jpg
+    alt:
+      en: Macramé panel knotted in a diamond pattern on a shoe rack with hooks
+      ar: لوح مكرمية معقود بنقش المعيّنات على رفّ أحذية بعلّاقات
+  - src: images/products/baby-breath-ring-tray/1.jpg
+    alt:
+      en: Round black ring tray with pearls, baby's breath and white Arabic lettering
+      ar: صينية دبل دائرية سوداء باللؤلؤ وزهور الجبسوفيلا وحروف عربية بيضاء
+  - src: images/products/macrame-ramadan-lanterns/1.jpg
+    alt:
+      en: Three ivory macramé Ramadan lanterns
+      ar: ثلاثة فوانيس رمضان من المكرمية العاجية
+  - src: images/products/abstract-gold-textured-painting/1.jpg
+    alt:
+      en: Abstract painting with a textured gold band between beige and black
+      ar: لوحة تجريدية بشريط ذهبي بارز بين البيج والأسود
 
 # About page — Ghada's workspace, tools and creative process.
 # Write a short caption for each in both languages.

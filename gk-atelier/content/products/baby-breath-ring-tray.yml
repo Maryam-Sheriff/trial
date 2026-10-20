@@ -1,0 +1,26 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, size, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0017
+slug: baby-breath-ring-tray
+collection: wedding-bridal
+name:
+  en: Personalized Ring Tray with Baby's Breath
+  ar: صينية دبل مخصّصة بزهور الجبسوفيلا
+description:
+  en: >-
+    A round tray for the exchange of rings, with a glossy black surface, a
+    border of pearl beads and a cascade of baby's breath tied with an ivory
+    bow. The couple's names and the date are set in white Arabic lettering, and
+    a hexagonal glass box holds the rings.
+  ar: >-
+    صينية دبل دائرية بسطح أسود لامع، وإطار من حبات اللؤلؤ، وغصن منسدل من زهور
+    الجبسوفيلا معقود بفيونكة عاجية. يُكتب عليها اسما العروسين والتاريخ بحروف
+    عربية بيضاء، وتحمل علبة زجاجية سداسية للدبل.
+images:
+  - src: images/products/baby-breath-ring-tray/1.jpg
+    alt:
+      en: Round black ring tray with a pearl border, baby's breath and an ivory bow, a couple's names and date in white Arabic letters, and a glass ring box
+      ar: صينية دبل دائرية سوداء بإطار من اللؤلؤ وزهور الجبسوفيلا وفيونكة عاجية، عليها أسماء العروسين والتاريخ بحروف بيضاء، مع علبة زجاجية للدبل
+customization:
+  en: Personalized with the couple's names and date
+  ar: مخصّصة باسمَي العروسين والتاريخ

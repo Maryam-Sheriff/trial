@@ -88,16 +88,19 @@ The brief asks for nothing to be invented, so the site ships with:
   the supplied transparent PNG, never redrawn or stretched. Until a hero
   photograph is added, the logo leads the homepage. The browser icon and the
   link-preview image are made from the same file.
-- **No product photographs.** Clearly labelled "Photograph coming soon"
-  panels (a linen-weave pattern with a line drawing of the craft) fill every
-  photo slot until real photos are added. They are intentionally graphic and
-  can't be mistaken for products.
-- **Real pieces described only from their photographs.** The first four
-  products (macramé mirror shelf, macramé doorway curtain, personalized
-  newborn set, embroidered name bodysuit) use Ghada's photos (re-saved
-  without their metadata), with names, descriptions and alt text in both
-  languages. They carry no prices, sizes, materials, timings or availability
-  until Ghada confirms them, so each product page invites an enquiry instead.
+- **No invented photographs.** Clearly labelled "Photograph coming soon"
+  panels (a linen-weave pattern with a line drawing of the craft) fill the
+  photo slots that are still empty (Ghada's portrait, the About page and two
+  collection covers). They are intentionally graphic and can't be mistaken
+  for products.
+- **Real pieces described only from their photographs.** Twenty of Ghada's
+  pieces across five collections (katb el-ketab cushions, ring trays and
+  bridal pieces; macramé home and Ramadan décor; embroidery; newborn sets;
+  personalized gifts) use her photos, re-saved without their metadata, with
+  names, descriptions and alt text in both languages. The same photos fill
+  the homepage gallery and the collection covers. The pieces carry no
+  prices, sizes, materials, timings or availability until Ghada confirms
+  them, so each product page invites an enquiry instead.
 - **Sample listings switched off.** The eight `sample-*` files that
   demonstrated the product page before real pieces existed are disabled with
   `show_sample_products: false`. If switched back on, they are labelled
@@ -191,7 +194,7 @@ shades of the same hues are used where text must stay readable (WCAG AA).
 
 ## Testing
 
-`npm test` runs 39 unit and build tests, including full preview and
+`npm test` runs 41 unit and build tests, including full preview and
 configured builds with a link checker over every page.
 
 `npm run test:e2e` builds two sites, the shipped content (preview) and a fully

@@ -1,0 +1,21 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, size, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0012
+slug: abstract-gold-textured-painting
+collection: macrame-home-decor
+name:
+  en: Abstract Gold Textured Painting
+  ar: لوحة تجريدية بملمس ذهبي
+description:
+  en: >-
+    An abstract painting with a raised, textured band of gold running between
+    washed tones of beige and stone above and deep black below. Shown in a slim
+    gold frame above a sofa.
+  ar: >-
+    لوحة تجريدية يمتد في وسطها شريط ذهبي بارز الملمس، بين درجات البيج والحجري في
+    الأعلى والأسود العميق في الأسفل. تظهر في الصورة بإطار ذهبي رفيع فوق أريكة.
+images:
+  - src: images/products/abstract-gold-textured-painting/1.jpg
+    alt:
+      en: Abstract painting with a textured gold band between beige and black, in a gold frame above a sofa
+      ar: لوحة تجريدية بشريط ذهبي بارز بين البيج والأسود، بإطار ذهبي فوق أريكة

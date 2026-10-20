@@ -98,9 +98,14 @@ test('preview: real products use the supplied photographs, described in both lan
   const home = read(preview.outDir, 'en/index.html');
   assert.equal((home.match(/class="card card--product"/g) ?? []).length, 4, 'four featured pieces on the homepage');
   assert.ok(!home.includes('Sample listing'));
+  const glimpse = home.slice(home.indexOf('class="glimpse"'), home.indexOf('aria-labelledby="ghada-title"'));
+  assert.equal((glimpse.match(/<img /g) ?? []).length, 6, 'the glimpse gallery shows six real photographs');
+  assert.ok(!glimpse.includes('class="ph'), 'no "coming soon" panels left in the glimpse gallery');
   const macrame = read(preview.outDir, 'en/collections/macrame-home-decor/index.html');
-  assert.equal((macrame.match(/class="card card--product"/g) ?? []).length, 2);
-  assert.match(macrame, /2 pieces/);
+  assert.equal((macrame.match(/class="card card--product"/g) ?? []).length, 7);
+  assert.match(macrame, /7 pieces/);
+  const wedding = read(preview.outDir, 'en/collections/wedding-bridal/index.html');
+  assert.equal((wedding.match(/class="card card--product"/g) ?? []).length, 6);
 });
 
 test('sample listings, when switched on, are clearly marked and kept out of search', async () => {

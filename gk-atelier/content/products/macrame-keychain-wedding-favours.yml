@@ -1,0 +1,33 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, size, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0008
+slug: macrame-keychain-wedding-favours
+collection: personalized-gifts
+name:
+  en: Macramé Keychain Wedding Favours
+  ar: ميداليات مكرمية لتوزيعات الأفراح
+description:
+  en: >-
+    Little macramé keychains on gold-coloured rings, each tied to a kraft card
+    with the couple's names and the date and finished with a sprig of dried
+    flowers — a keepsake for every guest. Shown in seven colours, from ivory
+    and sand to blush, terracotta and plum.
+  ar: >-
+    ميداليات صغيرة من المكرمية بحلقات ذهبية اللون، مثبّتة على بطاقات كرافت تحمل
+    اسمَي العروسين والتاريخ، ومزيّنة بغصن صغير من الزهور المجففة — تذكار لطيف
+    لكل ضيف. تظهر في الصورة بسبعة ألوان، من العاجي والرملي إلى الوردي والطوبي
+    والبرقوقي.
+images:
+  - src: images/products/macrame-keychain-wedding-favours/1.jpg
+    alt:
+      en: Seven macramé keychains in ivory, sand, brown, blush, terracotta and plum, each on a kraft card with names, a date and dried flowers
+      ar: سبع ميداليات مكرمية بألوان العاجي والرملي والبني والوردي والطوبي والبرقوقي، كلٌّ منها على بطاقة كرافت بالأسماء والتاريخ وزهور مجففة
+techniques:
+  en: Hand-knotted macramé
+  ar: مكرمية معقودة يدويًا
+colours:
+  en: "As shown: ivory, cream, sand, chocolate, blush, terracotta and plum"
+  ar: "كما في الصورة: عاجي، كريمي، رملي، بني شوكولاتة، وردي، طوبي وبرقوقي"
+customization:
+  en: Cards with the couple's names and date
+  ar: بطاقات باسمَي العروسين والتاريخ

@@ -1,0 +1,26 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, size, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0011
+slug: macrame-ramadan-lanterns
+collection: macrame-home-decor
+name:
+  en: Macramé Ramadan Lanterns
+  ar: فوانيس رمضان من المكرمية
+description:
+  en: >-
+    Ramadan lanterns knotted from ivory cord in the traditional fanous shape,
+    each with a ring at the top for hanging. Three designs are shown: one
+    closely knotted with a diamond pattern, one with an open lattice, and one
+    with a fringed band.
+  ar: >-
+    فوانيس رمضان معقودة من الحبال العاجية على شكل الفانوس التقليدي، ولكلٍّ منها
+    حلقة في أعلاه لتعليقه. تظهر في الصورة ثلاثة تصاميم: الأول بعُقد متقاربة ونقش
+    معيّن، والثاني بشبكة مفتوحة، والثالث بحزام من الأطراف المتدلّية.
+images:
+  - src: images/products/macrame-ramadan-lanterns/1.jpg
+    alt:
+      en: Three ivory macramé Ramadan lanterns in different knotted designs, standing on a woven mat
+      ar: ثلاثة فوانيس رمضان من المكرمية العاجية بتصاميم معقودة مختلفة، على حصيرة منسوجة
+techniques:
+  en: Hand-knotted macramé
+  ar: مكرمية معقودة يدويًا

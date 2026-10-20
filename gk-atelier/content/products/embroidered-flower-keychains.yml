@@ -1,0 +1,26 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, size, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0015
+slug: embroidered-flower-keychains
+collection: embroidery-textile-art
+featured: true
+name:
+  en: Embroidered Flower Keychains
+  ar: ميداليات مطرّزة بالزهور
+description:
+  en: >-
+    Keychains with a small embroidered flower set in a round, wood-toned frame,
+    hanging from a gold-coloured chain and ring. Eleven designs are shown, from
+    sunflowers and roses to tulips, blue blooms and wildflowers.
+  ar: >-
+    ميداليات تحمل كلٌّ منها زهرة صغيرة مطرّزة داخل إطار دائري بلون الخشب،
+    معلّقة بسلسلة وحلقة ذهبيتَي اللون. تظهر في الصورة أحد عشر تصميمًا، من دوّار
+    الشمس والورد إلى التوليب والزهور الزرقاء والبرية.
+images:
+  - src: images/products/embroidered-flower-keychains/1.jpg
+    alt:
+      en: Eleven embroidered flower keychains in round wood-toned frames with gold chains, including a sunflower, roses, tulips and wildflowers
+      ar: إحدى عشرة ميدالية مطرّزة بالزهور في إطارات دائرية بلون الخشب بسلاسل ذهبية، منها دوّار الشمس والورد والتوليب والزهور البرية
+techniques:
+  en: Hand embroidery
+  ar: تطريز يدوي

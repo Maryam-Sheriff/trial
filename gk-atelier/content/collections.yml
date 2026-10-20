@@ -32,8 +32,10 @@
       يتكوّن يوم الزفاف من تفاصيل صغيرة تحمل الكثير من المعاني. تُصنع هذه القطع
       يدويًا لتليق باحتفالكم، لتُستخدم في ذلك اليوم وتبقى ذكرى جميلة بعده.
   image:
-    src: ""
-    alt: { en: "", ar: "" }
+    src: images/products/hexagonal-ring-tray/1.jpg
+    alt:
+      en: Hexagonal black ring tray with gold handles, a sparkling border and a glass ring box
+      ar: صينية دبل سداسية سوداء بمقابض ذهبية وإطار لامع وعلبة زجاجية للدبل
 
 - slug: embroidery-textile-art
   icon: hoop
@@ -97,10 +99,10 @@
       قليلة هي اللحظات الرقيقة مثل استقبال مولود جديد. تُصنع هذه الأطقم والهدايا
       يدويًا بنعومة وعناية — للوالدين الجديدين، ولكل من يشاركهم الفرحة.
   image:
-    src: images/products/personalized-newborn-set/1.jpg
+    src: images/products/lace-butterfly-newborn-set/1.jpg
     alt:
-      en: Ivory newborn set embroidered with a baby's name, roses and pearls
-      ar: طقم مواليد عاجي مطرّز باسم الطفل مع ورود ولآلئ
+      en: Ivory newborn set with lace, a baby's name in red Arabic calligraphy, pink roses and gold butterflies
+      ar: طقم مواليد عاجي بالدانتيل، عليه اسم الطفل بخط عربي أحمر وورود وردية وفراشات ذهبية
 
 - slug: silk-painting
   icon: brush
@@ -158,5 +160,7 @@
       أجمل الهدايا هي تلك التي تُصنع لشخص واحد بعينه. حدّثوا غادة عن اسم أو تاريخ
       أو تفصيلة تعني لكم الكثير، لتُصنع القطعة من حولها.
   image:
-    src: ""
-    alt: { en: "", ar: "" }
+    src: images/products/macrame-keychain-wedding-favours/1.jpg
+    alt:
+      en: Macramé keychains in soft colours on kraft cards with names, a date and dried flowers
+      ar: ميداليات مكرمية بألوان هادئة على بطاقات كرافت بالأسماء والتاريخ وزهور مجففة

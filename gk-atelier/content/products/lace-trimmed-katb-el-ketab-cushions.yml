@@ -1,0 +1,31 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, size, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0007
+slug: lace-trimmed-katb-el-ketab-cushions
+collection: wedding-bridal
+name:
+  en: Lace-Trimmed Katb El-Ketab Cushions
+  ar: مخدات كتب كتاب بإطار من الدانتيل
+description:
+  en: >-
+    Two cushion designs for the marriage-contract ceremony, each edged in white
+    lace and embroidered with the couple's names and the date in both the
+    Gregorian and Hijri calendars, beneath a line of Arabic calligraphy. One
+    shows a bride and groom inside a wreath of golden flowers, the bride's gown
+    raised in lace; the other is framed by delicate embroidered branches.
+  ar: >-
+    تصميمان لمخدة حفل كتب الكتاب، لكلٍّ منهما إطار من الدانتيل الأبيض، وعليهما
+    اسما العروسين والتاريخ بالتقويمين الميلادي والهجري تحت سطر من الخط العربي.
+    يُظهر الأول عروسين داخل إكليل من الزهور الذهبية مع فستان بارز من الدانتيل،
+    ويحيط بالثاني غصنان مطرّزان برقّة.
+images:
+  - src: images/products/lace-trimmed-katb-el-ketab-cushions/1.jpg
+    alt:
+      en: Two ivory katb el-ketab cushions edged in lace, one with a bride and groom inside a golden floral wreath, the other with embroidered branches, both with names and dates
+      ar: مخدتا كتب كتاب عاجيتان بإطار من الدانتيل، الأولى بعروسين داخل إكليل زهور ذهبي والثانية بأغصان مطرّزة، وعلى كلتيهما الأسماء والتاريخ
+techniques:
+  en: Hand embroidery
+  ar: تطريز يدوي
+customization:
+  en: Embroidered with the couple's names and date
+  ar: مطرّزة باسمَي العروسين والتاريخ

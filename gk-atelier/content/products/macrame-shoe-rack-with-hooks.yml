@@ -1,0 +1,25 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, size, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0014
+slug: macrame-shoe-rack-with-hooks
+collection: macrame-home-decor
+name:
+  en: Macramé Shoe Rack with Hooks
+  ar: رفّ أحذية بالمكرمية مع علّاقات
+description:
+  en: >-
+    A hallway stand with four shelves on a dark frame, a row of hooks along the
+    top and a macramé back panel knotted in a diamond pattern and finished with
+    a tassel. The sides are wrapped in macramé too.
+  ar: >-
+    وحدة للمدخل بأربعة رفوف على هيكل داكن، وصفّ من العلّاقات في أعلاها، ولوح
+    خلفي من المكرمية معقود بنقش المعيّنات وينتهي بشرّابة. وجانباها مكسوّان
+    بالمكرمية أيضًا.
+images:
+  - src: images/products/macrame-shoe-rack-with-hooks/1.jpg
+    alt:
+      en: Shoe rack with four dark shelves and hooks along the top, with an ivory macramé back panel and sides in a diamond pattern with a tassel
+      ar: رفّ أحذية بأربعة رفوف داكنة وعلّاقات في الأعلى، مع لوح خلفي وجوانب من المكرمية العاجية بنقش المعيّنات وشرّابة
+techniques:
+  en: Hand-knotted macramé
+  ar: مكرمية معقودة يدويًا

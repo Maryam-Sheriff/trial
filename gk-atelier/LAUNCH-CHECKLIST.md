@@ -20,7 +20,7 @@ at any time.
       WhatsApp messages, Google and social previews.
 - [x] **Logo:** added (`images/brand/`), with the header monogram, homepage
       and footer versions, browser icon and sharing image cut from it.
-- [x] **Real products:** the first four pieces are on the site and the sample
+- [x] **Real products:** twenty pieces are on the site and the sample
       listings are switched off. Keep adding pieces (see EDITING-GUIDE.md), and
       add prices, sizes and timings to each piece once Ghada confirms them.
 - [ ] **Arabic review:** a fluent Arabic speaker, ideally someone familiar with
@@ -32,6 +32,15 @@ at any time.
 
 ## Confirm with Ghada
 
+- [ ] **Customers' names in photos:** several product photos show real
+      couples' and babies' names and dates. Ghada should be sure those
+      customers are happy for their pieces to appear on the website, or
+      replace those photos with ones showing sample names.
+- [ ] **Product names and collections:** each piece is named and described
+      from its photo only. Ghada should check the names, especially the
+      katb el-ketab cushions and ring trays, and the collection each piece
+      sits in. The abstract gold painting is under Macramé & Home Décor
+      because it isn't silk painting.
 - [ ] **"You're welcome to ask about"** (`custom_options` in both copy files)
       lists personalized pieces, custom colours, names, embroidery, gift sets
       and designs for special occasions, as in the brief. Remove anything Ghada
@@ -50,11 +59,14 @@ at any time.
 
 ## Strongly recommended
 
-- [ ] Homepage photo (`content/photos.yml` → `hero`), cover photos for the
-      four collections that don't have one yet (wedding, silk painting,
-      crochet & teriko, personalized gifts), six "glimpse" photos, Ghada's
-      portrait and three process photos. Until then, tidy "Photograph coming
-      soon" panels are shown.
+- [ ] Pieces and cover photos for Silk Painting and Crochet & Teriko (they
+      show "New pieces are on their way" until then), Ghada's portrait and
+      three process photos. Until then, tidy "Photograph coming soon" panels
+      are shown.
+- [ ] Optional: a homepage photo (`content/photos.yml` → `hero`; the logo
+      leads the homepage until then), and close-ups of stitching, knots and
+      tools for the "glimpse" gallery, which currently uses six product
+      photos.
 - [ ] Instagram (and any other) account links in `content/settings.yml`.
 - [ ] Optional: an SVG version of the logo from the designer, for an even
       sharper header monogram.

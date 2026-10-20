@@ -261,14 +261,18 @@ test.describe('preview without a WhatsApp number', () => {
   test("Ghada's pieces appear in their collections with their photographs", async ({ page }) => {
     await page.goto(`${PREVIEW}/en/collections/macrame-home-decor/`);
     const cards = page.locator('.card--product');
-    await expect(cards).toHaveCount(2);
+    await expect(cards).toHaveCount(7);
     await expect(page.locator('.card--product .badge')).toHaveCount(0);
     for (const img of await cards.locator('img').all()) {
       await img.scrollIntoViewIfNeeded();
       await expect.poll(() => img.evaluate((i) => i.complete && i.naturalWidth > 0)).toBe(true);
     }
     await page.goto(`${PREVIEW}/collections/baby-newborn/`);
-    await expect(page.locator('.card--product .card__title')).toHaveText(['طقم مواليد مخصّص بالاسم']);
+    await expect(page.locator('.card--product .card__title')).toHaveText([
+      'طقم مواليد مخصّص بالاسم',
+      'طقم مواليد بتطريز الطائرة',
+      'طقم مواليد بالدانتيل والفراشات',
+    ]);
     // Collections still waiting for photographs explain themselves.
     await page.goto(`${PREVIEW}/en/collections/silk-painting/`);
     await expect(page.getByRole('heading', { name: 'New pieces are on their way' })).toBeVisible();

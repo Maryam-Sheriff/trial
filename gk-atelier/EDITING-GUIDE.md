@@ -83,7 +83,9 @@ Some things to know:
 - `slug` is the product's web address (`/products/embroidered-name-hoop/`).
   Use lowercase letters, numbers and dashes, and **don't change it after
   launch**, or links already shared on Instagram will stop working.
-- `featured: true` also shows the piece on the homepage (up to four pieces).
+- `featured: true` also shows the piece on the homepage (up to four pieces)
+  and puts it first in its collection. The other pieces follow in
+  alphabetical order of their file names.
 - Write a short description of each photo after `alt:`. It is read aloud to
   blind visitors and helps the piece appear in Google.
 
@@ -113,6 +115,9 @@ whole photo.
   progress).
 - **Collection covers:** upload to `images/collections/` and write the path
   under that collection's `image:` in `content/collections.yml`.
+- **Reusing product photos:** any photo already in `images/products/` can be
+  used in these places too, without uploading it again. Most collection
+  covers and the "glimpse" gallery do this today.
 
 Until a photo is added, the site shows a neutral "Photograph coming soon"
 panel, so nothing ever looks broken.
