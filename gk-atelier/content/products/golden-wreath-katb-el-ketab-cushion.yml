@@ -1,0 +1,29 @@
+# Only what the photo shows is written here. Ghada can add confirmed details
+# (price, size, production time, availability) using the fields in _TEMPLATE.yml.
+id: GK-0021
+slug: golden-wreath-katb-el-ketab-cushion
+collection: wedding-bridal
+name:
+  en: Golden Wreath Katb El-Ketab Cushion
+  ar: مخدة كتب كتاب بإكليل ذهبي
+description:
+  en: >-
+    A lace-edged cushion for the marriage-contract ceremony, with names in
+    flowing Arabic calligraphy at its centre, framed by a wreath of golden
+    leaves and flowers. Everything is worked in gold beads, with a pearl bead
+    at the heart of each flower.
+  ar: >-
+    مخدة لحفل كتب الكتاب بإطار من الدانتيل، تتوسطها أسماء بالخط العربي الانسيابي
+    داخل إكليل من الأوراق والزهور الذهبية. وكل ذلك مشغول بالخرز الذهبي، مع حبة
+    لؤلؤ في قلب كل زهرة.
+images:
+  - src: images/products/golden-wreath-katb-el-ketab-cushion/1.jpg
+    alt:
+      en: Ivory katb el-ketab cushion edged in lace, with names in gold beaded Arabic calligraphy inside a wreath of golden beaded leaves and flowers with pearl centres
+      ar: مخدة كتب كتاب عاجية بإطار من الدانتيل، عليها أسماء بالخط العربي مشغولة بالخرز الذهبي داخل إكليل من الأوراق والزهور الذهبية بقلوب من اللؤلؤ
+techniques:
+  en: Hand beadwork
+  ar: شغل خرز يدوي
+customization:
+  en: Worked with the couple's names
+  ar: مشغولة باسمَي العروسين

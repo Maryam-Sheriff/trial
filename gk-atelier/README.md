@@ -93,8 +93,8 @@ The brief asks for nothing to be invented, so the site ships with:
   photo slots that are still empty (Ghada's portrait, the About page and two
   collection covers). They are intentionally graphic and can't be mistaken
   for products.
-- **Real pieces described only from their photographs.** Twenty of Ghada's
-  pieces across five collections (katb el-ketab cushions, ring trays and
+- **Real pieces described only from their photographs.** Twenty-one of
+  Ghada's pieces across five collections (katb el-ketab cushions, ring trays and
   bridal pieces; macramé home and Ramadan décor; embroidery; newborn sets;
   personalized gifts) use her photos, re-saved without their metadata, with
   names, descriptions and alt text in both languages. The same photos fill

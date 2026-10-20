@@ -105,7 +105,7 @@ test('preview: real products use the supplied photographs, described in both lan
   assert.equal((macrame.match(/class="card card--product"/g) ?? []).length, 7);
   assert.match(macrame, /7 pieces/);
   const wedding = read(preview.outDir, 'en/collections/wedding-bridal/index.html');
-  assert.equal((wedding.match(/class="card card--product"/g) ?? []).length, 6);
+  assert.equal((wedding.match(/class="card card--product"/g) ?? []).length, 7);
 });
 
 test('sample listings, when switched on, are clearly marked and kept out of search', async () => {

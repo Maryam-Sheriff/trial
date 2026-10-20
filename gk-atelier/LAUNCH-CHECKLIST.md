@@ -20,7 +20,7 @@ at any time.
       WhatsApp messages, Google and social previews.
 - [x] **Logo:** added (`images/brand/`), with the header monogram, homepage
       and footer versions, browser icon and sharing image cut from it.
-- [x] **Real products:** twenty pieces are on the site and the sample
+- [x] **Real products:** twenty-one pieces are on the site and the sample
       listings are switched off. Keep adding pieces (see EDITING-GUIDE.md), and
       add prices, sizes and timings to each piece once Ghada confirms them.
 - [ ] **Arabic review:** a fluent Arabic speaker, ideally someone familiar with
